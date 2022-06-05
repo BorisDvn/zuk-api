@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: zuk-api
+
+
+  datasource:
+    url: jdbc:postgresql://localhost/zuk-api-db
+    username: postgres
+    password: postgres
+
+    hikari:
+      auto-commit: false
+
+  jpa:
+    show-sql: false
+    generate-ddl: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+    hibernate:
+      # Hibernate ddl auto (create, create-drop, validate, update)
+      ddl-auto: create
