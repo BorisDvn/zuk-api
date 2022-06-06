@@ -3,6 +3,8 @@ package com.thb.zukapi.services;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Anzeige;
 import com.thb.zukapi.repositories.AnzeigeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +19,7 @@ import java.util.UUID;
 
 @Service
 public class AnzeigeService {
-    //todo: log
+    private final Logger logger = LoggerFactory.getLogger(AnzeigeService.class);
 
     @Autowired
     private AnzeigeRepository anzeigeRepository;

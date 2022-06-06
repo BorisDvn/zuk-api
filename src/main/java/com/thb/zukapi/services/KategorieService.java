@@ -3,6 +3,8 @@ package com.thb.zukapi.services;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Kategorie;
 import com.thb.zukapi.repositories.KategorieRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,9 @@ import java.util.UUID;
 
 @Service
 public class KategorieService {
+
+    private final Logger logger = LoggerFactory.getLogger(KategorieService.class);
+
     @Autowired
     private KategorieRepository kategorieRepository;
 
