@@ -4,13 +4,26 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Entity;
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Fluechtling extends Person {
     String family;
+
+    @Builder
+    public Fluechtling(UUID id, String nachname, String vorname, String staatsangeroerigkeit,
+                       LocalDate geburtsdatum, String telefonnummer, String email,
+                       String adresse, String password, String family) {
+        super(id, nachname, vorname, staatsangeroerigkeit,
+                geburtsdatum, telefonnummer, email,
+                adresse, password);
+
+        this.family = family;
+    }
 }

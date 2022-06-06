@@ -22,7 +22,7 @@ public class Anzeige {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     UUID id;
 
-    String type; //todo: must be Enum
+    AnzeigeStatus type;
 
     LocalDateTime datum;
 
@@ -31,6 +31,4 @@ public class Anzeige {
     String description;
 
     String status;
-
-    // todo FK
 }
