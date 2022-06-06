@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,7 +25,8 @@ public class Information {
 
     String title;
 
-    String nachricht ;
+    @Lob
+    String nachricht;
 
     LocalDateTime datum;
 }
