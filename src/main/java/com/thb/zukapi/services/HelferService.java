@@ -52,7 +52,6 @@ public class HelferService {
         if (helfer.getTelefonnummer() != null)
             newHelfer.setTelefonnummer(helfer.getTelefonnummer());
 
-        logger.info("Helfer successfully added");
         return helferRepository.save(newHelfer);
     }
 
