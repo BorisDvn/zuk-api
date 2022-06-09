@@ -66,6 +66,6 @@ public class KategorieController {
                     schema = @Schema(implementation = Kategorie.class))})
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteKategorie(@Parameter(name = "KategorieId", description = "Id of the Kategorie to delete") @PathVariable UUID id) {
-        return kategorieService.deleteKategorie(id);
+        return kategorieService.deleteKategorieById(id);
     }
 }

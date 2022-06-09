@@ -65,7 +65,7 @@ public class NewsController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = News.class))})
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteNews(@Parameter(name = "NewsId", description = "Id of the News to delete") @PathVariable UUID id) {
+    public ResponseEntity<String> deleteNews(@Parameter(name = "NewsId", description = "Id of the News to delete") @PathVariable UUID id) {
         return newsService.deleteNewsById(id);
     }
 }

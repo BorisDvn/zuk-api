@@ -61,7 +61,7 @@ public class KategorieService {
         return kategorieRepository.save(kategorieToUpdate);
     }
 
-    public ResponseEntity<String> deleteKategorie(UUID id) {
+    public ResponseEntity<String> deleteKategorieById(UUID id) {
 
         Kategorie kategorieToDelete = getKategorie(id);
 

@@ -67,7 +67,7 @@ public class FluechtlingService {
         return newsRepository.save(newsToUpdate);
     }
 
-    public ResponseEntity<?> deleteNewsById(UUID id) {
+    public ResponseEntity<String> deleteNewsById(UUID id) {
         News newsToDelete = getNews(id);
 
         newsRepository.deleteById(newsToDelete.getId());

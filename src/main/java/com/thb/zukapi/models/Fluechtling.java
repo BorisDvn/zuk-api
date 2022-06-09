@@ -14,16 +14,14 @@ import java.util.UUID;
 //@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Fluechtling extends Person {
-    String family;
 
     @Builder
     public Fluechtling(UUID id, String nachname, String vorname, String staatsangeroerigkeit,
                        LocalDate geburtsdatum, String telefonnummer, String email,
-                       String adresse, String family) {
+                       String adresse) {
         super(id, nachname, vorname, staatsangeroerigkeit,
                 geburtsdatum, telefonnummer, email,
                 adresse);
 
-        this.family = family;
     }
 }

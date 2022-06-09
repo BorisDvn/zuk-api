@@ -76,7 +76,7 @@ public class AnzeigeService {
         return anzeigeRepository.save(anzeigeToUpdate);
     }
 
-    public ResponseEntity<?> deleteAnzeige(UUID id) {
+    public ResponseEntity<String> deleteAnzeigeById(UUID id) {
         Anzeige anzeigeToDelete = getAnzeige(id);
 
         anzeigeRepository.deleteById(anzeigeToDelete.getId());
