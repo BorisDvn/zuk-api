@@ -28,7 +28,7 @@ public class NewsController {
     @GetMapping("")
     public List<News> getAllNews(@RequestParam(defaultValue = "0") Integer pageNo,
                                  @RequestParam(defaultValue = "10") Integer pageSize,
-                                 @RequestParam(defaultValue = "name") String sortBy) {
+                                 @RequestParam(defaultValue = "title") String sortBy) {
         return newsService.getAll(pageNo, pageSize, sortBy);
     }
 

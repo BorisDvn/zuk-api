@@ -41,9 +41,12 @@ public class KategorieService {
     public Kategorie addKategorie(Kategorie kategorie) {
 
         Kategorie newKategorie = new Kategorie();
-        newKategorie.setName(kategorie.getName());
 
-        // todo FK
+        newKategorie.setName(kategorie.getName());
+        newKategorie.setCover(kategorie.getCover());
+        newKategorie.setAnzeigen(kategorie.getAnzeigen());
+
+        logger.info("Kategorie successfully added");
         return kategorieRepository.save(newKategorie);
     }
 
@@ -53,17 +56,19 @@ public class KategorieService {
 
         if (kategorie.getName() != null)
             kategorieToUpdate.setName(kategorie.getName());
+        if (kategorie.getCover() != null)
+            kategorieToUpdate.setCover(kategorie.getCover());
 
-        // todo FK
-
+        logger.info("Kategorie successfully updated");
         return kategorieRepository.save(kategorieToUpdate);
     }
 
-    public ResponseEntity<?> deleteKategorie(UUID id) {
+    public ResponseEntity<String> deleteKategorie(UUID id) {
+
         Kategorie kategorieToDelete = getKategorie(id);
 
         kategorieRepository.deleteById(kategorieToDelete.getId());
-        // log.info("successfully deleted");
+        logger.info("Kategorie successfully deleted");
 
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
     }
