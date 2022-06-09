@@ -22,6 +22,9 @@ public class Kategorie {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     UUID id;
 
+    // cover bild
+    String cover;
+
     @NotBlank
     private String name;
 }
