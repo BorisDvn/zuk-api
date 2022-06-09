@@ -1,12 +1,11 @@
 package com.thb.zukapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -31,4 +30,8 @@ public class Anzeige {
     String description;
 
     String status;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JsonIgnore
+    Kategorie kategorie;
 }

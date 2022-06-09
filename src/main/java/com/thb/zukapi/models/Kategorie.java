@@ -7,7 +7,9 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -27,4 +29,7 @@ public class Kategorie {
 
     @NotBlank
     private String name;
+
+    @OneToMany(mappedBy = "kategorie")
+    private List<Anzeige> anzeigen;
 }
