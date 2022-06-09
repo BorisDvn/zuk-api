@@ -21,17 +21,20 @@ public class Anzeige {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     UUID id;
 
-    AnzeigeStatus type;
+    ErstellerStatus type;
 
     LocalDateTime datum;
 
-    private byte[] bilds;
+    private byte[] bilds; // todo: bilder
 
     String description;
 
-    String status;
+    AnzeigeStatus status;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     Kategorie kategorie;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    Helfer helfer;
 }

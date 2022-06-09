@@ -2,6 +2,7 @@ package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Anzeige;
+import com.thb.zukapi.models.ErstellerStatus;
 import com.thb.zukapi.repositories.AnzeigeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,11 +39,17 @@ public class AnzeigeService {
         return pagedResult.getContent();
     }
 
-    public Anzeige addFeedback(Anzeige anzeige) {
+    public Anzeige addAnzeige(Anzeige anzeige) {
 
         Anzeige newAnzeige = new Anzeige();
-        newAnzeige.setType(anzeige.getType());
-        newAnzeige.setDatum(anzeige.getDatum());
+
+        if (anzeige.getHelfer() != null) {
+            newAnzeige.setType(ErstellerStatus.HELFER);
+        } else {
+            newAnzeige.setType(ErstellerStatus.FLUECHTLING);
+        }
+
+        newAnzeige.setDatum(LocalDateTime.now());
         // todo bilder als link?
         newAnzeige.setDescription(anzeige.getDescription());
         newAnzeige.setStatus(anzeige.getStatus());
@@ -50,7 +58,7 @@ public class AnzeigeService {
         return anzeigeRepository.save(newAnzeige);
     }
 
-    public Anzeige updateFeedback(Anzeige anzeige) {
+    public Anzeige updateAnzeige(Anzeige anzeige) {
 
         Anzeige anzeigeToUpdate = getAnzeige(anzeige.getId());
 

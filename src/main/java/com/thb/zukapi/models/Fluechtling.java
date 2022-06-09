@@ -19,10 +19,10 @@ public class Fluechtling extends Person {
     @Builder
     public Fluechtling(UUID id, String nachname, String vorname, String staatsangeroerigkeit,
                        LocalDate geburtsdatum, String telefonnummer, String email,
-                       String adresse, String password, String family) {
+                       String adresse, String family) {
         super(id, nachname, vorname, staatsangeroerigkeit,
                 geburtsdatum, telefonnummer, email,
-                adresse, password);
+                adresse);
 
         this.family = family;
     }

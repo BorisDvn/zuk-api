@@ -28,26 +28,30 @@ public abstract class Person {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     UUID id;
 
-    @Min(2)
+    @Size(min=2)
+    @NotBlank
     String nachname;
 
-    @Min(2)
+    @Size(min=2)
+    @NotBlank
     String vorname;
 
     String staatsangeroerigkeit;
 
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-DD")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     LocalDate geburtsdatum;
 
     String telefonnummer;
 
     @Email
+    @NotBlank
     String email;
 
     @NotBlank
     String adresse;
 
-    @Size(min = 8)
-    String password;
+    // TODO: for authentication
+    // @Size(min = 10)
+    // String password;
 }

@@ -18,9 +18,9 @@ public class Verwalter extends Person {
     @Builder
     public Verwalter(UUID id, String nachname, String vorname, String staatsangeroerigkeit,
                      LocalDate geburtsdatum, String telefonnummer, String email,
-                     String adresse, String password) {
+                     String adresse) {
         super(id, nachname, vorname, staatsangeroerigkeit,
                 geburtsdatum, telefonnummer, email,
-                adresse, password);
+                adresse);
     }
 }

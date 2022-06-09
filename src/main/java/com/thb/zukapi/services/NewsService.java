@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,10 +45,9 @@ public class NewsService {
 
         newNews.setTitle(news.getTitle());
         newNews.setNachricht(news.getNachricht());
-        newNews.setDatum(news.getDatum());
+        newNews.setDatum(LocalDateTime.now());
         newNews.setBild(news.getBild());
 
-        logger.info("News successfully added");
         return newsRepository.save(newNews);
     }
 
@@ -59,10 +59,9 @@ public class NewsService {
             news.setTitle(news.getTitle());
         if (news.getNachricht() != null)
             news.setNachricht(news.getNachricht());
-        if (news.getDatum() != null)
+        if (news.getDatum() != null) // TODO: update date? like last update?
             news.setDatum(news.getDatum());
 
-        logger.info("News successfully updated");
         return newsRepository.save(newsToUpdate);
     }
 
