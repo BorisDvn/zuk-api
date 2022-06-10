@@ -46,6 +46,7 @@ public class HelferService {
         newHelfer.setGeburtsdatum(helfer.getGeburtsdatum());
         newHelfer.setEmail(helfer.getEmail());
         newHelfer.setAdresse(helfer.getAdresse());
+        newHelfer.setHelferStatus(helfer.getHelferStatus());
 
         if (helfer.getStaatsangeroerigkeit() != null)
             newHelfer.setStaatsangeroerigkeit(helfer.getStaatsangeroerigkeit());
@@ -73,6 +74,8 @@ public class HelferService {
             helferToUpdate.setEmail(helfer.getEmail());
         if (helfer.getAdresse() != null)
             helferToUpdate.setAdresse(helfer.getAdresse());
+        if (helfer.getHelferStatus() != null)
+            helferToUpdate.setHelferStatus(helfer.getHelferStatus());
 
         return helferRepository.save(helferToUpdate);
     }

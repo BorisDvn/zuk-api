@@ -18,13 +18,17 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Helfer extends Person {
 
+    HelferStatus helferStatus;
+
     @Builder
     public Helfer(UUID id, String nachname, String vorname, String staatsangeroerigkeit,
                   LocalDate geburtsdatum, String telefonnummer, String email,
-                  String adresse) {
+                  String adresse, HelferStatus helferStatus) {
         super(id, nachname, vorname, staatsangeroerigkeit,
                 geburtsdatum, telefonnummer, email,
                 adresse);
+
+        this.helferStatus = helferStatus;
 
     }
 
