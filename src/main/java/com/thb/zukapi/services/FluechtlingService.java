@@ -2,9 +2,7 @@ package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Fluechtling;
-import com.thb.zukapi.models.News;
 import com.thb.zukapi.repositories.FluechtlingRepository;
-import com.thb.zukapi.repositories.NewsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,53 +24,66 @@ public class FluechtlingService {
     @Autowired
     private FluechtlingRepository fluechtlingRepository;
 
-    public Fluechtling getNews(UUID id) {
+    public Fluechtling getFluechtling(UUID id) {
         return fluechtlingRepository.findById(id)
                 .orElseThrow(() -> new ApiRequestException("Cannot find Fluechtling with id: " + id));
     }
 
-    /*public List<Fluechtling> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<Fluechtling> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<News> pagedResult = newsRepository.findAll(paging);
+        Page<Fluechtling> pagedResult = fluechtlingRepository.findAll(paging);
 
         return pagedResult.getContent();
     }
 
-    public Fluechtling addNews(News news) {
+    public Fluechtling addFluechtling(Fluechtling fluechtling) {
 
-        News newNews = new News();
+        Fluechtling newFluechtling = new Fluechtling();
 
-        newNews.setTitle(news.getTitle());
-        newNews.setNachricht(news.getNachricht());
-        newNews.setDatum(news.getDatum());
-        newNews.setBild(news.getBild());
+        newFluechtling.setNachname(fluechtling.getNachname());
+        newFluechtling.setVorname(fluechtling.getVorname());
+        newFluechtling.setGeburtsdatum(fluechtling.getGeburtsdatum());
+        newFluechtling.setEmail(fluechtling.getEmail());
+        newFluechtling.setAdresse(fluechtling.getAdresse());
 
-        logger.info("News successfully added");
-        return newsRepository.save(newNews);
+        if (fluechtling.getStaatsangeroerigkeit() != null)
+            newFluechtling.setStaatsangeroerigkeit(fluechtling.getStaatsangeroerigkeit());
+        if (fluechtling.getTelefonnummer() != null)
+            newFluechtling.setTelefonnummer(fluechtling.getTelefonnummer());
+
+        return fluechtlingRepository.save(newFluechtling);
     }
 
     public Fluechtling updateFluechtling(Fluechtling fluechtling) {
 
-        News newsToUpdate = getNews(news.getId());
+        Fluechtling fluechtlingToUpdate = getFluechtling(fluechtling.getId());
 
-        if (news.getTitle() != null)
-            news.setTitle(news.getTitle());
-        if (news.getNachricht() != null)
-            news.setNachricht(news.getNachricht());
-        if (news.getDatum() != null)
-            news.setDatum(news.getDatum());
+        if (fluechtling.getNachname() != null)
+            fluechtlingToUpdate.setNachname(fluechtling.getNachname());
+        if (fluechtling.getVorname() != null)
+            fluechtlingToUpdate.setVorname(fluechtling.getVorname());
+        if (fluechtling.getStaatsangeroerigkeit() != null)
+            fluechtlingToUpdate.setStaatsangeroerigkeit(fluechtling.getStaatsangeroerigkeit());
+        if (fluechtling.getGeburtsdatum() != null)
+            fluechtlingToUpdate.setGeburtsdatum(fluechtling.getGeburtsdatum());
+        if (fluechtling.getTelefonnummer() != null)
+            fluechtlingToUpdate.setTelefonnummer(fluechtling.getTelefonnummer());
+        if (fluechtling.getEmail() != null)
+            fluechtlingToUpdate.setEmail(fluechtling.getEmail());
+        if (fluechtling.getAdresse() != null)
+            fluechtlingToUpdate.setAdresse(fluechtling.getAdresse());
 
-        logger.info("News successfully updated");
-        return newsRepository.save(newsToUpdate);
+        return fluechtlingRepository.save(fluechtlingToUpdate);
     }
 
-    public ResponseEntity<String> deleteNewsById(UUID id) {
-        News newsToDelete = getNews(id);
+    public ResponseEntity<String> deleteFluechtlingById(UUID id) {
+        Fluechtling fluechtlingToDelete = getFluechtling(id);
 
-        newsRepository.deleteById(newsToDelete.getId());
+        fluechtlingRepository.deleteById(fluechtlingToDelete.getId());
 
-        logger.info("News successfully deleted");
-        return new ResponseEntity<>("News successfully deleted", HttpStatus.OK);
-    }*/
+        logger.info("Fluechtling successfully deleted");
+        return new ResponseEntity<>("Fluechtling successfully deleted", HttpStatus.OK);
+    }
+
 }
