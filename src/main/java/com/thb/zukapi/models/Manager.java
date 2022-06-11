@@ -13,5 +13,5 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DiscriminatorValue("MANAGER")
-public class Manager extends AbstractPerson {
+public class Manager extends Person {
 }

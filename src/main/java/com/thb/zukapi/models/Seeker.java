@@ -13,5 +13,5 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DiscriminatorValue("SEEKER")
-public class Seeker extends AbstractPerson {
+public class Seeker extends Person {
 }

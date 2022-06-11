@@ -1,8 +1,8 @@
 package com.thb.zukapi.models;
 
 public enum RoleType {
-    MANGER,
+    MANGER, /*only CRU operations*/
     SEEKER,
     HELPER,
-    ADMIN
+    ADMIN /*Super user. CRUD operations*/
 }

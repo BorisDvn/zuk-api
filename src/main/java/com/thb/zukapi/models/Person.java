@@ -1,8 +1,6 @@
 package com.thb.zukapi.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.sun.istack.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,7 +15,7 @@ import java.util.UUID;
 
 // todo: this class will not be persisted
 @FieldDefaults(level = AccessLevel.PROTECTED)
-public abstract class AbstractPerson extends AuditingCommonEntity {
+public abstract class Person extends AuditingCommonEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -35,7 +33,7 @@ public abstract class AbstractPerson extends AuditingCommonEntity {
     LocalDate dob; // date of birth
 
     @NotBlank
-    String telephone;
+    String phone;
 
     @Email
     @Column(unique = true)

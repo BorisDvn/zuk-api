@@ -25,7 +25,7 @@ public class Apply extends AuditingCommonEntity {
 
     @NotBlank
     @NonNull
-    String createdBy; // almost save email of the applicant
+    String createdBy; // almost save email of the applicant here
 
     @NotBlank
     @NonNull

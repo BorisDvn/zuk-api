@@ -53,10 +53,8 @@ public class NewsService {
 
     public ResponseEntity<?> deleteNews(UUID id) {
         News newsToDelete = getNews(id);
-
         newsRepository.deleteById(newsToDelete.getId());
         // log.info("successfully deleted");
-
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
     }
 }

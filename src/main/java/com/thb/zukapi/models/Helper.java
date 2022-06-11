@@ -16,7 +16,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DiscriminatorValue("HELPER")
-public class Helper extends AbstractPerson {
+public class Helper extends Person {
     @NotBlank
     @NonNull
     @Enumerated(EnumType.STRING)
