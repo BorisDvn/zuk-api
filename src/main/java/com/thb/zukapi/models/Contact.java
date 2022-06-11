@@ -23,7 +23,7 @@ public class Contact extends AuditingCommonEntity {
     String subject;
 
     @NotBlank
-    String text;
+    String description;
 
     @NotBlank
     @Column(nullable = false)

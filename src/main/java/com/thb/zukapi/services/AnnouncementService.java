@@ -38,7 +38,7 @@ public class AnnouncementService {
     public Announcement addAnnouncement(Announcement announcement) {
 
         Announcement newAnnouncement = new Announcement();
-        newAnnouncement.setType(announcement.getType());
+        newAnnouncement.setStatus(announcement.getStatus());
         // todo image as link?
         newAnnouncement.setDescription(announcement.getDescription());
         newAnnouncement.setTitle(announcement.getTitle());
@@ -53,8 +53,8 @@ public class AnnouncementService {
         Announcement announcementToUpdate = getAnnouncement(announcement.getId());
 
         if (!announcement.getTitle().isBlank()) announcement.setTitle(announcement.getTitle());
-        if (announcement.getType() != null && !announcement.getType().toString().isBlank())
-            announcement.setType(announcement.getType());
+        if (announcement.getStatus() != null && !announcement.getStatus().toString().isBlank())
+            announcement.setStatus(announcement.getStatus());
         if (announcement.getImages() != null)
             announcement.setImages(announcement.getImages());
         if (!announcement.getDescription().isBlank())

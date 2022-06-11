@@ -23,7 +23,7 @@ public class Announcement extends AuditingCommonEntity {
     @NotBlank
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    AnnouncementStatus type; // standby as default value
+    AnnouncementStatus status; // standby as default value
 
     private byte[] images;
 
