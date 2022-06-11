@@ -21,14 +21,15 @@ public abstract class Person extends AuditingCommonEntity {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     protected UUID id;
 
+    @NotBlank
     String lastname;
 
     // vorname
+    @NotBlank
     String firstname;
 
     String nationality;
 
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-DD")
     LocalDate dob; // date of birth
 
@@ -39,7 +40,6 @@ public abstract class Person extends AuditingCommonEntity {
     @Column(unique = true)
     String email; // As username
 
-    @NotBlank
     String address;
 
     @Size(min = 8)
