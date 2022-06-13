@@ -4,10 +4,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Entity
@@ -16,21 +14,26 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Anzeige {
+public class Announcement extends AuditingCommonEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     UUID id;
 
-    String type; //todo: must be Enum
+    @NotBlank
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    AnnouncementStatus status; // standby as default value
 
-    LocalDateTime datum;
+    private byte[] images;
 
-    private byte[] bilds;
-
+    @NotBlank
+    @NonNull
     String description;
 
-    String status;
+    @NotBlank
+    @NonNull
+    String title;
 
     // todo FK
 }

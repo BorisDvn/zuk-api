@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PROTECTED)
-@DiscriminatorValue("ADMIN")
-public class Admin extends Person {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@DiscriminatorValue("MANAGER")
+public class Manager extends Person {
 }

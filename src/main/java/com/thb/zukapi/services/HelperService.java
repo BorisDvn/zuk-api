@@ -3,5 +3,5 @@ package com.thb.zukapi.services;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FluechtlingService {
+public class HelperService {
 }
