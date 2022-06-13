@@ -6,52 +6,47 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.UUID;
 
-// todo: this class will not be persisted
-@FieldDefaults(level = AccessLevel.PROTECTED)
-public abstract class Person extends AuditingCommonEntity {
+@Entity
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Person {
+
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    protected UUID id;
+    UUID id;
 
-    @NotBlank
-    String lastname;
+    String nachname;
 
-    // vorname
-    @NotBlank
-    String firstname;
+    String vorname;
 
-    String nationality;
+    String staatsangeroerigkeit;
 
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-DD")
-    LocalDate dob; // date of birth
+    LocalDate geburtsdatum;
 
     @NotBlank
-    String phone;
+    String telefonnummer;
 
     @Email
-    @Column(unique = true)
-    String email; // As username
+    String email;
 
-    String address;
+    @NotBlank
+    String adresse;
 
     @Size(min = 8)
     String password;
-
-    @NotBlank
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    Gender gender;
-
-    @NotBlank
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    RoleType role;
 }

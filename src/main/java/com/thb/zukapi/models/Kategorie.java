@@ -4,7 +4,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
@@ -14,19 +16,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Contact extends AuditingCommonEntity {
+public class Kategorie {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    protected UUID id;
-
-    String subject;
+    UUID id;
 
     @NotBlank
-    String description;
-
-    @NotBlank
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    Status status;
+    private String name;
 }
