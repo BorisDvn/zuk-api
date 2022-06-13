@@ -1,8 +1,8 @@
 package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
-import com.thb.zukapi.models.Category;
-import com.thb.zukapi.repositories.CategoryRepository;
+import com.thb.zukapi.models.Kategorie;
+import com.thb.zukapi.repositories.KategorieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,46 +18,46 @@ import java.util.UUID;
 @Service
 public class KategorieService {
     @Autowired
-    private CategoryRepository categoryRepository;
+    private KategorieRepository kategorieRepository;
 
-    public Category getKategorie(UUID id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find Category with id: " + id));
+    public Kategorie getKategorie(UUID id) {
+        return kategorieRepository.findById(id)
+                .orElseThrow(() -> new ApiRequestException("Cannot find Kategorie with id: " + id));
     }
 
-    public List<Category> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<Kategorie> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Category> pagedResult = categoryRepository.findAll(paging);
+        Page<Kategorie> pagedResult = kategorieRepository.findAll(paging);
 
         return pagedResult.getContent();
     }
 
-    public Category addKategorie(Category kategorie) {
+    public Kategorie addKategorie(Kategorie kategorie) {
 
-        Category newKategorie = new Category();
+        Kategorie newKategorie = new Kategorie();
         newKategorie.setName(kategorie.getName());
 
         // todo FK
-        return categoryRepository.save(newKategorie);
+        return kategorieRepository.save(newKategorie);
     }
 
-    public Category updateKategorie(Category kategorie) {
+    public Kategorie updateKategorie(Kategorie kategorie) {
 
-        Category kategorieToUpdate = getKategorie(kategorie.getId());
+        Kategorie kategorieToUpdate = getKategorie(kategorie.getId());
 
         if (kategorie.getName() != null)
             kategorieToUpdate.setName(kategorie.getName());
 
         // todo FK
 
-        return categoryRepository.save(kategorieToUpdate);
+        return kategorieRepository.save(kategorieToUpdate);
     }
 
     public ResponseEntity<?> deleteKategorie(UUID id) {
-        Category kategorieToDelete = getKategorie(id);
+        Kategorie kategorieToDelete = getKategorie(id);
 
-        categoryRepository.deleteById(kategorieToDelete.getId());
+        kategorieRepository.deleteById(kategorieToDelete.getId());
         // log.info("successfully deleted");
 
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);

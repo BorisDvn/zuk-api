@@ -1,4 +1,4 @@
 package com.thb.zukapi.models;
 
-public class Admin {
+public class Fluechtling {
 }
