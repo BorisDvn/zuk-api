@@ -1,6 +1,6 @@
 package com.thb.zukapi.controller;
 
-import com.thb.zukapi.models.Kategorie;
+import com.thb.zukapi.models.Category;
 import com.thb.zukapi.services.KategorieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,51 +21,51 @@ public class KategorieController {
     @Autowired
     protected KategorieService kategorieService;
 
-    @Operation(summary = "Get All Kategorie")
-    @ApiResponse(responseCode = "200", description = "Found all Kategorie",
+    @Operation(summary = "Get All Category")
+    @ApiResponse(responseCode = "200", description = "Found all Category",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Kategorie.class))})
+                    schema = @Schema(implementation = Category.class))})
     @GetMapping("")
-    public List<Kategorie> getAllKategorie(@RequestParam(defaultValue = "0") Integer pageNo,
-                                           @RequestParam(defaultValue = "10") Integer pageSize,
-                                           @RequestParam(defaultValue = "name") String sortBy) {
+    public List<Category> getAllKategorie(@RequestParam(defaultValue = "0") Integer pageNo,
+                                          @RequestParam(defaultValue = "10") Integer pageSize,
+                                          @RequestParam(defaultValue = "name") String sortBy) {
         return kategorieService.getAll(pageNo, pageSize, sortBy);
     }
 
-    @Operation(summary = "Get a Kategorie by its id")
-    @ApiResponse(responseCode = "200", description = "Found the Kategorie",
+    @Operation(summary = "Get a Category by its id")
+    @ApiResponse(responseCode = "200", description = "Found the Category",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Kategorie.class))})
+                    schema = @Schema(implementation = Category.class))})
     @GetMapping("/{id}")
-    public Kategorie getKategorieById(@Parameter(name = "KategorieId", description = "ID of the Kategorie_obj") @PathVariable UUID id) {
+    public Category getKategorieById(@Parameter(name = "KategorieId", description = "ID of the Kategorie_obj") @PathVariable UUID id) {
         return kategorieService.getKategorie(id);
     }
 
-    @Operation(summary = "Add One Kategorie")
-    @ApiResponse(responseCode = "200", description = "Kategorie added",
+    @Operation(summary = "Add One Category")
+    @ApiResponse(responseCode = "200", description = "Category added",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Kategorie.class))})
+                    schema = @Schema(implementation = Category.class))})
     @PostMapping("")
-    public Kategorie addKategorie(
-            @Parameter(name = "Kategorie", description = "Kategorie_obj to add") @RequestBody Kategorie kategorie) {
-        return kategorieService.addKategorie(kategorie);
+    public Category addKategorie(
+            @Parameter(name = "Category", description = "Kategorie_obj to add") @RequestBody Category category) {
+        return kategorieService.addKategorie(category);
     }
 
-    @Operation(summary = "Update Kategorie")
-    @ApiResponse(responseCode = "200", description = "News Kategorie",
+    @Operation(summary = "Update Category")
+    @ApiResponse(responseCode = "200", description = "Announcement Category",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Kategorie.class))})
+                    schema = @Schema(implementation = Category.class))})
     @PutMapping("")
-    public Kategorie updateKategorie(@Parameter(name = "Kategorie", description = "Kategorie_obj to update") @RequestBody Kategorie kategorie) {
-        return kategorieService.updateKategorie(kategorie);
+    public Category updateKategorie(@Parameter(name = "Category", description = "Kategorie_obj to update") @RequestBody Category category) {
+        return kategorieService.updateKategorie(category);
     }
 
-    @Operation(summary = "Delete a Kategorie by its id")
-    @ApiResponse(responseCode = "200", description = "News Kategorie",
+    @Operation(summary = "Delete a Category by its id")
+    @ApiResponse(responseCode = "200", description = "Announcement Category",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Kategorie.class))})
+                    schema = @Schema(implementation = Category.class))})
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteKategorie(@Parameter(name = "KategorieId", description = "Id of the Kategorie to delete") @PathVariable UUID id) {
+    public ResponseEntity<String> deleteKategorie(@Parameter(name = "KategorieId", description = "Id of the Category to delete") @PathVariable UUID id) {
         return kategorieService.deleteKategorieById(id);
     }
 }

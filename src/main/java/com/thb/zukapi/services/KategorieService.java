@@ -1,7 +1,7 @@
 package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
-import com.thb.zukapi.models.Kategorie;
+import com.thb.zukapi.models.Category;
 import com.thb.zukapi.repositories.KategorieRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,49 +25,49 @@ public class KategorieService {
     @Autowired
     private KategorieRepository kategorieRepository;
 
-    public Kategorie getKategorie(UUID id) {
+    public Category getKategorie(UUID id) {
         return kategorieRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find Kategorie with id: " + id));
+                .orElseThrow(() -> new ApiRequestException("Cannot find Category with id: " + id));
     }
 
-    public List<Kategorie> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<Category> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Kategorie> pagedResult = kategorieRepository.findAll(paging);
+        Page<Category> pagedResult = kategorieRepository.findAll(paging);
 
         return pagedResult.getContent();
     }
 
-    public Kategorie addKategorie(Kategorie kategorie) {
+    public Category addKategorie(Category category) {
 
-        Kategorie newKategorie = new Kategorie();
+        Category newCategory = new Category();
 
-        newKategorie.setName(kategorie.getName());
-        newKategorie.setCover(kategorie.getCover());
-        newKategorie.setAnzeigen(kategorie.getAnzeigen());
+        newCategory.setTitle(category.getTitle());
+        newCategory.setCover(category.getCover());
+        newCategory.setAnzeigen(category.getAnzeigen());
 
-        return kategorieRepository.save(newKategorie);
+        return kategorieRepository.save(newCategory);
     }
 
-    public Kategorie updateKategorie(Kategorie kategorie) {
+    public Category updateKategorie(Category category) {
 
-        Kategorie kategorieToUpdate = getKategorie(kategorie.getId());
+        Category categoryToUpdate = getKategorie(category.getId());
 
-        if (kategorie.getName() != null)
-            kategorieToUpdate.setName(kategorie.getName());
-        if (kategorie.getCover() != null)
-            kategorieToUpdate.setCover(kategorie.getCover());
+        if (category.getTitle() != null)
+            categoryToUpdate.setTitle(category.getTitle());
+        if (category.getCover() != null)
+            categoryToUpdate.setCover(category.getCover());
 
-        return kategorieRepository.save(kategorieToUpdate);
+        return kategorieRepository.save(categoryToUpdate);
     }
 
     public ResponseEntity<String> deleteKategorieById(UUID id) {
 
-        Kategorie kategorieToDelete = getKategorie(id);
+        Category categoryToDelete = getKategorie(id);
 
-        kategorieRepository.deleteById(kategorieToDelete.getId());
+        kategorieRepository.deleteById(categoryToDelete.getId());
 
-        logger.info("Kategorie successfully deleted");
+        logger.info("Category successfully deleted");
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
     }
 }

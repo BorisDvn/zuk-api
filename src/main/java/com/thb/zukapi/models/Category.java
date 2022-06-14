@@ -18,18 +18,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Kategorie {
+public class Category {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     UUID id;
 
-    // cover bild
-    String cover;
+    @NotBlank
+    byte[] cover; // cover pic
 
     @NotBlank
-    private String name;
+    private String title;
 
-    @OneToMany(mappedBy = "kategorie")
+    @OneToMany(mappedBy = "category")
     private List<Anzeige> anzeigen;
 }

@@ -1,7 +1,7 @@
 package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
-import com.thb.zukapi.models.News;
+import com.thb.zukapi.models.Announcement;
 import com.thb.zukapi.repositories.NewsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,51 +26,51 @@ public class NewsService {
     @Autowired
     private NewsRepository newsRepository;
 
-    public News getNews(UUID id) {
+    public Announcement getNews(UUID id) {
         return newsRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find News with id: " + id));
+                .orElseThrow(() -> new ApiRequestException("Cannot find Announcement with id: " + id));
     }
 
-    public List<News> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<Announcement> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<News> pagedResult = newsRepository.findAll(paging);
+        Page<Announcement> pagedResult = newsRepository.findAll(paging);
 
         return pagedResult.getContent();
     }
 
-    public News addNews(News news) {
+    public Announcement addNews(Announcement announcement) {
 
-        News newNews = new News();
+        Announcement newAnnouncement = new Announcement();
 
-        newNews.setTitle(news.getTitle());
-        newNews.setNachricht(news.getNachricht());
-        newNews.setDatum(LocalDateTime.now());
-        newNews.setBild(news.getBild());
+        newAnnouncement.setTitle(announcement.getTitle());
+        newAnnouncement.setDescription(announcement.getDescription());
+        newAnnouncement.setDate(LocalDateTime.now());
+        newAnnouncement.setBild(announcement.getBild());
 
-        return newsRepository.save(newNews);
+        return newsRepository.save(newAnnouncement);
     }
 
-    public News updateNews(News news) {
+    public Announcement updateNews(Announcement announcement) {
 
-        News newsToUpdate = getNews(news.getId());
+        Announcement announcementToUpdate = getNews(announcement.getId());
 
-        if (news.getTitle() != null)
-            news.setTitle(news.getTitle());
-        if (news.getNachricht() != null)
-            news.setNachricht(news.getNachricht());
-        if (news.getDatum() != null) // TODO: update date? like last update?
-            news.setDatum(news.getDatum());
+        if (announcement.getTitle() != null)
+            announcement.setTitle(announcement.getTitle());
+        if (announcement.getDescription() != null)
+            announcement.setDescription(announcement.getDescription());
+        if (announcement.getDate() != null) // TODO: update date? like last update?
+            announcement.setDate(announcement.getDate());
 
-        return newsRepository.save(newsToUpdate);
+        return newsRepository.save(announcementToUpdate);
     }
 
     public ResponseEntity<String> deleteNewsById(UUID id) {
-        News newsToDelete = getNews(id);
+        Announcement announcementToDelete = getNews(id);
 
-        newsRepository.deleteById(newsToDelete.getId());
+        newsRepository.deleteById(announcementToDelete.getId());
 
-        logger.info("News successfully deleted");
-        return new ResponseEntity<>("News successfully deleted", HttpStatus.OK);
+        logger.info("Announcement successfully deleted");
+        return new ResponseEntity<>("Announcement successfully deleted", HttpStatus.OK);
     }
 }

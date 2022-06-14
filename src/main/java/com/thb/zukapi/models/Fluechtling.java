@@ -16,12 +16,12 @@ import java.util.UUID;
 public class Fluechtling extends Person {
 
     @Builder
-    public Fluechtling(UUID id, String nachname, String vorname, String staatsangeroerigkeit,
-                       LocalDate geburtsdatum, String telefonnummer, String email,
-                       String adresse) {
-        super(id, nachname, vorname, staatsangeroerigkeit,
-                geburtsdatum, telefonnummer, email,
-                adresse);
+    public Fluechtling(UUID id, String lastname, String firstname, String nationality,
+                       LocalDate dob, String phone, String email,
+                       String adresse, Gender gender, String password, String role) {
+        super(id, lastname, firstname, nationality,
+                dob, phone, email,
+                adresse, gender);
 
     }
 }

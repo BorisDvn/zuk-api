@@ -52,7 +52,7 @@ public class HelferController {
     }
 
     @Operation(summary = "Update Helfer")
-    @ApiResponse(responseCode = "200", description = "News Helfer",
+    @ApiResponse(responseCode = "200", description = "Announcement Helfer",
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Helfer.class))})
     @PutMapping("")
@@ -61,7 +61,7 @@ public class HelferController {
     }
 
     @Operation(summary = "Delete a Helfer by its id")
-    @ApiResponse(responseCode = "200", description = "News Helfer",
+    @ApiResponse(responseCode = "200", description = "Announcement Helfer",
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Helfer.class))})
     @DeleteMapping("/{id}")

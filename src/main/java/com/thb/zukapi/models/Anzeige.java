@@ -33,7 +33,7 @@ public class Anzeige {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    Kategorie kategorie;
+    Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     Helfer helfer;

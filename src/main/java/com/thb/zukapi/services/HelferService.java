@@ -41,17 +41,17 @@ public class HelferService {
 
         Helfer newHelfer = new Helfer();
 
-        newHelfer.setNachname(helfer.getNachname());
-        newHelfer.setVorname(helfer.getVorname());
-        newHelfer.setGeburtsdatum(helfer.getGeburtsdatum());
+        newHelfer.setLastname(helfer.getLastname());
+        newHelfer.setFirstname(helfer.getFirstname());
+        newHelfer.setDob(helfer.getDob());
         newHelfer.setEmail(helfer.getEmail());
         newHelfer.setAdresse(helfer.getAdresse());
         newHelfer.setHelferStatus(helfer.getHelferStatus());
 
-        if (helfer.getStaatsangeroerigkeit() != null)
-            newHelfer.setStaatsangeroerigkeit(helfer.getStaatsangeroerigkeit());
-        if (helfer.getTelefonnummer() != null)
-            newHelfer.setTelefonnummer(helfer.getTelefonnummer());
+        if (helfer.getNationality() != null)
+            newHelfer.setNationality(helfer.getNationality());
+        if (helfer.getPhone() != null)
+            newHelfer.setPhone(helfer.getPhone());
 
         return helferRepository.save(newHelfer);
     }
@@ -60,16 +60,16 @@ public class HelferService {
 
         Helfer helferToUpdate = getHelfer(helfer.getId());
 
-        if (helfer.getNachname() != null)
-            helferToUpdate.setNachname(helfer.getNachname());
-        if (helfer.getVorname() != null)
-            helferToUpdate.setVorname(helfer.getVorname());
-        if (helfer.getStaatsangeroerigkeit() != null)
-            helferToUpdate.setStaatsangeroerigkeit(helfer.getStaatsangeroerigkeit());
-        if (helfer.getGeburtsdatum() != null)
-            helferToUpdate.setGeburtsdatum(helfer.getGeburtsdatum());
-        if (helfer.getTelefonnummer() != null)
-            helferToUpdate.setTelefonnummer(helfer.getTelefonnummer());
+        if (helfer.getLastname() != null)
+            helferToUpdate.setLastname(helfer.getLastname());
+        if (helfer.getFirstname() != null)
+            helferToUpdate.setFirstname(helfer.getFirstname());
+        if (helfer.getNationality() != null)
+            helferToUpdate.setNationality(helfer.getNationality());
+        if (helfer.getDob() != null)
+            helferToUpdate.setDob(helfer.getDob());
+        if (helfer.getPhone() != null)
+            helferToUpdate.setPhone(helfer.getPhone());
         if (helfer.getEmail() != null)
             helferToUpdate.setEmail(helfer.getEmail());
         if (helfer.getAdresse() != null)

@@ -52,7 +52,7 @@ public class FluechtlingController {
     }
 
     @Operation(summary = "Update Fluechtling")
-    @ApiResponse(responseCode = "200", description = "News Fluechtling",
+    @ApiResponse(responseCode = "200", description = "Announcement Fluechtling",
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Fluechtling.class))})
     @PutMapping("")
@@ -61,7 +61,7 @@ public class FluechtlingController {
     }
 
     @Operation(summary = "Delete a Fluechtling by its id")
-    @ApiResponse(responseCode = "200", description = "News Fluechtling",
+    @ApiResponse(responseCode = "200", description = "Announcement Fluechtling",
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Fluechtling.class))})
     @DeleteMapping("/{id}")

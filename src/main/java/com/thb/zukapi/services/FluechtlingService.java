@@ -41,16 +41,16 @@ public class FluechtlingService {
 
         Fluechtling newFluechtling = new Fluechtling();
 
-        newFluechtling.setNachname(fluechtling.getNachname());
-        newFluechtling.setVorname(fluechtling.getVorname());
-        newFluechtling.setGeburtsdatum(fluechtling.getGeburtsdatum());
+        newFluechtling.setLastname(fluechtling.getLastname());
+        newFluechtling.setFirstname(fluechtling.getFirstname());
+        newFluechtling.setDob(fluechtling.getDob());
         newFluechtling.setEmail(fluechtling.getEmail());
         newFluechtling.setAdresse(fluechtling.getAdresse());
 
-        if (fluechtling.getStaatsangeroerigkeit() != null)
-            newFluechtling.setStaatsangeroerigkeit(fluechtling.getStaatsangeroerigkeit());
-        if (fluechtling.getTelefonnummer() != null)
-            newFluechtling.setTelefonnummer(fluechtling.getTelefonnummer());
+        if (fluechtling.getNationality() != null)
+            newFluechtling.setNationality(fluechtling.getNationality());
+        if (fluechtling.getPhone() != null)
+            newFluechtling.setPhone(fluechtling.getPhone());
 
         return fluechtlingRepository.save(newFluechtling);
     }
@@ -59,16 +59,16 @@ public class FluechtlingService {
 
         Fluechtling fluechtlingToUpdate = getFluechtling(fluechtling.getId());
 
-        if (fluechtling.getNachname() != null)
-            fluechtlingToUpdate.setNachname(fluechtling.getNachname());
-        if (fluechtling.getVorname() != null)
-            fluechtlingToUpdate.setVorname(fluechtling.getVorname());
-        if (fluechtling.getStaatsangeroerigkeit() != null)
-            fluechtlingToUpdate.setStaatsangeroerigkeit(fluechtling.getStaatsangeroerigkeit());
-        if (fluechtling.getGeburtsdatum() != null)
-            fluechtlingToUpdate.setGeburtsdatum(fluechtling.getGeburtsdatum());
-        if (fluechtling.getTelefonnummer() != null)
-            fluechtlingToUpdate.setTelefonnummer(fluechtling.getTelefonnummer());
+        if (fluechtling.getLastname() != null)
+            fluechtlingToUpdate.setLastname(fluechtling.getLastname());
+        if (fluechtling.getFirstname() != null)
+            fluechtlingToUpdate.setFirstname(fluechtling.getFirstname());
+        if (fluechtling.getNationality() != null)
+            fluechtlingToUpdate.setNationality(fluechtling.getNationality());
+        if (fluechtling.getDob() != null)
+            fluechtlingToUpdate.setDob(fluechtling.getDob());
+        if (fluechtling.getPhone() != null)
+            fluechtlingToUpdate.setPhone(fluechtling.getPhone());
         if (fluechtling.getEmail() != null)
             fluechtlingToUpdate.setEmail(fluechtling.getEmail());
         if (fluechtling.getAdresse() != null)

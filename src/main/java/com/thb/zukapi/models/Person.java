@@ -1,25 +1,21 @@
 package com.thb.zukapi.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sun.istack.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity
+//@Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Person {
 
@@ -28,28 +24,35 @@ public abstract class Person {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     UUID id;
 
-    @Size(min=2)
+    @Size(min = 2)
     @NotBlank
-    String nachname;
+    String lastname;
 
-    @Size(min=2)
+    @Size(min = 2)
     @NotBlank
-    String vorname;
+    String firstname;
 
-    String staatsangeroerigkeit;
+    String nationality;
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    LocalDate geburtsdatum;
+    LocalDate dob; // date of birth
 
-    String telefonnummer;
+    @NotBlank
+    String phone;
 
     @Email
     @NotBlank
+    @Column(unique = true)
     String email;
 
     @NotBlank
     String adresse;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    Gender gender;
+
 
     // TODO: for authentication
     // @Size(min = 10)

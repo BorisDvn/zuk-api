@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class News {
+public class Announcement {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -24,12 +24,17 @@ public class News {
     @NotBlank
     String title;
 
-    String bild;
+    byte[] images;
 
     @Lob
     @NotBlank
-    String nachricht;
+    String description;
 
-    LocalDateTime datum;
+    @NotBlank
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    AnnouncementStatus status; // standby as default value
+
+    LocalDateTime date;
 
 }
