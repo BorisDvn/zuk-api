@@ -25,7 +25,7 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Category getKategorie(UUID id) {
+    public Category getCategory(UUID id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new ApiRequestException("Cannot find Category with id: " + id));
     }
@@ -38,20 +38,20 @@ public class CategoryService {
         return pagedResult.getContent();
     }
 
-    public Category addKategorie(Category category) {
+    public Category addCategory(Category category) {
 
         Category newCategory = new Category();
 
-        newCategory.setTitle(category.getTitle());
         newCategory.setCover(category.getCover());
-        newCategory.setAnzeigen(category.getAnzeigen());
+        newCategory.setTitle(category.getTitle());
+        newCategory.setAnnouncements(category.getAnnouncements());
 
         return categoryRepository.save(newCategory);
     }
 
-    public Category updateKategorie(Category category) {
+    public Category updateCategory(Category category) {
 
-        Category categoryToUpdate = getKategorie(category.getId());
+        Category categoryToUpdate = getCategory(category.getId());
 
         if (category.getTitle() != null)
             categoryToUpdate.setTitle(category.getTitle());
@@ -61,11 +61,11 @@ public class CategoryService {
         return categoryRepository.save(categoryToUpdate);
     }
 
-    public ResponseEntity<String> deleteKategorieById(UUID id) {
+    public ResponseEntity<String> deleteCategoryById(UUID id) {
 
-        Category categoryToDelete = getKategorie(id);
-
-        categoryRepository.deleteById(categoryToDelete.getId());
+        if (getCategory(id) != null) {
+            categoryRepository.deleteById(id);
+        }
 
         logger.info("Category successfully deleted");
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);

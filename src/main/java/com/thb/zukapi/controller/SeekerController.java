@@ -26,7 +26,7 @@ public class SeekerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Seeker.class))})
     @GetMapping("")
-    public List<Seeker> getAllFluechtling(@RequestParam(defaultValue = "0") Integer pageNo,
+    public List<Seeker> getAllSeeker(@RequestParam(defaultValue = "0") Integer pageNo,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           @RequestParam(defaultValue = "nachname") String sortBy) {
         return seekerService.getAll(pageNo, pageSize, sortBy);
@@ -37,8 +37,8 @@ public class SeekerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Seeker.class))})
     @GetMapping("/{id}")
-    public Seeker getFluechtlingById(@Parameter(name = "FluechtlingId", description = "ID of the Fluechtling_obj") @PathVariable UUID id) {
-        return seekerService.getFluechtling(id);
+    public Seeker getSeekerById(@Parameter(name = "SeekerId", description = "ID of the Seeker_obj") @PathVariable UUID id) {
+        return seekerService.getSeeker(id);
     }
 
     @Operation(summary = "Add One Seeker")
@@ -46,9 +46,9 @@ public class SeekerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Seeker.class))})
     @PostMapping("")
-    public Seeker addFluechtling(
-            @Parameter(name = "Seeker", description = "Fluechtling_obj to add") @RequestBody Seeker seeker) {
-        return seekerService.addFluechtling(seeker);
+    public Seeker addSeeker(
+            @Parameter(name = "Seeker", description = "Seeker_obj to add") @RequestBody Seeker seeker) {
+        return seekerService.addSeeker(seeker);
     }
 
     @Operation(summary = "Update Seeker")
@@ -56,8 +56,8 @@ public class SeekerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Seeker.class))})
     @PutMapping("")
-    public Seeker updateFluechtling(@Parameter(name = "Seeker", description = "Fluechtling_obj to update") @RequestBody Seeker seeker) {
-        return seekerService.updateFluechtling(seeker);
+    public Seeker updateSeeker(@Parameter(name = "Seeker", description = "Seeker_obj to update") @RequestBody Seeker seeker) {
+        return seekerService.updateSeeker(seeker);
     }
 
     @Operation(summary = "Delete a Seeker by its id")
@@ -65,7 +65,7 @@ public class SeekerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Seeker.class))})
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFluechtling(@Parameter(name = "FluechtlingId", description = "Id of the Seeker to delete") @PathVariable UUID id) {
-        return seekerService.deleteFluechtlingById(id);
+    public ResponseEntity<String> deleteSeeker(@Parameter(name = "SeekerId", description = "Id of the Seeker to delete") @PathVariable UUID id) {
+        return seekerService.deleteSeekerById(id);
     }
 }

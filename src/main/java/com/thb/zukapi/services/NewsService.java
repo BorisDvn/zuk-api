@@ -44,9 +44,9 @@ public class NewsService {
         News newNews = new News();
 
         newNews.setTitle(news.getTitle());
+        newNews.setImages(news.getImages());
         newNews.setDescription(news.getDescription());
-        newNews.setDate(LocalDateTime.now());
-        newNews.setBild(news.getBild());
+        newNews.setPublicationDate(LocalDateTime.now());
 
         return newsRepository.save(newNews);
     }
@@ -56,11 +56,13 @@ public class NewsService {
         News newsToUpdate = getNews(news.getId());
 
         if (news.getTitle() != null)
-            news.setTitle(news.getTitle());
+            newsToUpdate.setTitle(news.getTitle());
+        if (news.getImages() != null)
+            newsToUpdate.setImages(news.getImages());
         if (news.getDescription() != null)
-            news.setDescription(news.getDescription());
-        if (news.getDate() != null) // TODO: update date? like last update?
-            news.setDate(news.getDate());
+            newsToUpdate.setDescription(news.getDescription());
+        if (news.getPublicationDate() != null) // TODO: update date? like last update?
+            newsToUpdate.setPublicationDate(news.getPublicationDate());
 
         return newsRepository.save(newsToUpdate);
     }

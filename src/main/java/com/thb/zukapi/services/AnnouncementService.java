@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Service
 public class AnnouncementService {
-    private final Logger logger = LoggerFactory.getLogger(AnnouncementService.class);
+    /*private final Logger logger = LoggerFactory.getLogger(AnnouncementService.class);
 
     @Autowired
     private AnnouncementRepository announcementRepository;
@@ -42,11 +42,11 @@ public class AnnouncementService {
 
         Announcement newAnnouncement = new Announcement();
 
-        /*if (announcement.getHelper() != null) {
+        if (announcement.getHelper() != null) {
             newAnnouncement.setType(ErstellerStatus.HELFER);
         } else {
             newAnnouncement.setType(ErstellerStatus.FLUECHTLING);
-        }*/
+        }
 
         newAnnouncement.setAnnouncementDate(LocalDateTime.now());
         // todo bilder als link?
@@ -61,14 +61,14 @@ public class AnnouncementService {
 
         Announcement announcementToUpdate = getAnzeige(announcement.getId());
 
-        /*if (announcement.getType() != null)
+        if (announcement.getType() != null)
             announcement.setType(announcement.getType());
         if (announcement.getDatum() != null) //todo bilder
             announcement.setDatum(announcement.getDatum());
         if (announcement.getBilds() != null)
             announcement.setBilds(announcement.getBilds());
         if (announcement.getDescription() != null)
-            announcement.setDescription(announcement.getDescription());*/
+            announcement.setDescription(announcement.getDescription());
 
         // todo FK
 
@@ -84,5 +84,5 @@ public class AnnouncementService {
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
     }
 
-
+*/
 }

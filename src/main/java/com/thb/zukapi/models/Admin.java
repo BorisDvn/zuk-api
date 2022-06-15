@@ -4,7 +4,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Entity;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.UUID;
 

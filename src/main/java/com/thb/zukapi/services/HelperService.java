@@ -2,6 +2,7 @@ package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Helper;
+import com.thb.zukapi.models.RoleType;
 import com.thb.zukapi.repositories.HelperRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class HelperService {
     @Autowired
     private HelperRepository helperRepository;
 
-    public Helper getHelfer(UUID id) {
+    public Helper getHelper(UUID id) {
         return helperRepository.findById(id)
                 .orElseThrow(() -> new ApiRequestException("Cannot find Helper with id: " + id));
     }
@@ -37,28 +38,30 @@ public class HelperService {
         return pagedResult.getContent();
     }
 
-    public Helper addHelfer(Helper helper) {
+    public Helper addHelper(Helper helper) {
 
         Helper newHelper = new Helper();
 
         newHelper.setLastname(helper.getLastname());
         newHelper.setFirstname(helper.getFirstname());
+        if (helper.getNationality() != null) {
+            newHelper.setNationality(helper.getNationality());
+        }
         newHelper.setDob(helper.getDob());
+        newHelper.setPhone(helper.getPhone());
         newHelper.setEmail(helper.getEmail());
         newHelper.setAdresse(helper.getAdresse());
+        newHelper.setGender(helper.getGender());
+        newHelper.setPassword(helper.getPassword()); // TODO: encrypt
+        newHelper.setRole(RoleType.HELPER);
         newHelper.setHelperType(helper.getHelperType());
-
-        if (helper.getNationality() != null)
-            newHelper.setNationality(helper.getNationality());
-        if (helper.getPhone() != null)
-            newHelper.setPhone(helper.getPhone());
 
         return helperRepository.save(newHelper);
     }
 
-    public Helper updateHelfer(Helper helper) {
+    public Helper updateHelper(Helper helper) {
 
-        Helper helperToUpdate = getHelfer(helper.getId());
+        Helper helperToUpdate = getHelper(helper.getId());
 
         if (helper.getLastname() != null)
             helperToUpdate.setLastname(helper.getLastname());
@@ -66,7 +69,7 @@ public class HelperService {
             helperToUpdate.setFirstname(helper.getFirstname());
         if (helper.getNationality() != null)
             helperToUpdate.setNationality(helper.getNationality());
-        if (helper.getDob() != null)
+        if (helper.getDob() != null) // TODO: check
             helperToUpdate.setDob(helper.getDob());
         if (helper.getPhone() != null)
             helperToUpdate.setPhone(helper.getPhone());
@@ -74,14 +77,18 @@ public class HelperService {
             helperToUpdate.setEmail(helper.getEmail());
         if (helper.getAdresse() != null)
             helperToUpdate.setAdresse(helper.getAdresse());
+        if (helper.getGender() != null)
+            helperToUpdate.setGender(helper.getGender());
+        if (helper.getPassword() != null)
+            helperToUpdate.setPassword(helper.getPassword()); // TODO: encrypt
         if (helper.getHelperType() != null)
             helperToUpdate.setHelperType(helper.getHelperType());
 
         return helperRepository.save(helperToUpdate);
     }
 
-    public ResponseEntity<String> deleteHelferById(UUID id) {
-        Helper helperToDelete = getHelfer(id);
+    public ResponseEntity<String> deleteHelperById(UUID id) {
+        Helper helperToDelete = getHelper(id);
 
         helperRepository.deleteById(helperToDelete.getId());
 

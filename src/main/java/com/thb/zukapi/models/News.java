@@ -24,12 +24,12 @@ public class News {
     @NotBlank
     String title;
 
-    byte[] images;
+    byte[] images; // todo Bilder?
 
     @Lob
     @NotBlank
     String description;
 
-    LocalDateTime date;
+    LocalDateTime publicationDate;
 
 }

@@ -10,6 +10,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Entity
 @Setter
 @Getter
 @NoArgsConstructor

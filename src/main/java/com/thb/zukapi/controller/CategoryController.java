@@ -26,9 +26,9 @@ public class CategoryController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Category.class))})
     @GetMapping("")
-    public List<Category> getAllKategorie(@RequestParam(defaultValue = "0") Integer pageNo,
-                                          @RequestParam(defaultValue = "10") Integer pageSize,
-                                          @RequestParam(defaultValue = "name") String sortBy) {
+    public List<Category> getAllCategory(@RequestParam(defaultValue = "0") Integer pageNo,
+                                         @RequestParam(defaultValue = "10") Integer pageSize,
+                                         @RequestParam(defaultValue = "name") String sortBy) {
         return categoryService.getAll(pageNo, pageSize, sortBy);
     }
 
@@ -37,8 +37,8 @@ public class CategoryController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Category.class))})
     @GetMapping("/{id}")
-    public Category getKategorieById(@Parameter(name = "KategorieId", description = "ID of the Kategorie_obj") @PathVariable UUID id) {
-        return categoryService.getKategorie(id);
+    public Category getCategoryById(@Parameter(name = "CategoryId", description = "ID of the Category_obj") @PathVariable UUID id) {
+        return categoryService.getCategory(id);
     }
 
     @Operation(summary = "Add One Category")
@@ -46,9 +46,9 @@ public class CategoryController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Category.class))})
     @PostMapping("")
-    public Category addKategorie(
-            @Parameter(name = "Category", description = "Kategorie_obj to add") @RequestBody Category category) {
-        return categoryService.addKategorie(category);
+    public Category addCategory(
+            @Parameter(name = "Category", description = "Category_obj to add") @RequestBody Category category) {
+        return categoryService.addCategory(category);
     }
 
     @Operation(summary = "Update Category")
@@ -56,8 +56,8 @@ public class CategoryController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Category.class))})
     @PutMapping("")
-    public Category updateKategorie(@Parameter(name = "Category", description = "Kategorie_obj to update") @RequestBody Category category) {
-        return categoryService.updateKategorie(category);
+    public Category updateCategory(@Parameter(name = "Category", description = "Category_obj to update") @RequestBody Category category) {
+        return categoryService.updateCategory(category);
     }
 
     @Operation(summary = "Delete a Category by its id")
@@ -65,7 +65,7 @@ public class CategoryController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Category.class))})
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteKategorie(@Parameter(name = "KategorieId", description = "Id of the Category to delete") @PathVariable UUID id) {
-        return categoryService.deleteKategorieById(id);
+    public ResponseEntity<String> deleteCategory(@Parameter(name = "CategoryId", description = "Id of the Category to delete") @PathVariable UUID id) {
+        return categoryService.deleteCategoryById(id);
     }
 }

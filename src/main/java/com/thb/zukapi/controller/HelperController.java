@@ -26,7 +26,7 @@ public class HelperController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Helper.class))})
     @GetMapping("")
-    public List<Helper> getAllHelfer(@RequestParam(defaultValue = "0") Integer pageNo,
+    public List<Helper> getAllHelper(@RequestParam(defaultValue = "0") Integer pageNo,
                                      @RequestParam(defaultValue = "10") Integer pageSize,
                                      @RequestParam(defaultValue = "nachname") String sortBy) {
         return helperService.getAll(pageNo, pageSize, sortBy);
@@ -37,8 +37,8 @@ public class HelperController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Helper.class))})
     @GetMapping("/{id}")
-    public Helper getHelferById(@Parameter(name = "HelferId", description = "ID of the Helfer_obj") @PathVariable UUID id) {
-        return helperService.getHelfer(id);
+    public Helper getHelperById(@Parameter(name = "HelperId", description = "ID of the Helper_obj") @PathVariable UUID id) {
+        return helperService.getHelper(id);
     }
 
     @Operation(summary = "Add One Helper")
@@ -46,9 +46,9 @@ public class HelperController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Helper.class))})
     @PostMapping("")
-    public Helper addHelfer(
-            @Parameter(name = "Helper", description = "Helfer_obj to add") @RequestBody Helper helper) {
-        return helperService.addHelfer(helper);
+    public Helper addHelper(
+            @Parameter(name = "Helper", description = "Helper_obj to add") @RequestBody Helper helper) {
+        return helperService.addHelper(helper);
     }
 
     @Operation(summary = "Update Helper")
@@ -57,7 +57,7 @@ public class HelperController {
                     schema = @Schema(implementation = Helper.class))})
     @PutMapping("")
     public Helper updateHelfer(@Parameter(name = "Helper", description = "Helfer_obj to update") @RequestBody Helper helper) {
-        return helperService.updateHelfer(helper);
+        return helperService.updateHelper(helper);
     }
 
     @Operation(summary = "Delete a Helper by its id")
@@ -66,6 +66,6 @@ public class HelperController {
                     schema = @Schema(implementation = Helper.class))})
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteHelfer(@Parameter(name = "HelferId", description = "Id of the Helper to delete") @PathVariable UUID id) {
-        return helperService.deleteHelferById(id);
+        return helperService.deleteHelperById(id);
     }
 }
