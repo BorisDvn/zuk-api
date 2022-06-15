@@ -1,6 +1,5 @@
 package com.thb.zukapi.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
@@ -16,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Announcement {
+public class News {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -25,21 +24,12 @@ public class Announcement {
     @NotBlank
     String title;
 
-    LocalDateTime datum;
-
-    byte[] bild; // todo: bilder
+    byte[] images;
 
     @Lob
     @NotBlank
     String description;
 
-    @NotBlank
-    @Enumerated(EnumType.STRING)
-    AnnouncementStatus status; // standby as default value
+    LocalDateTime date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    Category category;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    Helper helper;
 }

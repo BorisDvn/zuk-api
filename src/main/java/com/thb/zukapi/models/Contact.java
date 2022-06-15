@@ -1,12 +1,11 @@
 package com.thb.zukapi.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Entity
@@ -15,26 +14,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Anzeige {
+public class Contact {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    UUID id;
+    protected UUID id;
 
-    ErstellerStatus type;
+    String subject;
 
-    LocalDateTime datum;
-
-    private byte[] bilds; // todo: bilder
-
+    @NotBlank
     String description;
 
-    AnzeigeStatus status;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    Category category;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    Helfer helfer;
+    @NotBlank
+    @Enumerated(EnumType.STRING)
+    ContactStatus status;
 }

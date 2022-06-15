@@ -52,7 +52,7 @@ public class KategorieController {
     }
 
     @Operation(summary = "Update Category")
-    @ApiResponse(responseCode = "200", description = "Announcement Category",
+    @ApiResponse(responseCode = "200", description = "News Category",
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Category.class))})
     @PutMapping("")
@@ -61,7 +61,7 @@ public class KategorieController {
     }
 
     @Operation(summary = "Delete a Category by its id")
-    @ApiResponse(responseCode = "200", description = "Announcement Category",
+    @ApiResponse(responseCode = "200", description = "News Category",
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Category.class))})
     @DeleteMapping("/{id}")

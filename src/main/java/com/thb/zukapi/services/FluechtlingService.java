@@ -1,7 +1,7 @@
 package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
-import com.thb.zukapi.models.Fluechtling;
+import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.repositories.FluechtlingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,66 +24,66 @@ public class FluechtlingService {
     @Autowired
     private FluechtlingRepository fluechtlingRepository;
 
-    public Fluechtling getFluechtling(UUID id) {
+    public Seeker getFluechtling(UUID id) {
         return fluechtlingRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find Fluechtling with id: " + id));
+                .orElseThrow(() -> new ApiRequestException("Cannot find Seeker with id: " + id));
     }
 
-    public List<Fluechtling> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<Seeker> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Fluechtling> pagedResult = fluechtlingRepository.findAll(paging);
+        Page<Seeker> pagedResult = fluechtlingRepository.findAll(paging);
 
         return pagedResult.getContent();
     }
 
-    public Fluechtling addFluechtling(Fluechtling fluechtling) {
+    public Seeker addFluechtling(Seeker seeker) {
 
-        Fluechtling newFluechtling = new Fluechtling();
+        Seeker newSeeker = new Seeker();
 
-        newFluechtling.setLastname(fluechtling.getLastname());
-        newFluechtling.setFirstname(fluechtling.getFirstname());
-        newFluechtling.setDob(fluechtling.getDob());
-        newFluechtling.setEmail(fluechtling.getEmail());
-        newFluechtling.setAdresse(fluechtling.getAdresse());
+        newSeeker.setLastname(seeker.getLastname());
+        newSeeker.setFirstname(seeker.getFirstname());
+        newSeeker.setDob(seeker.getDob());
+        newSeeker.setEmail(seeker.getEmail());
+        newSeeker.setAdresse(seeker.getAdresse());
 
-        if (fluechtling.getNationality() != null)
-            newFluechtling.setNationality(fluechtling.getNationality());
-        if (fluechtling.getPhone() != null)
-            newFluechtling.setPhone(fluechtling.getPhone());
+        if (seeker.getNationality() != null)
+            newSeeker.setNationality(seeker.getNationality());
+        if (seeker.getPhone() != null)
+            newSeeker.setPhone(seeker.getPhone());
 
-        return fluechtlingRepository.save(newFluechtling);
+        return fluechtlingRepository.save(newSeeker);
     }
 
-    public Fluechtling updateFluechtling(Fluechtling fluechtling) {
+    public Seeker updateFluechtling(Seeker seeker) {
 
-        Fluechtling fluechtlingToUpdate = getFluechtling(fluechtling.getId());
+        Seeker seekerToUpdate = getFluechtling(seeker.getId());
 
-        if (fluechtling.getLastname() != null)
-            fluechtlingToUpdate.setLastname(fluechtling.getLastname());
-        if (fluechtling.getFirstname() != null)
-            fluechtlingToUpdate.setFirstname(fluechtling.getFirstname());
-        if (fluechtling.getNationality() != null)
-            fluechtlingToUpdate.setNationality(fluechtling.getNationality());
-        if (fluechtling.getDob() != null)
-            fluechtlingToUpdate.setDob(fluechtling.getDob());
-        if (fluechtling.getPhone() != null)
-            fluechtlingToUpdate.setPhone(fluechtling.getPhone());
-        if (fluechtling.getEmail() != null)
-            fluechtlingToUpdate.setEmail(fluechtling.getEmail());
-        if (fluechtling.getAdresse() != null)
-            fluechtlingToUpdate.setAdresse(fluechtling.getAdresse());
+        if (seeker.getLastname() != null)
+            seekerToUpdate.setLastname(seeker.getLastname());
+        if (seeker.getFirstname() != null)
+            seekerToUpdate.setFirstname(seeker.getFirstname());
+        if (seeker.getNationality() != null)
+            seekerToUpdate.setNationality(seeker.getNationality());
+        if (seeker.getDob() != null)
+            seekerToUpdate.setDob(seeker.getDob());
+        if (seeker.getPhone() != null)
+            seekerToUpdate.setPhone(seeker.getPhone());
+        if (seeker.getEmail() != null)
+            seekerToUpdate.setEmail(seeker.getEmail());
+        if (seeker.getAdresse() != null)
+            seekerToUpdate.setAdresse(seeker.getAdresse());
 
-        return fluechtlingRepository.save(fluechtlingToUpdate);
+        return fluechtlingRepository.save(seekerToUpdate);
     }
 
     public ResponseEntity<String> deleteFluechtlingById(UUID id) {
-        Fluechtling fluechtlingToDelete = getFluechtling(id);
+        Seeker seekerToDelete = getFluechtling(id);
 
-        fluechtlingRepository.deleteById(fluechtlingToDelete.getId());
+        fluechtlingRepository.deleteById(seekerToDelete.getId());
 
-        logger.info("Fluechtling successfully deleted");
-        return new ResponseEntity<>("Fluechtling successfully deleted", HttpStatus.OK);
+        logger.info("Seeker successfully deleted");
+        return new ResponseEntity<>("Seeker successfully deleted", HttpStatus.OK);
     }
 
 }

@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -14,22 +15,23 @@ import java.util.UUID;
 @NoArgsConstructor
 //@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Helfer extends Person {
+public class Helper extends Person {
+    @NotBlank
     @Enumerated(EnumType.STRING)
-    HelferStatus helferStatus;
+    HelperStatus helperStatus;
 
     @Builder
-    public Helfer(UUID id, String lastname, String firstname, String nationality,
+    public Helper(UUID id, String lastname, String firstname, String nationality,
                   LocalDate dob, String phone, String email,
-                  String adresse, Gender gender, String password, String role) {
+                  String adresse, Gender gender, HelperStatus helperStatus) {
         super(id, lastname, firstname, nationality,
                 dob, phone, email,
                 adresse, gender);
 
-        this.helferStatus = helferStatus;
+        this.helperStatus = helperStatus;
 
     }
 
-    @OneToMany(mappedBy = "helfer", fetch = FetchType.LAZY)
-    List<Anzeige> anzeigen;
+    @OneToMany(mappedBy = "helper", fetch = FetchType.LAZY)
+    List<Announcement> anzeigen;
 }

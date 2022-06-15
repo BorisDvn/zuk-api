@@ -13,14 +13,15 @@ import java.util.UUID;
 @NoArgsConstructor
 //@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Verwalter extends Person {
+public class Seeker extends Person {
 
     @Builder
-    public Verwalter(UUID id, String lastname, String firstname, String nationality,
-                     LocalDate dob, String phone, String email,
-                     String adresse, Gender gender, String password, String role) {
+    public Seeker(UUID id, String lastname, String firstname, String nationality,
+                  LocalDate dob, String phone, String email,
+                  String adresse, Gender gender, String password, String role) {
         super(id, lastname, firstname, nationality,
                 dob, phone, email,
                 adresse, gender);
+
     }
 }

@@ -1,7 +1,7 @@
 package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
-import com.thb.zukapi.models.Anzeige;
+import com.thb.zukapi.models.Announcement;
 import com.thb.zukapi.models.ErstellerStatus;
 import com.thb.zukapi.repositories.AnzeigeRepository;
 import org.slf4j.Logger;
@@ -26,60 +26,60 @@ public class AnzeigeService {
     @Autowired
     private AnzeigeRepository anzeigeRepository;
 
-    public Anzeige getAnzeige(UUID id) {
+    public Announcement getAnzeige(UUID id) {
         return anzeigeRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find Anzeige with id: " + id));
+                .orElseThrow(() -> new ApiRequestException("Cannot find Announcement with id: " + id));
     }
 
-    public List<Anzeige> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<Announcement> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Anzeige> pagedResult = anzeigeRepository.findAll(paging);
+        Page<Announcement> pagedResult = anzeigeRepository.findAll(paging);
 
         return pagedResult.getContent();
     }
 
-    public Anzeige addAnzeige(Anzeige anzeige) {
+    public Announcement addAnzeige(Announcement announcement) {
 
-        Anzeige newAnzeige = new Anzeige();
+        Announcement newAnnouncement = new Announcement();
 
-        if (anzeige.getHelfer() != null) {
-            newAnzeige.setType(ErstellerStatus.HELFER);
+        if (announcement.getHelper() != null) {
+            newAnnouncement.setType(ErstellerStatus.HELFER);
         } else {
-            newAnzeige.setType(ErstellerStatus.FLUECHTLING);
+            newAnnouncement.setType(ErstellerStatus.FLUECHTLING);
         }
 
-        newAnzeige.setDatum(LocalDateTime.now());
+        newAnnouncement.setDatum(LocalDateTime.now());
         // todo bilder als link?
-        newAnzeige.setDescription(anzeige.getDescription());
-        newAnzeige.setStatus(anzeige.getStatus());
+        newAnnouncement.setDescription(announcement.getDescription());
+        newAnnouncement.setStatus(announcement.getStatus());
 
         // todo FK
-        return anzeigeRepository.save(newAnzeige);
+        return anzeigeRepository.save(newAnnouncement);
     }
 
-    public Anzeige updateAnzeige(Anzeige anzeige) {
+    public Announcement updateAnzeige(Announcement announcement) {
 
-        Anzeige anzeigeToUpdate = getAnzeige(anzeige.getId());
+        Announcement announcementToUpdate = getAnzeige(announcement.getId());
 
-        if (anzeige.getType() != null)
-            anzeige.setType(anzeige.getType());
-        if (anzeige.getDatum() != null) //todo bilder
-            anzeige.setDatum(anzeige.getDatum());
-        if (anzeige.getBilds() != null)
-            anzeige.setBilds(anzeige.getBilds());
-        if (anzeige.getDescription() != null)
-            anzeige.setDescription(anzeige.getDescription());
+        if (announcement.getType() != null)
+            announcement.setType(announcement.getType());
+        if (announcement.getDatum() != null) //todo bilder
+            announcement.setDatum(announcement.getDatum());
+        if (announcement.getBilds() != null)
+            announcement.setBilds(announcement.getBilds());
+        if (announcement.getDescription() != null)
+            announcement.setDescription(announcement.getDescription());
 
         // todo FK
 
-        return anzeigeRepository.save(anzeigeToUpdate);
+        return anzeigeRepository.save(announcementToUpdate);
     }
 
     public ResponseEntity<String> deleteAnzeigeById(UUID id) {
-        Anzeige anzeigeToDelete = getAnzeige(id);
+        Announcement announcementToDelete = getAnzeige(id);
 
-        anzeigeRepository.deleteById(anzeigeToDelete.getId());
+        anzeigeRepository.deleteById(announcementToDelete.getId());
         // log.info("successfully deleted");
 
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);

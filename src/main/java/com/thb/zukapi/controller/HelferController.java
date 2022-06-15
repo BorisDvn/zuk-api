@@ -1,6 +1,6 @@
 package com.thb.zukapi.controller;
 
-import com.thb.zukapi.models.Helfer;
+import com.thb.zukapi.models.Helper;
 import com.thb.zukapi.services.HelferService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,51 +21,51 @@ public class HelferController {
     @Autowired
     protected HelferService helferService;
 
-    @Operation(summary = "Get All Helfer")
-    @ApiResponse(responseCode = "200", description = "Found all Helfer",
+    @Operation(summary = "Get All Helper")
+    @ApiResponse(responseCode = "200", description = "Found all Helper",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Helfer.class))})
+                    schema = @Schema(implementation = Helper.class))})
     @GetMapping("")
-    public List<Helfer> getAllHelfer(@RequestParam(defaultValue = "0") Integer pageNo,
-                                           @RequestParam(defaultValue = "10") Integer pageSize,
-                                           @RequestParam(defaultValue = "nachname") String sortBy) {
+    public List<Helper> getAllHelfer(@RequestParam(defaultValue = "0") Integer pageNo,
+                                     @RequestParam(defaultValue = "10") Integer pageSize,
+                                     @RequestParam(defaultValue = "nachname") String sortBy) {
         return helferService.getAll(pageNo, pageSize, sortBy);
     }
 
-    @Operation(summary = "Get a Helfer by its id")
-    @ApiResponse(responseCode = "200", description = "Found the Helfer",
+    @Operation(summary = "Get a Helper by its id")
+    @ApiResponse(responseCode = "200", description = "Found the Helper",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Helfer.class))})
+                    schema = @Schema(implementation = Helper.class))})
     @GetMapping("/{id}")
-    public Helfer getHelferById(@Parameter(name = "HelferId", description = "ID of the Helfer_obj") @PathVariable UUID id) {
+    public Helper getHelferById(@Parameter(name = "HelferId", description = "ID of the Helfer_obj") @PathVariable UUID id) {
         return helferService.getHelfer(id);
     }
 
-    @Operation(summary = "Add One Helfer")
-    @ApiResponse(responseCode = "200", description = "Helfer added",
+    @Operation(summary = "Add One Helper")
+    @ApiResponse(responseCode = "200", description = "Helper added",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Helfer.class))})
+                    schema = @Schema(implementation = Helper.class))})
     @PostMapping("")
-    public Helfer addHelfer(
-            @Parameter(name = "Helfer", description = "Helfer_obj to add") @RequestBody Helfer helfer) {
-        return helferService.addHelfer(helfer);
+    public Helper addHelfer(
+            @Parameter(name = "Helper", description = "Helfer_obj to add") @RequestBody Helper helper) {
+        return helferService.addHelfer(helper);
     }
 
-    @Operation(summary = "Update Helfer")
-    @ApiResponse(responseCode = "200", description = "Announcement Helfer",
+    @Operation(summary = "Update Helper")
+    @ApiResponse(responseCode = "200", description = "News Helper",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Helfer.class))})
+                    schema = @Schema(implementation = Helper.class))})
     @PutMapping("")
-    public Helfer updateHelfer(@Parameter(name = "Helfer", description = "Helfer_obj to update") @RequestBody Helfer helfer) {
-        return helferService.updateHelfer(helfer);
+    public Helper updateHelfer(@Parameter(name = "Helper", description = "Helfer_obj to update") @RequestBody Helper helper) {
+        return helferService.updateHelfer(helper);
     }
 
-    @Operation(summary = "Delete a Helfer by its id")
-    @ApiResponse(responseCode = "200", description = "Announcement Helfer",
+    @Operation(summary = "Delete a Helper by its id")
+    @ApiResponse(responseCode = "200", description = "News Helper",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Helfer.class))})
+                    schema = @Schema(implementation = Helper.class))})
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteHelfer(@Parameter(name = "HelferId", description = "Id of the Helfer to delete") @PathVariable UUID id) {
+    public ResponseEntity<String> deleteHelfer(@Parameter(name = "HelferId", description = "Id of the Helper to delete") @PathVariable UUID id) {
         return helferService.deleteHelferById(id);
     }
 }

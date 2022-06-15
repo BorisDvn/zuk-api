@@ -1,7 +1,7 @@
 package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
-import com.thb.zukapi.models.Helfer;
+import com.thb.zukapi.models.Helper;
 import com.thb.zukapi.repositories.HelferRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,68 +24,68 @@ public class HelferService {
     @Autowired
     private HelferRepository helferRepository;
 
-    public Helfer getHelfer(UUID id) {
+    public Helper getHelfer(UUID id) {
         return helferRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find Helfer with id: " + id));
+                .orElseThrow(() -> new ApiRequestException("Cannot find Helper with id: " + id));
     }
 
-    public List<Helfer> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<Helper> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Helfer> pagedResult = helferRepository.findAll(paging);
+        Page<Helper> pagedResult = helferRepository.findAll(paging);
 
         return pagedResult.getContent();
     }
 
-    public Helfer addHelfer(Helfer helfer) {
+    public Helper addHelfer(Helper helper) {
 
-        Helfer newHelfer = new Helfer();
+        Helper newHelper = new Helper();
 
-        newHelfer.setLastname(helfer.getLastname());
-        newHelfer.setFirstname(helfer.getFirstname());
-        newHelfer.setDob(helfer.getDob());
-        newHelfer.setEmail(helfer.getEmail());
-        newHelfer.setAdresse(helfer.getAdresse());
-        newHelfer.setHelferStatus(helfer.getHelferStatus());
+        newHelper.setLastname(helper.getLastname());
+        newHelper.setFirstname(helper.getFirstname());
+        newHelper.setDob(helper.getDob());
+        newHelper.setEmail(helper.getEmail());
+        newHelper.setAdresse(helper.getAdresse());
+        newHelper.setHelperStatus(helper.getHelperStatus());
 
-        if (helfer.getNationality() != null)
-            newHelfer.setNationality(helfer.getNationality());
-        if (helfer.getPhone() != null)
-            newHelfer.setPhone(helfer.getPhone());
+        if (helper.getNationality() != null)
+            newHelper.setNationality(helper.getNationality());
+        if (helper.getPhone() != null)
+            newHelper.setPhone(helper.getPhone());
 
-        return helferRepository.save(newHelfer);
+        return helferRepository.save(newHelper);
     }
 
-    public Helfer updateHelfer(Helfer helfer) {
+    public Helper updateHelfer(Helper helper) {
 
-        Helfer helferToUpdate = getHelfer(helfer.getId());
+        Helper helperToUpdate = getHelfer(helper.getId());
 
-        if (helfer.getLastname() != null)
-            helferToUpdate.setLastname(helfer.getLastname());
-        if (helfer.getFirstname() != null)
-            helferToUpdate.setFirstname(helfer.getFirstname());
-        if (helfer.getNationality() != null)
-            helferToUpdate.setNationality(helfer.getNationality());
-        if (helfer.getDob() != null)
-            helferToUpdate.setDob(helfer.getDob());
-        if (helfer.getPhone() != null)
-            helferToUpdate.setPhone(helfer.getPhone());
-        if (helfer.getEmail() != null)
-            helferToUpdate.setEmail(helfer.getEmail());
-        if (helfer.getAdresse() != null)
-            helferToUpdate.setAdresse(helfer.getAdresse());
-        if (helfer.getHelferStatus() != null)
-            helferToUpdate.setHelferStatus(helfer.getHelferStatus());
+        if (helper.getLastname() != null)
+            helperToUpdate.setLastname(helper.getLastname());
+        if (helper.getFirstname() != null)
+            helperToUpdate.setFirstname(helper.getFirstname());
+        if (helper.getNationality() != null)
+            helperToUpdate.setNationality(helper.getNationality());
+        if (helper.getDob() != null)
+            helperToUpdate.setDob(helper.getDob());
+        if (helper.getPhone() != null)
+            helperToUpdate.setPhone(helper.getPhone());
+        if (helper.getEmail() != null)
+            helperToUpdate.setEmail(helper.getEmail());
+        if (helper.getAdresse() != null)
+            helperToUpdate.setAdresse(helper.getAdresse());
+        if (helper.getHelperStatus() != null)
+            helperToUpdate.setHelperStatus(helper.getHelperStatus());
 
-        return helferRepository.save(helferToUpdate);
+        return helferRepository.save(helperToUpdate);
     }
 
     public ResponseEntity<String> deleteHelferById(UUID id) {
-        Helfer helferToDelete = getHelfer(id);
+        Helper helperToDelete = getHelfer(id);
 
-        helferRepository.deleteById(helferToDelete.getId());
+        helferRepository.deleteById(helperToDelete.getId());
 
-        logger.info("Helfer successfully deleted");
-        return new ResponseEntity<>("Helfer successfully deleted", HttpStatus.OK);
+        logger.info("Helper successfully deleted");
+        return new ResponseEntity<>("Helper successfully deleted", HttpStatus.OK);
     }
 }
