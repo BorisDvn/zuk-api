@@ -18,18 +18,17 @@ import java.util.UUID;
 public class Helper extends Person {
     @NotBlank
     @Enumerated(EnumType.STRING)
-    HelperStatus helperStatus;
+    HelperType helperType;
 
     @Builder
     public Helper(UUID id, String lastname, String firstname, String nationality,
                   LocalDate dob, String phone, String email,
-                  String adresse, Gender gender, HelperStatus helperStatus) {
+                  String adresse, Gender gender, String password, RoleType role, HelperType helperType) {
         super(id, lastname, firstname, nationality,
                 dob, phone, email,
-                adresse, gender);
+                adresse, gender, password, role);
 
-        this.helperStatus = helperStatus;
-
+        this.helperType = helperType;
     }
 
     @OneToMany(mappedBy = "helper", fetch = FetchType.LAZY)

@@ -1,5 +1,5 @@
 package com.thb.zukapi.models;
 
-public enum HelperStatus {
+public enum HelperType {
     ORGANIZATION, PRIVATE
 }

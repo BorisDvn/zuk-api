@@ -42,13 +42,13 @@ public class AnnouncementService {
 
         Announcement newAnnouncement = new Announcement();
 
-        if (announcement.getHelper() != null) {
+        /*if (announcement.getHelper() != null) {
             newAnnouncement.setType(ErstellerStatus.HELFER);
         } else {
             newAnnouncement.setType(ErstellerStatus.FLUECHTLING);
-        }
+        }*/
 
-        newAnnouncement.setDatum(LocalDateTime.now());
+        newAnnouncement.setAnnouncementDate(LocalDateTime.now());
         // todo bilder als link?
         newAnnouncement.setDescription(announcement.getDescription());
         newAnnouncement.setStatus(announcement.getStatus());
@@ -61,14 +61,14 @@ public class AnnouncementService {
 
         Announcement announcementToUpdate = getAnzeige(announcement.getId());
 
-        if (announcement.getType() != null)
+        /*if (announcement.getType() != null)
             announcement.setType(announcement.getType());
         if (announcement.getDatum() != null) //todo bilder
             announcement.setDatum(announcement.getDatum());
         if (announcement.getBilds() != null)
             announcement.setBilds(announcement.getBilds());
         if (announcement.getDescription() != null)
-            announcement.setDescription(announcement.getDescription());
+            announcement.setDescription(announcement.getDescription());*/
 
         // todo FK
 

@@ -31,5 +31,5 @@ public class Category {
     private String title;
 
     @OneToMany(mappedBy = "category")
-    private List<Announcement> anzeigen;
+    private List<Announcement> announcements;
 }

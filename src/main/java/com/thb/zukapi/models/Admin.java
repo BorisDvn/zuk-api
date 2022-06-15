@@ -15,20 +15,14 @@ import java.util.UUID;
 //@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Admin extends Person {
-    @Size(min = 10)
-    String password;
-
-    String role;
 
     @Builder
     public Admin(UUID id, String lastname, String firstname, String nationality,
                  LocalDate dob, String phone, String email,
-                 String adresse, Gender gender, String password, String role) {
+                 String adresse, Gender gender, String password, RoleType role) {
         super(id, lastname, firstname, nationality,
                 dob, phone, email,
-                adresse, gender);
+                adresse, gender, password, role);
 
-        this.role = role;
-        this.password = password;
     }
 }

@@ -24,9 +24,9 @@ public class Announcement {
     @NotBlank
     String title;
 
-    LocalDateTime datum;
+    LocalDateTime announcementDate;
 
-    byte[] bild; // todo: bilder
+    byte[] images; // todo: bilder
 
     @Lob
     @NotBlank

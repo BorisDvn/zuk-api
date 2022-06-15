@@ -10,7 +10,6 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
-//@Entity
 @Setter
 @Getter
 @NoArgsConstructor
@@ -44,7 +43,7 @@ public abstract class Person {
     @Email
     @NotBlank
     @Column(unique = true)
-    String email;
+    String email; // As username
 
     @NotBlank
     String adresse;
@@ -53,8 +52,10 @@ public abstract class Person {
     @Enumerated(EnumType.STRING)
     Gender gender;
 
+    @Size(min = 10)
+    String password;
 
-    // TODO: for authentication
-    // @Size(min = 10)
-    // String password;
+    @NotBlank
+    @Enumerated(EnumType.STRING)
+    RoleType role;
 }

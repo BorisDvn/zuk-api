@@ -18,9 +18,9 @@ public class Manager extends Person {
     @Builder
     public Manager(UUID id, String lastname, String firstname, String nationality,
                    LocalDate dob, String phone, String email,
-                   String adresse, Gender gender) {
+                   String adresse, Gender gender, String password, RoleType role) {
         super(id, lastname, firstname, nationality,
                 dob, phone, email,
-                adresse, gender);
+                adresse, gender, password, role);
     }
 }

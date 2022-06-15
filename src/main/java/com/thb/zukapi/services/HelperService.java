@@ -46,7 +46,7 @@ public class HelperService {
         newHelper.setDob(helper.getDob());
         newHelper.setEmail(helper.getEmail());
         newHelper.setAdresse(helper.getAdresse());
-        newHelper.setHelperStatus(helper.getHelperStatus());
+        newHelper.setHelperType(helper.getHelperType());
 
         if (helper.getNationality() != null)
             newHelper.setNationality(helper.getNationality());
@@ -74,8 +74,8 @@ public class HelperService {
             helperToUpdate.setEmail(helper.getEmail());
         if (helper.getAdresse() != null)
             helperToUpdate.setAdresse(helper.getAdresse());
-        if (helper.getHelperStatus() != null)
-            helperToUpdate.setHelperStatus(helper.getHelperStatus());
+        if (helper.getHelperType() != null)
+            helperToUpdate.setHelperType(helper.getHelperType());
 
         return helperRepository.save(helperToUpdate);
     }
