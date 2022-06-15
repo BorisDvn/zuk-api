@@ -2,8 +2,7 @@ package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Announcement;
-import com.thb.zukapi.models.ErstellerStatus;
-import com.thb.zukapi.repositories.AnzeigeRepository;
+import com.thb.zukapi.repositories.AnnouncementRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +19,21 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class AnzeigeService {
-    private final Logger logger = LoggerFactory.getLogger(AnzeigeService.class);
+public class AnnouncementService {
+    private final Logger logger = LoggerFactory.getLogger(AnnouncementService.class);
 
     @Autowired
-    private AnzeigeRepository anzeigeRepository;
+    private AnnouncementRepository announcementRepository;
 
     public Announcement getAnzeige(UUID id) {
-        return anzeigeRepository.findById(id)
+        return announcementRepository.findById(id)
                 .orElseThrow(() -> new ApiRequestException("Cannot find Announcement with id: " + id));
     }
 
     public List<Announcement> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Announcement> pagedResult = anzeigeRepository.findAll(paging);
+        Page<Announcement> pagedResult = announcementRepository.findAll(paging);
 
         return pagedResult.getContent();
     }
@@ -55,7 +54,7 @@ public class AnzeigeService {
         newAnnouncement.setStatus(announcement.getStatus());
 
         // todo FK
-        return anzeigeRepository.save(newAnnouncement);
+        return announcementRepository.save(newAnnouncement);
     }
 
     public Announcement updateAnzeige(Announcement announcement) {
@@ -73,13 +72,13 @@ public class AnzeigeService {
 
         // todo FK
 
-        return anzeigeRepository.save(announcementToUpdate);
+        return announcementRepository.save(announcementToUpdate);
     }
 
     public ResponseEntity<String> deleteAnzeigeById(UUID id) {
         Announcement announcementToDelete = getAnzeige(id);
 
-        anzeigeRepository.deleteById(announcementToDelete.getId());
+        announcementRepository.deleteById(announcementToDelete.getId());
         // log.info("successfully deleted");
 
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);

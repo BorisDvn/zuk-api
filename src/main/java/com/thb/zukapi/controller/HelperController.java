@@ -1,7 +1,7 @@
 package com.thb.zukapi.controller;
 
 import com.thb.zukapi.models.Helper;
-import com.thb.zukapi.services.HelferService;
+import com.thb.zukapi.services.HelperService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("zuk-api/v1/helfers")
+@RequestMapping("zuk-api/v1/helper")
 @CrossOrigin(origins = "*")
-public class HelferController {
+public class HelperController {
     @Autowired
-    protected HelferService helferService;
+    protected HelperService helperService;
 
     @Operation(summary = "Get All Helper")
     @ApiResponse(responseCode = "200", description = "Found all Helper",
@@ -29,7 +29,7 @@ public class HelferController {
     public List<Helper> getAllHelfer(@RequestParam(defaultValue = "0") Integer pageNo,
                                      @RequestParam(defaultValue = "10") Integer pageSize,
                                      @RequestParam(defaultValue = "nachname") String sortBy) {
-        return helferService.getAll(pageNo, pageSize, sortBy);
+        return helperService.getAll(pageNo, pageSize, sortBy);
     }
 
     @Operation(summary = "Get a Helper by its id")
@@ -38,7 +38,7 @@ public class HelferController {
                     schema = @Schema(implementation = Helper.class))})
     @GetMapping("/{id}")
     public Helper getHelferById(@Parameter(name = "HelferId", description = "ID of the Helfer_obj") @PathVariable UUID id) {
-        return helferService.getHelfer(id);
+        return helperService.getHelfer(id);
     }
 
     @Operation(summary = "Add One Helper")
@@ -48,7 +48,7 @@ public class HelferController {
     @PostMapping("")
     public Helper addHelfer(
             @Parameter(name = "Helper", description = "Helfer_obj to add") @RequestBody Helper helper) {
-        return helferService.addHelfer(helper);
+        return helperService.addHelfer(helper);
     }
 
     @Operation(summary = "Update Helper")
@@ -57,7 +57,7 @@ public class HelferController {
                     schema = @Schema(implementation = Helper.class))})
     @PutMapping("")
     public Helper updateHelfer(@Parameter(name = "Helper", description = "Helfer_obj to update") @RequestBody Helper helper) {
-        return helferService.updateHelfer(helper);
+        return helperService.updateHelfer(helper);
     }
 
     @Operation(summary = "Delete a Helper by its id")
@@ -66,6 +66,6 @@ public class HelferController {
                     schema = @Schema(implementation = Helper.class))})
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteHelfer(@Parameter(name = "HelferId", description = "Id of the Helper to delete") @PathVariable UUID id) {
-        return helferService.deleteHelferById(id);
+        return helperService.deleteHelferById(id);
     }
 }

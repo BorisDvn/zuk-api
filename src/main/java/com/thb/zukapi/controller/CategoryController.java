@@ -1,7 +1,7 @@
 package com.thb.zukapi.controller;
 
 import com.thb.zukapi.models.Category;
-import com.thb.zukapi.services.KategorieService;
+import com.thb.zukapi.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("zuk-api/v1/kategorien")
+@RequestMapping("zuk-api/v1/category")
 @CrossOrigin(origins = "*")
-public class KategorieController {
+public class CategoryController {
     @Autowired
-    protected KategorieService kategorieService;
+    protected CategoryService categoryService;
 
     @Operation(summary = "Get All Category")
     @ApiResponse(responseCode = "200", description = "Found all Category",
@@ -29,7 +29,7 @@ public class KategorieController {
     public List<Category> getAllKategorie(@RequestParam(defaultValue = "0") Integer pageNo,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           @RequestParam(defaultValue = "name") String sortBy) {
-        return kategorieService.getAll(pageNo, pageSize, sortBy);
+        return categoryService.getAll(pageNo, pageSize, sortBy);
     }
 
     @Operation(summary = "Get a Category by its id")
@@ -38,7 +38,7 @@ public class KategorieController {
                     schema = @Schema(implementation = Category.class))})
     @GetMapping("/{id}")
     public Category getKategorieById(@Parameter(name = "KategorieId", description = "ID of the Kategorie_obj") @PathVariable UUID id) {
-        return kategorieService.getKategorie(id);
+        return categoryService.getKategorie(id);
     }
 
     @Operation(summary = "Add One Category")
@@ -48,7 +48,7 @@ public class KategorieController {
     @PostMapping("")
     public Category addKategorie(
             @Parameter(name = "Category", description = "Kategorie_obj to add") @RequestBody Category category) {
-        return kategorieService.addKategorie(category);
+        return categoryService.addKategorie(category);
     }
 
     @Operation(summary = "Update Category")
@@ -57,7 +57,7 @@ public class KategorieController {
                     schema = @Schema(implementation = Category.class))})
     @PutMapping("")
     public Category updateKategorie(@Parameter(name = "Category", description = "Kategorie_obj to update") @RequestBody Category category) {
-        return kategorieService.updateKategorie(category);
+        return categoryService.updateKategorie(category);
     }
 
     @Operation(summary = "Delete a Category by its id")
@@ -66,6 +66,6 @@ public class KategorieController {
                     schema = @Schema(implementation = Category.class))})
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteKategorie(@Parameter(name = "KategorieId", description = "Id of the Category to delete") @PathVariable UUID id) {
-        return kategorieService.deleteKategorieById(id);
+        return categoryService.deleteKategorieById(id);
     }
 }

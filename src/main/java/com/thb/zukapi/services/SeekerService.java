@@ -2,7 +2,7 @@ package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Seeker;
-import com.thb.zukapi.repositories.FluechtlingRepository;
+import com.thb.zukapi.repositories.SeekerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +18,21 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class FluechtlingService {
-    private final Logger logger = LoggerFactory.getLogger(FluechtlingService.class);
+public class SeekerService {
+    private final Logger logger = LoggerFactory.getLogger(SeekerService.class);
 
     @Autowired
-    private FluechtlingRepository fluechtlingRepository;
+    private SeekerRepository seekerRepository;
 
     public Seeker getFluechtling(UUID id) {
-        return fluechtlingRepository.findById(id)
+        return seekerRepository.findById(id)
                 .orElseThrow(() -> new ApiRequestException("Cannot find Seeker with id: " + id));
     }
 
     public List<Seeker> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Seeker> pagedResult = fluechtlingRepository.findAll(paging);
+        Page<Seeker> pagedResult = seekerRepository.findAll(paging);
 
         return pagedResult.getContent();
     }
@@ -52,7 +52,7 @@ public class FluechtlingService {
         if (seeker.getPhone() != null)
             newSeeker.setPhone(seeker.getPhone());
 
-        return fluechtlingRepository.save(newSeeker);
+        return seekerRepository.save(newSeeker);
     }
 
     public Seeker updateFluechtling(Seeker seeker) {
@@ -74,13 +74,13 @@ public class FluechtlingService {
         if (seeker.getAdresse() != null)
             seekerToUpdate.setAdresse(seeker.getAdresse());
 
-        return fluechtlingRepository.save(seekerToUpdate);
+        return seekerRepository.save(seekerToUpdate);
     }
 
     public ResponseEntity<String> deleteFluechtlingById(UUID id) {
         Seeker seekerToDelete = getFluechtling(id);
 
-        fluechtlingRepository.deleteById(seekerToDelete.getId());
+        seekerRepository.deleteById(seekerToDelete.getId());
 
         logger.info("Seeker successfully deleted");
         return new ResponseEntity<>("Seeker successfully deleted", HttpStatus.OK);

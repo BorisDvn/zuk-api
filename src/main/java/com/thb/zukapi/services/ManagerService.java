@@ -5,6 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VerwalterService {
-    private final Logger logger = LoggerFactory.getLogger(VerwalterService.class);
+public class ManagerService {
+    private final Logger logger = LoggerFactory.getLogger(ManagerService.class);
 }

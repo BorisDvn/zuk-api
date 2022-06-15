@@ -1,11 +1,11 @@
 package com.thb.zukapi.repositories;
 
-import com.thb.zukapi.models.PersonInteressiert;
+import com.thb.zukapi.models.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface PersonInteressiertRepository extends JpaRepository<PersonInteressiert, UUID> {
+public interface CategoryRepository extends JpaRepository<Category, UUID> {
 }

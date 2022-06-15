@@ -1,7 +1,7 @@
 package com.thb.zukapi.controller;
 
 import com.thb.zukapi.models.Seeker;
-import com.thb.zukapi.services.FluechtlingService;
+import com.thb.zukapi.services.SeekerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("zuk-api/v1/fluechtlingen")
+@RequestMapping("zuk-api/v1/seeker")
 @CrossOrigin(origins = "*")
-public class FluechtlingController {
+public class SeekerController {
     @Autowired
-    protected FluechtlingService fluechtlingService;
+    protected SeekerService seekerService;
 
     @Operation(summary = "Get All Seeker")
     @ApiResponse(responseCode = "200", description = "Found all Seeker",
@@ -29,7 +29,7 @@ public class FluechtlingController {
     public List<Seeker> getAllFluechtling(@RequestParam(defaultValue = "0") Integer pageNo,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           @RequestParam(defaultValue = "nachname") String sortBy) {
-        return fluechtlingService.getAll(pageNo, pageSize, sortBy);
+        return seekerService.getAll(pageNo, pageSize, sortBy);
     }
 
     @Operation(summary = "Get a Seeker by its id")
@@ -38,7 +38,7 @@ public class FluechtlingController {
                     schema = @Schema(implementation = Seeker.class))})
     @GetMapping("/{id}")
     public Seeker getFluechtlingById(@Parameter(name = "FluechtlingId", description = "ID of the Fluechtling_obj") @PathVariable UUID id) {
-        return fluechtlingService.getFluechtling(id);
+        return seekerService.getFluechtling(id);
     }
 
     @Operation(summary = "Add One Seeker")
@@ -48,7 +48,7 @@ public class FluechtlingController {
     @PostMapping("")
     public Seeker addFluechtling(
             @Parameter(name = "Seeker", description = "Fluechtling_obj to add") @RequestBody Seeker seeker) {
-        return fluechtlingService.addFluechtling(seeker);
+        return seekerService.addFluechtling(seeker);
     }
 
     @Operation(summary = "Update Seeker")
@@ -57,7 +57,7 @@ public class FluechtlingController {
                     schema = @Schema(implementation = Seeker.class))})
     @PutMapping("")
     public Seeker updateFluechtling(@Parameter(name = "Seeker", description = "Fluechtling_obj to update") @RequestBody Seeker seeker) {
-        return fluechtlingService.updateFluechtling(seeker);
+        return seekerService.updateFluechtling(seeker);
     }
 
     @Operation(summary = "Delete a Seeker by its id")
@@ -66,6 +66,6 @@ public class FluechtlingController {
                     schema = @Schema(implementation = Seeker.class))})
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFluechtling(@Parameter(name = "FluechtlingId", description = "Id of the Seeker to delete") @PathVariable UUID id) {
-        return fluechtlingService.deleteFluechtlingById(id);
+        return seekerService.deleteFluechtlingById(id);
     }
 }

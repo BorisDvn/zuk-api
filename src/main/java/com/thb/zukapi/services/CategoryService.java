@@ -2,7 +2,7 @@ package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Category;
-import com.thb.zukapi.repositories.KategorieRepository;
+import com.thb.zukapi.repositories.CategoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +18,22 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class KategorieService {
+public class CategoryService {
 
-    private final Logger logger = LoggerFactory.getLogger(KategorieService.class);
+    private final Logger logger = LoggerFactory.getLogger(CategoryService.class);
 
     @Autowired
-    private KategorieRepository kategorieRepository;
+    private CategoryRepository categoryRepository;
 
     public Category getKategorie(UUID id) {
-        return kategorieRepository.findById(id)
+        return categoryRepository.findById(id)
                 .orElseThrow(() -> new ApiRequestException("Cannot find Category with id: " + id));
     }
 
     public List<Category> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Category> pagedResult = kategorieRepository.findAll(paging);
+        Page<Category> pagedResult = categoryRepository.findAll(paging);
 
         return pagedResult.getContent();
     }
@@ -46,7 +46,7 @@ public class KategorieService {
         newCategory.setCover(category.getCover());
         newCategory.setAnzeigen(category.getAnzeigen());
 
-        return kategorieRepository.save(newCategory);
+        return categoryRepository.save(newCategory);
     }
 
     public Category updateKategorie(Category category) {
@@ -58,14 +58,14 @@ public class KategorieService {
         if (category.getCover() != null)
             categoryToUpdate.setCover(category.getCover());
 
-        return kategorieRepository.save(categoryToUpdate);
+        return categoryRepository.save(categoryToUpdate);
     }
 
     public ResponseEntity<String> deleteKategorieById(UUID id) {
 
         Category categoryToDelete = getKategorie(id);
 
-        kategorieRepository.deleteById(categoryToDelete.getId());
+        categoryRepository.deleteById(categoryToDelete.getId());
 
         logger.info("Category successfully deleted");
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);

@@ -2,7 +2,7 @@ package com.thb.zukapi.services;
 
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Helper;
-import com.thb.zukapi.repositories.HelferRepository;
+import com.thb.zukapi.repositories.HelperRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +18,21 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class HelferService {
-    private final Logger logger = LoggerFactory.getLogger(HelferService.class);
+public class HelperService {
+    private final Logger logger = LoggerFactory.getLogger(HelperService.class);
 
     @Autowired
-    private HelferRepository helferRepository;
+    private HelperRepository helperRepository;
 
     public Helper getHelfer(UUID id) {
-        return helferRepository.findById(id)
+        return helperRepository.findById(id)
                 .orElseThrow(() -> new ApiRequestException("Cannot find Helper with id: " + id));
     }
 
     public List<Helper> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Helper> pagedResult = helferRepository.findAll(paging);
+        Page<Helper> pagedResult = helperRepository.findAll(paging);
 
         return pagedResult.getContent();
     }
@@ -53,7 +53,7 @@ public class HelferService {
         if (helper.getPhone() != null)
             newHelper.setPhone(helper.getPhone());
 
-        return helferRepository.save(newHelper);
+        return helperRepository.save(newHelper);
     }
 
     public Helper updateHelfer(Helper helper) {
@@ -77,13 +77,13 @@ public class HelferService {
         if (helper.getHelperStatus() != null)
             helperToUpdate.setHelperStatus(helper.getHelperStatus());
 
-        return helferRepository.save(helperToUpdate);
+        return helperRepository.save(helperToUpdate);
     }
 
     public ResponseEntity<String> deleteHelferById(UUID id) {
         Helper helperToDelete = getHelfer(id);
 
-        helferRepository.deleteById(helperToDelete.getId());
+        helperRepository.deleteById(helperToDelete.getId());
 
         logger.info("Helper successfully deleted");
         return new ResponseEntity<>("Helper successfully deleted", HttpStatus.OK);
