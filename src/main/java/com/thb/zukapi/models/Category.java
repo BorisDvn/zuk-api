@@ -1,13 +1,11 @@
 package com.thb.zukapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.UUID;
@@ -25,11 +23,13 @@ public class Category {
     UUID id;
 
     @NotBlank
-    byte[] cover; // cover pic
+    String cover; // cover pic
 
     @NotBlank
-    private String title;
+    @Column(unique = true)
+    private String name;
 
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "category")
     private List<Announcement> announcements;
 }

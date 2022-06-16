@@ -41,6 +41,15 @@ public class CategoryController {
         return categoryService.getCategory(id);
     }
 
+    @Operation(summary = "Get a Category by its name")
+    @ApiResponse(responseCode = "200", description = "Found the Category",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Category.class))})
+    @GetMapping("name/{name}")
+    public Category getCategoryByName(@Parameter(name = "CategoryName", description = "Name of the Category") @PathVariable String name) {
+        return categoryService.getCategoryByName(name);
+    }
+
     @Operation(summary = "Add One Category")
     @ApiResponse(responseCode = "200", description = "Category added",
             content = {@Content(mediaType = "application/json",

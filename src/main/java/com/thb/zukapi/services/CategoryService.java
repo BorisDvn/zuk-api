@@ -30,6 +30,11 @@ public class CategoryService {
                 .orElseThrow(() -> new ApiRequestException("Cannot find Category with id: " + id));
     }
 
+    public Category getCategoryByName(String name) {
+        return categoryRepository.findByName(name)
+                .orElseThrow(() -> new ApiRequestException("Cannot find Category with name: " + name));
+    }
+
     public List<Category> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
@@ -43,7 +48,7 @@ public class CategoryService {
         Category newCategory = new Category();
 
         newCategory.setCover(category.getCover());
-        newCategory.setTitle(category.getTitle());
+        newCategory.setName(category.getName());
         newCategory.setAnnouncements(category.getAnnouncements());
 
         return categoryRepository.save(newCategory);
@@ -53,8 +58,8 @@ public class CategoryService {
 
         Category categoryToUpdate = getCategory(category.getId());
 
-        if (category.getTitle() != null)
-            categoryToUpdate.setTitle(category.getTitle());
+        if (category.getName() != null)
+            categoryToUpdate.setName(category.getName());
         if (category.getCover() != null)
             categoryToUpdate.setCover(category.getCover());
 
