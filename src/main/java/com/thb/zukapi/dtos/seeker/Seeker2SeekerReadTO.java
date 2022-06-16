@@ -7,35 +7,30 @@ import java.util.stream.Collectors;
 
 public class Seeker2SeekerReadTO {
 
-    public static SeekerReadTO apply(Seeker in) {
-        SeekerReadTO out = new SeekerReadTO();
+	public static SeekerReadTO apply(Seeker in) {
+		SeekerReadTO out = new SeekerReadTO();
 
-        out.setId(in.getId());
-        out.setLastname(in.getLastname());
-        out.setFirstname(in.getFirstname());
+		out.setId(in.getId());
+		out.setLastname(in.getLastname());
+		out.setFirstname(in.getFirstname());
 
-        if (in.getNationality() != null)
-            out.setNationality(in.getNationality());
+		if (in.getNationality() != null)
+			out.setNationality(in.getNationality());
 
-        out.setDob(in.getDob());
-        out.setPhone(in.getPhone());
-        out.setEmail(in.getEmail());
-        out.setAdresse(in.getAdresse());
-        out.setGender(in.getGender());
+		out.setDob(in.getDob());
+		out.setPhone(in.getPhone());
+		out.setEmail(in.getEmail());
+		out.setAdresse(in.getAdresse());
+		out.setGender(in.getGender());
 
-        if (in.getPassword() != null)
-            out.setPassword(in.getPassword());
+		if (in.getAnnouncements() != null)
+			out.setAnnouncements(in.getAnnouncements());
 
-        out.setRole(in.getRole());
+		return out;
+	}
 
-        if (in.getAnnouncements() != null)
-            out.setAnnouncements(in.getAnnouncements());
-
-        return out;
-    }
-
-    public static List<SeekerReadTO> apply(List<Seeker> seekers) {
-        return seekers.stream().map(Seeker2SeekerReadTO::apply).collect(Collectors.toList());
-    }
+	public static List<SeekerReadTO> apply(List<Seeker> seekers) {
+		return seekers.stream().map(Seeker2SeekerReadTO::apply).collect(Collectors.toList());
+	}
 
 }
