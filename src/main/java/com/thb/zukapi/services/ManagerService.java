@@ -1,9 +1,8 @@
 package com.thb.zukapi.services;
 
-import com.thb.zukapi.exception.ApiRequestException;
-import com.thb.zukapi.models.Manager;
-import com.thb.zukapi.models.RoleType;
-import com.thb.zukapi.repositories.ManagerRepository;
+import java.util.List;
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,81 +14,88 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.UUID;
+import com.thb.zukapi.exception.ApiRequestException;
+import com.thb.zukapi.models.Manager;
+import com.thb.zukapi.models.User;
+import com.thb.zukapi.repositories.ManagerRepository;
+import com.thb.zukapi.transfertobjects.user.SignupTO;
 
 @Service
 public class ManagerService {
-    private final Logger logger = LoggerFactory.getLogger(ManagerService.class);
-    @Autowired
-    private ManagerRepository managerRepository;
+	private final Logger logger = LoggerFactory.getLogger(ManagerService.class);
 
-    public Manager getManager(UUID id) {
-        return managerRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find Manager with id: " + id));
-    }
+	@Autowired
+	private ManagerRepository managerRepository;
 
-    public List<Manager> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+	@Autowired
+	private UserService userService;
 
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Manager> pagedResult = managerRepository.findAll(paging);
+	public Manager getManager(UUID id) {
+		return managerRepository.findById(id)
+				.orElseThrow(() -> new ApiRequestException("Cannot find Manager with id: " + id));
+	}
 
-        return pagedResult.getContent();
-    }
+	public List<Manager> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
-    public Manager addManager(Manager manager) {
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Page<Manager> pagedResult = managerRepository.findAll(paging);
 
-        Manager newManager = new Manager();
+		return pagedResult.getContent();
+	}
 
-        newManager.setLastname(manager.getLastname());
-        newManager.setFirstname(manager.getFirstname());
-        if (manager.getNationality() != null) {
-            newManager.setNationality(manager.getNationality());
-        }
-        newManager.setDob(manager.getDob());
-        newManager.setPhone(manager.getPhone());
-        newManager.setEmail(manager.getEmail());
-        newManager.setAdresse(manager.getAdresse());
-        newManager.setGender(manager.getGender());
-        newManager.setPassword(manager.getPassword()); // TODO: encrypt
-        newManager.setRole(RoleType.MANAGER);
+	public Manager addManager(SignupTO manager) {
 
-        return managerRepository.save(newManager);
-    }
+		// Create System User
+		User user = userService.signUp(manager);
 
-    public Manager updateManager(Manager manager) {
+		Manager newManager = new Manager();
 
-        Manager managerToUpdate = getManager(manager.getId());
+		newManager.setUser(user);
+		newManager.setEmail(user.getEmail());
+		newManager.setLastname(manager.getLastname());
+		newManager.setFirstname(manager.getFirstname());
+		if (manager.getNationality() != null) {
+			newManager.setNationality(manager.getNationality());
+		}
+		newManager.setDob(manager.getDob());
+		newManager.setPhone(manager.getPhone());
+		newManager.setAdresse(manager.getAdresse());
+		newManager.setGender(manager.getGender());
 
-        if (manager.getLastname() != null)
-            managerToUpdate.setLastname(manager.getLastname());
-        if (manager.getFirstname() != null)
-            managerToUpdate.setFirstname(manager.getFirstname());
-        if (manager.getNationality() != null)
-            managerToUpdate.setNationality(manager.getNationality());
-        if (manager.getDob() != null) // TODO: check
-            managerToUpdate.setDob(manager.getDob());
-        if (manager.getPhone() != null)
-            managerToUpdate.setPhone(manager.getPhone());
-        if (manager.getEmail() != null)
-            managerToUpdate.setEmail(manager.getEmail());
-        if (manager.getAdresse() != null)
-            managerToUpdate.setAdresse(manager.getAdresse());
-        if (manager.getGender() != null)
-            managerToUpdate.setGender(manager.getGender());
-        if (manager.getPassword() != null)
-            managerToUpdate.setPassword(manager.getPassword()); // TODO: encrypt
+		return managerRepository.save(newManager);
+	}
 
-        return managerRepository.save(managerToUpdate);
-    }
+	public Manager updateManager(Manager manager) {
 
-    public ResponseEntity<String> deleteManagerById(UUID id) {
-        Manager managerToDelete = getManager(id);
+		Manager managerToUpdate = getManager(manager.getId());
 
-        managerRepository.deleteById(managerToDelete.getId());
+		if (manager.getLastname() != null)
+			managerToUpdate.setLastname(manager.getLastname());
+		if (manager.getFirstname() != null)
+			managerToUpdate.setFirstname(manager.getFirstname());
+		if (manager.getNationality() != null)
+			managerToUpdate.setNationality(manager.getNationality());
+		if (manager.getDob() != null) // TODO: check
+			managerToUpdate.setDob(manager.getDob());
+		if (manager.getPhone() != null)
+			managerToUpdate.setPhone(manager.getPhone());
+		if (manager.getEmail() != null)
+			managerToUpdate.setEmail(manager.getEmail());
+		if (manager.getAdresse() != null)
+			managerToUpdate.setAdresse(manager.getAdresse());
+		if (manager.getGender() != null)
+			managerToUpdate.setGender(manager.getGender());
 
-        logger.info("Manager successfully deleted");
-        return new ResponseEntity<>("Manager successfully deleted", HttpStatus.OK);
-    }
+		return managerRepository.save(managerToUpdate);
+	}
+
+	public ResponseEntity<String> deleteManagerById(UUID id) {
+		Manager managerToDelete = getManager(id);
+
+		managerRepository.deleteById(managerToDelete.getId());
+
+		logger.info("Manager successfully deleted");
+		return new ResponseEntity<>("Manager successfully deleted", HttpStatus.OK);
+	}
 
 }

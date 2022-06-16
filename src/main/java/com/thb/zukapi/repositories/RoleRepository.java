@@ -6,11 +6,12 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.thb.zukapi.models.Seeker;
+import com.thb.zukapi.models.Role;
+import com.thb.zukapi.models.RoleType;
 
 @Repository
-public interface SeekerRepository extends JpaRepository<Seeker, UUID> {
+public interface RoleRepository extends JpaRepository<Role, UUID>{
 	
-	Optional<Seeker> findByEmail(String email);
+	Optional<Role> findByName(RoleType name);
 
 }

@@ -26,3 +26,8 @@ spring:
     hibernate:
       # Hibernate ddl auto (create, create-drop, validate, update)
       ddl-auto: create
+
+# JWT
+zuk:
+    jwtSecret: zukSecretKey
+    jwtExpirationMs: 86400000
