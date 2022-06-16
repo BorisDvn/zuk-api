@@ -1,4 +1,4 @@
-package com.thb.zukapi.models;
+package com.thb.zukapi.transfertobjects.user;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -6,36 +6,23 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.thb.zukapi.models.Gender;
+import com.thb.zukapi.models.HelperType;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@MappedSuperclass
-public class Person {
-
-	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+public class SignupTO {
+	
 	UUID id;
 
 	@Size(min = 2)
@@ -50,15 +37,14 @@ public class Person {
 
 	@NotNull
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	LocalDate dob; // date of birth
+	LocalDate dob;
 
 	@NotBlank
 	String phone;
 
 	@Email
 	@NotBlank
-	@Column(unique = true)
-	String email; // As username
+	String email;
 
 	@NotBlank
 	String adresse;
@@ -66,4 +52,13 @@ public class Person {
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	Gender gender;
+
+	@Size(min = 6)
+	@NotBlank
+	String password;
+
+	String role;
+
+	@Enumerated(EnumType.STRING)
+	HelperType helperType;
 }

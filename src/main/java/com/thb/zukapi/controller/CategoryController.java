@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class CategoryController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Category.class))})
     @PostMapping("")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public Category addCategory(
             @Parameter(name = "Category", description = "Category_obj to add") @RequestBody Category category) {
         return categoryService.addCategory(category);
@@ -56,6 +58,7 @@ public class CategoryController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Category.class))})
     @PutMapping("")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public Category updateCategory(@Parameter(name = "Category", description = "Category_obj to update") @RequestBody Category category) {
         return categoryService.updateCategory(category);
     }
@@ -65,6 +68,7 @@ public class CategoryController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Category.class))})
     @DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteCategory(@Parameter(name = "CategoryId", description = "Id of the Category to delete") @PathVariable UUID id) {
         return categoryService.deleteCategoryById(id);
     }
