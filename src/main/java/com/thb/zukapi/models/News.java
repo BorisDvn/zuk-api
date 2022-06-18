@@ -3,10 +3,13 @@ package com.thb.zukapi.models;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,7 +27,9 @@ public class News {
     @NotBlank
     String title;
 
-    byte[] images; // todo Bilder?
+    @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
+    List<String> images;
 
     @Lob
     @NotBlank
