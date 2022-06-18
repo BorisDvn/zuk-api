@@ -1,4 +1,4 @@
-package com.thb.zukapi.dtos;
+package com.thb.zukapi.dtos.category;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

@@ -1,9 +1,9 @@
 package com.thb.zukapi.services;
 
-import com.thb.zukapi.dtos.Category2CategoryReadListTO;
-import com.thb.zukapi.dtos.Category2CategoryReadTO;
-import com.thb.zukapi.dtos.CategoryReadListTO;
-import com.thb.zukapi.dtos.CategoryReadTO;
+import com.thb.zukapi.dtos.category.Category2CategoryReadListTO;
+import com.thb.zukapi.dtos.category.Category2CategoryReadTO;
+import com.thb.zukapi.dtos.category.CategoryReadListTO;
+import com.thb.zukapi.dtos.category.CategoryReadTO;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Category;
 import com.thb.zukapi.repositories.CategoryRepository;

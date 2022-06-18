@@ -1,7 +1,7 @@
 package com.thb.zukapi.controller;
 
-import com.thb.zukapi.dtos.CategoryReadListTO;
-import com.thb.zukapi.dtos.CategoryReadTO;
+import com.thb.zukapi.dtos.category.CategoryReadListTO;
+import com.thb.zukapi.dtos.category.CategoryReadTO;
 import com.thb.zukapi.models.Category;
 import com.thb.zukapi.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
