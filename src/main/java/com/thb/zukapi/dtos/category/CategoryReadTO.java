@@ -21,7 +21,7 @@ public class CategoryReadTO {
     String cover; // cover pic
 
     @NotBlank
-    private String name;
+    String name;
 
-    private List<Announcement> announcements; // TODO: announcementsReadList!?
+    List<Announcement> announcements; // TODO: announcementsReadList!?
 }

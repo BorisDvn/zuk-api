@@ -19,5 +19,5 @@ public class CategoryReadListTO {
     String cover; // cover pic
 
     @NotBlank
-    private String name;
+    String name;
 }
