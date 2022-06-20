@@ -16,7 +16,7 @@ import java.util.UUID;
 //@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Helper extends Person {
-    @NotBlank
+
     @Enumerated(EnumType.STRING)
     HelperType helperType;
 
@@ -32,5 +32,5 @@ public class Helper extends Person {
     }
 
     @OneToMany(mappedBy = "helper", fetch = FetchType.LAZY)
-    List<Announcement> anzeigen;
+    List<Announcement> announcements;
 }
