@@ -35,7 +35,6 @@ public class Contact extends Auditable<String> {
     @NotBlank
     String description;
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
     ContactStatus status;
 }
