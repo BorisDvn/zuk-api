@@ -5,8 +5,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost/zuk-api-db
-    username: postgres
-    password: postgres
+    username: postgres_1
+    password: postgresQL
 
     hikari:
       auto-commit: false
