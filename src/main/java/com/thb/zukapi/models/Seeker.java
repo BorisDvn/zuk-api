@@ -4,7 +4,10 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,4 +27,7 @@ public class Seeker extends Person {
                 adresse, gender, password, role);
 
     }
+
+    @OneToMany(mappedBy = "seeker", fetch = FetchType.LAZY)
+    List<Announcement> announcements;
 }

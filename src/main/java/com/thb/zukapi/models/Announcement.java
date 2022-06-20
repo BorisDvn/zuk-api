@@ -41,4 +41,7 @@ public class Announcement {
 
     @ManyToOne(fetch = FetchType.LAZY)
     Helper helper;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    Seeker seeker;
 }
