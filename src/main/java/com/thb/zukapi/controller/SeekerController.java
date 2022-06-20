@@ -2,6 +2,7 @@ package com.thb.zukapi.controller;
 
 import com.thb.zukapi.dtos.seeker.SeekerReadListTO;
 import com.thb.zukapi.dtos.seeker.SeekerReadTO;
+import com.thb.zukapi.dtos.seeker.SeekerWriteTO;
 import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.services.SeekerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,19 +47,19 @@ public class SeekerController {
     @Operation(summary = "Add One Seeker")
     @ApiResponse(responseCode = "200", description = "Seeker added",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Seeker.class))})
+                    schema = @Schema(implementation = SeekerWriteTO.class))})
     @PostMapping("")
     public SeekerReadTO addSeeker(
-            @Parameter(name = "Seeker", description = "Seeker_obj to add") @RequestBody Seeker seeker) {
+            @Parameter(name = "Seeker", description = "Seeker_obj to add") @RequestBody SeekerWriteTO seeker) {
         return seekerService.addSeeker(seeker);
     }
 
     @Operation(summary = "Update Seeker")
     @ApiResponse(responseCode = "200", description = "News Seeker",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Seeker.class))})
+                    schema = @Schema(implementation = SeekerWriteTO.class))})
     @PutMapping("")
-    public SeekerReadTO updateSeeker(@Parameter(name = "Seeker", description = "Seeker_obj to update") @RequestBody Seeker seeker) {
+    public SeekerReadTO updateSeeker(@Parameter(name = "Seeker", description = "Seeker_obj to update") @RequestBody SeekerWriteTO seeker) {
         return seekerService.updateSeeker(seeker);
     }
 

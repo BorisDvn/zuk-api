@@ -1,9 +1,6 @@
 package com.thb.zukapi.services;
 
-import com.thb.zukapi.dtos.seeker.Seeker2SeekerReadListTO;
-import com.thb.zukapi.dtos.seeker.Seeker2SeekerReadTO;
-import com.thb.zukapi.dtos.seeker.SeekerReadListTO;
-import com.thb.zukapi.dtos.seeker.SeekerReadTO;
+import com.thb.zukapi.dtos.seeker.*;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.RoleType;
 import com.thb.zukapi.models.Seeker;
@@ -41,7 +38,7 @@ public class SeekerService {
         return Seeker2SeekerReadListTO.apply(pagedResult.getContent());
     }
 
-    public SeekerReadTO addSeeker(Seeker seeker) {
+    public SeekerReadTO addSeeker(SeekerWriteTO seeker) {
 
         Seeker newSeeker = new Seeker();
 
@@ -61,7 +58,7 @@ public class SeekerService {
         return Seeker2SeekerReadTO.apply(seekerRepository.save(newSeeker));
     }
 
-    public SeekerReadTO updateSeeker(Seeker seeker) {
+    public SeekerReadTO updateSeeker(SeekerWriteTO seeker) {
 
         Seeker seekerToUpdate = findSeeker(seeker.getId());
 
