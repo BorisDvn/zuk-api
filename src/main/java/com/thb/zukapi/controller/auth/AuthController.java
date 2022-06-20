@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.thb.zukapi.services.AdminService;
 import com.thb.zukapi.services.HelperService;
+import com.thb.zukapi.services.ManagerService;
 import com.thb.zukapi.services.SeekerService;
 import com.thb.zukapi.services.UserService;
 import com.thb.zukapi.transfertobjects.user.SigninTO;
@@ -25,15 +26,18 @@ public class AuthController {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	HelperService helperService;
-	
+
 	@Autowired
 	SeekerService seekerService;
-	
+
 	@Autowired
 	AdminService adminService;
+
+	@Autowired
+	ManagerService managerService;
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody SigninTO loginRequest) {
@@ -43,17 +47,20 @@ public class AuthController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupTO signUpRequest) {
-		
-		// make the signup according the rolet ype
+
+		// make the signup according the role type
 		switch (signUpRequest.getRole()) {
-			case "SEEKER":
-				return ResponseEntity.ok(seekerService.addSeeker(signUpRequest));
-			case "HELPER":
-				return ResponseEntity.ok(helperService.addHelper(signUpRequest));
-			case "ADMIN":
-				return ResponseEntity.ok(adminService.addAdmin(signUpRequest));
-			default:
-				return new ResponseEntity<>("User Type does not exist", HttpStatus.BAD_REQUEST);
+		case "SEEKER":
+			return ResponseEntity.ok(seekerService.addSeeker(signUpRequest));
+		case "HELPER":
+			return ResponseEntity.ok(helperService.addHelper(signUpRequest));
+		case "ADMIN":
+			return ResponseEntity.ok(adminService.addAdmin(signUpRequest));
+		case "MANAGER":
+			return ResponseEntity.ok(managerService.addManager(signUpRequest));
+		default:
+			return new ResponseEntity<>("The Role Type " + signUpRequest.getRole() + " does not exist",
+					HttpStatus.BAD_REQUEST);
 		}
 
 	}
