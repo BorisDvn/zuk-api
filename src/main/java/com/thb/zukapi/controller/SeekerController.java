@@ -1,5 +1,7 @@
 package com.thb.zukapi.controller;
 
+import com.thb.zukapi.dtos.seeker.SeekerReadListTO;
+import com.thb.zukapi.dtos.seeker.SeekerReadTO;
 import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.services.SeekerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,9 +28,9 @@ public class SeekerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Seeker.class))})
     @GetMapping("")
-    public List<Seeker> getAllSeeker(@RequestParam(defaultValue = "0") Integer pageNo,
-                                          @RequestParam(defaultValue = "10") Integer pageSize,
-                                          @RequestParam(defaultValue = "nachname") String sortBy) {
+    public List<SeekerReadListTO> getAllSeeker(@RequestParam(defaultValue = "0") Integer pageNo,
+                                               @RequestParam(defaultValue = "10") Integer pageSize,
+                                               @RequestParam(defaultValue = "firstname") String sortBy) {
         return seekerService.getAll(pageNo, pageSize, sortBy);
     }
 
@@ -37,7 +39,7 @@ public class SeekerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Seeker.class))})
     @GetMapping("/{id}")
-    public Seeker getSeekerById(@Parameter(name = "SeekerId", description = "ID of the Seeker_obj") @PathVariable UUID id) {
+    public SeekerReadTO getSeekerById(@Parameter(name = "SeekerId", description = "ID of the Seeker_obj") @PathVariable UUID id) {
         return seekerService.getSeeker(id);
     }
 
@@ -46,7 +48,7 @@ public class SeekerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Seeker.class))})
     @PostMapping("")
-    public Seeker addSeeker(
+    public SeekerReadTO addSeeker(
             @Parameter(name = "Seeker", description = "Seeker_obj to add") @RequestBody Seeker seeker) {
         return seekerService.addSeeker(seeker);
     }
@@ -56,7 +58,7 @@ public class SeekerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Seeker.class))})
     @PutMapping("")
-    public Seeker updateSeeker(@Parameter(name = "Seeker", description = "Seeker_obj to update") @RequestBody Seeker seeker) {
+    public SeekerReadTO updateSeeker(@Parameter(name = "Seeker", description = "Seeker_obj to update") @RequestBody Seeker seeker) {
         return seekerService.updateSeeker(seeker);
     }
 

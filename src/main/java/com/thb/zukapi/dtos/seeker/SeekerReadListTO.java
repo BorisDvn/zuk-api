@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SeekerReadListTO extends PersonReadListTO {

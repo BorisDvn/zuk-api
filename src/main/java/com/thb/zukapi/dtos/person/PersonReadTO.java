@@ -5,6 +5,7 @@ import com.thb.zukapi.models.Gender;
 import com.thb.zukapi.models.RoleType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @FieldDefaults(level = AccessLevel.PROTECTED)
 public class PersonReadTO {
     UUID id;

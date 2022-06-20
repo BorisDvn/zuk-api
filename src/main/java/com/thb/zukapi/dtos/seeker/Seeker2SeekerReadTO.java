@@ -28,6 +28,9 @@ public class Seeker2SeekerReadTO {
 
         out.setRole(in.getRole());
 
+        if (in.getAnnouncements() != null)
+            out.setAnnouncements(in.getAnnouncements());
+
         return out;
     }
 
