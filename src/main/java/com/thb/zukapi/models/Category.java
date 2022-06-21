@@ -29,7 +29,6 @@ public class Category {
     @Column(unique = true)
     private String name;
 
-    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "category")
     private List<Announcement> announcements;
 }
