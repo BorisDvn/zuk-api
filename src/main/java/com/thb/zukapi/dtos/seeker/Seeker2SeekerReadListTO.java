@@ -14,7 +14,7 @@ public class Seeker2SeekerReadListTO {
         out.setLastname(in.getLastname());
         out.setFirstname(in.getFirstname());
 
-        if (in.getLastname() != null)
+        if (in.getNationality() != null)
             out.setNationality(in.getNationality());
 
         out.setDob(in.getDob());
