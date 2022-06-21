@@ -14,10 +14,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.thb.zukapi.models.Contact;
+import com.thb.zukapi.models.ContactStatus;
 import com.thb.zukapi.models.Gender;
 import com.thb.zukapi.models.Helper;
 import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.repositories.AdminRepository;
+import com.thb.zukapi.repositories.ContactRepository;
 import com.thb.zukapi.repositories.HelperRepository;
 import com.thb.zukapi.repositories.SeekerRepository;
 import com.thb.zukapi.transfertobjects.user.SigninTO;
@@ -42,6 +45,9 @@ public class ItBase {
 
 	@Autowired
 	protected AdminRepository adminRepository;
+	
+	@Autowired
+	protected ContactRepository contactRepository;
 
 	@Autowired
 	private WebApplicationContext wac;
@@ -57,7 +63,8 @@ public class ItBase {
 
 		seekerRepository.deleteAll();
 		adminRepository.deleteAll();
-
+		helperRepository.deleteAll();
+		contactRepository.deleteAll();
 	}
 
 	protected Seeker buildSeeker() {
@@ -86,6 +93,16 @@ public class ItBase {
 		helper.setPhone("+0012334234543");
 
 		return helper;
+	}
+	
+	protected Contact buildContact() {
+
+		Contact contact = new Contact();
+		contact.setSubject(UUID.randomUUID().toString());
+		contact.setStatus(ContactStatus.UNREAD);
+		contact.setDescription(UUID.randomUUID().toString());
+		
+		return contact;
 	}
 
 	protected SignupTO buildSignup() {

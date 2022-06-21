@@ -41,7 +41,7 @@ public class HelperIT extends ItBase {
     }
 
 
-    @Test // TODO check why the test fail
+    @Test
     public void createHelper() {
     	signupHelper = buildSignup();
     	

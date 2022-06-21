@@ -41,7 +41,7 @@ public class SeekerIT extends ItBase {
     }
 
 
-    @Test // TODO check why the test fail
+    @Test
     public void createSeeker() {
     	signupSeeker = buildSignup();
     	
