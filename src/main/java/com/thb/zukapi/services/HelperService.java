@@ -1,5 +1,6 @@
 package com.thb.zukapi.services;
 
+import com.thb.zukapi.dtos.helper.*;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Helper;
 import com.thb.zukapi.models.RoleType;
@@ -25,20 +26,19 @@ public class HelperService {
     @Autowired
     private HelperRepository helperRepository;
 
-    public Helper getHelper(UUID id) {
-        return helperRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find Helper with id: " + id));
+    public HelperReadTO getHelper(UUID id) {
+        return Helper2HelperReadTO.apply(findHelper(id));
     }
 
-    public List<Helper> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<HelperReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         Page<Helper> pagedResult = helperRepository.findAll(paging);
 
-        return pagedResult.getContent();
+        return Helper2HelperReadListTO.apply(pagedResult.getContent());
     }
 
-    public Helper addHelper(Helper helper) {
+    public HelperReadTO addHelper(HelperWriteTO helper) {
 
         Helper newHelper = new Helper();
 
@@ -56,12 +56,13 @@ public class HelperService {
         newHelper.setRole(RoleType.HELPER);
         newHelper.setHelperType(helper.getHelperType());
 
-        return helperRepository.save(newHelper);
+        System.out.println(helper.getHelperType());
+        return Helper2HelperReadTO.apply(helperRepository.save(newHelper));
     }
 
-    public Helper updateHelper(Helper helper) {
+    public HelperReadTO updateHelper(HelperWriteTO helper) {
 
-        Helper helperToUpdate = getHelper(helper.getId());
+        Helper helperToUpdate = findHelper(helper.getId());
 
         if (helper.getLastname() != null)
             helperToUpdate.setLastname(helper.getLastname());
@@ -84,15 +85,20 @@ public class HelperService {
         if (helper.getHelperType() != null)
             helperToUpdate.setHelperType(helper.getHelperType());
 
-        return helperRepository.save(helperToUpdate);
+        return Helper2HelperReadTO.apply(helperRepository.save(helperToUpdate));
     }
 
     public ResponseEntity<String> deleteHelperById(UUID id) {
-        Helper helperToDelete = getHelper(id);
+        Helper helperToDelete = findHelper(id);
 
         helperRepository.deleteById(helperToDelete.getId());
 
         logger.info("Helper successfully deleted");
         return new ResponseEntity<>("Helper successfully deleted", HttpStatus.OK);
+    }
+
+    public Helper findHelper(UUID id) {
+        return helperRepository.findById(id)
+                .orElseThrow(() -> new ApiRequestException("Cannot find Helper with id: " + id));
     }
 }

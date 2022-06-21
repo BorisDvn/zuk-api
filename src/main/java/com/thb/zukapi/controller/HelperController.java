@@ -1,5 +1,8 @@
 package com.thb.zukapi.controller;
 
+import com.thb.zukapi.dtos.helper.HelperReadListTO;
+import com.thb.zukapi.dtos.helper.HelperReadTO;
+import com.thb.zukapi.dtos.helper.HelperWriteTO;
 import com.thb.zukapi.models.Helper;
 import com.thb.zukapi.services.HelperService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,39 +27,39 @@ public class HelperController {
     @Operation(summary = "Get All Helper")
     @ApiResponse(responseCode = "200", description = "Found all Helper",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Helper.class))})
+                    schema = @Schema(implementation = HelperReadListTO.class))})
     @GetMapping("")
-    public List<Helper> getAllHelper(@RequestParam(defaultValue = "0") Integer pageNo,
-                                     @RequestParam(defaultValue = "10") Integer pageSize,
-                                     @RequestParam(defaultValue = "firstname") String sortBy) {
+    public List<HelperReadListTO> getAllHelper(@RequestParam(defaultValue = "0") Integer pageNo,
+                                               @RequestParam(defaultValue = "10") Integer pageSize,
+                                               @RequestParam(defaultValue = "firstname") String sortBy) {
         return helperService.getAll(pageNo, pageSize, sortBy);
     }
 
     @Operation(summary = "Get a Helper by its id")
     @ApiResponse(responseCode = "200", description = "Found the Helper",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Helper.class))})
+                    schema = @Schema(implementation = HelperReadTO.class))})
     @GetMapping("/{id}")
-    public Helper getHelperById(@Parameter(name = "HelperId", description = "ID of the Helper_obj") @PathVariable UUID id) {
+    public HelperReadTO getHelperById(@Parameter(name = "HelperId", description = "ID of the Helper_obj") @PathVariable UUID id) {
         return helperService.getHelper(id);
     }
 
     @Operation(summary = "Add One Helper")
     @ApiResponse(responseCode = "200", description = "Helper added",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Helper.class))})
+                    schema = @Schema(implementation = HelperWriteTO.class))})
     @PostMapping("")
-    public Helper addHelper(
-            @Parameter(name = "Helper", description = "Helper_obj to add") @RequestBody Helper helper) {
+    public HelperReadTO addHelper(
+            @Parameter(name = "Helper", description = "Helper_obj to add") @RequestBody HelperWriteTO helper) {
         return helperService.addHelper(helper);
     }
 
     @Operation(summary = "Update Helper")
     @ApiResponse(responseCode = "200", description = "News Helper",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Helper.class))})
+                    schema = @Schema(implementation = HelperWriteTO.class))})
     @PutMapping("")
-    public Helper updateHelfer(@Parameter(name = "Helper", description = "Helfer_obj to update") @RequestBody Helper helper) {
+    public HelperReadTO updateHelfer(@Parameter(name = "Helper", description = "Helfer_obj to update") @RequestBody HelperWriteTO helper) {
         return helperService.updateHelper(helper);
     }
 
