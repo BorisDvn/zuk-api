@@ -41,7 +41,7 @@ public class ManagerController {
     @GetMapping("")
     public List<Manager> getAllManager(@RequestParam(defaultValue = "0") Integer pageNo,
                                        @RequestParam(defaultValue = "10") Integer pageSize,
-                                       @RequestParam(defaultValue = "nachname") String sortBy) {
+                                       @RequestParam(defaultValue = "firstname") String sortBy) {
         return managerService.getAll(pageNo, pageSize, sortBy);
     }
 

@@ -5,8 +5,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost/zuk-api-db
-    username: postgres_1
-    password: postgresQL
+    username: postgres
+    password: postgres
 
     hikari:
       auto-commit: false
@@ -25,7 +25,7 @@ spring:
 
     hibernate:
       # Hibernate ddl auto (create, create-drop, validate, update)
-      ddl-auto: create
+      ddl-auto: update
 
 # JWT
 zuk:

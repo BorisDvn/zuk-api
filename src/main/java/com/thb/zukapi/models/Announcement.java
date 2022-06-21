@@ -1,5 +1,6 @@
 package com.thb.zukapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
@@ -35,9 +36,13 @@ public class Announcement extends Auditable<String> {
     @Enumerated(EnumType.STRING)
     AnnouncementStatus status; // standby as default value
 
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne(fetch = FetchType.LAZY)
     Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     Helper helper;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    Seeker seeker;
 }

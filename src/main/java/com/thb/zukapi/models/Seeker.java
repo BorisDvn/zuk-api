@@ -11,6 +11,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import javax.persistence.OneToMany;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
+
 @Entity
 @Setter
 @Getter
@@ -22,4 +27,7 @@ public class Seeker extends Person {
 	@JoinColumn(name = "user_id")
 	User user;
 
+  @OneToMany(mappedBy = "seeker", fetch = FetchType.LAZY)
+  List<Announcement> announcements;
 }
+

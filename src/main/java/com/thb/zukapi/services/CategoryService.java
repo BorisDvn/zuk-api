@@ -1,5 +1,9 @@
 package com.thb.zukapi.services;
 
+import com.thb.zukapi.dtos.category.Category2CategoryReadListTO;
+import com.thb.zukapi.dtos.category.Category2CategoryReadTO;
+import com.thb.zukapi.dtos.category.CategoryReadListTO;
+import com.thb.zukapi.dtos.category.CategoryReadTO;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Category;
 import com.thb.zukapi.repositories.CategoryRepository;
@@ -25,17 +29,21 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Category getCategory(UUID id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find Category with id: " + id));
+    public CategoryReadTO getCategory(UUID id) {
+        return Category2CategoryReadTO.apply(findCategory(id));
     }
 
-    public List<Category> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public Category getCategoryByName(String name) {
+        return categoryRepository.findByName(name)
+                .orElseThrow(() -> new ApiRequestException("Cannot find Category with name: " + name));
+    }
+
+    public List<CategoryReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         Page<Category> pagedResult = categoryRepository.findAll(paging);
 
-        return pagedResult.getContent();
+        return Category2CategoryReadListTO.apply(pagedResult.getContent());
     }
 
     public Category addCategory(Category category) {
@@ -43,7 +51,7 @@ public class CategoryService {
         Category newCategory = new Category();
 
         newCategory.setCover(category.getCover());
-        newCategory.setTitle(category.getTitle());
+        newCategory.setName(category.getName());
         newCategory.setAnnouncements(category.getAnnouncements());
 
         return categoryRepository.save(newCategory);
@@ -51,10 +59,10 @@ public class CategoryService {
 
     public Category updateCategory(Category category) {
 
-        Category categoryToUpdate = getCategory(category.getId());
+        Category categoryToUpdate = findCategory(category.getId());
 
-        if (category.getTitle() != null)
-            categoryToUpdate.setTitle(category.getTitle());
+        if (category.getName() != null)
+            categoryToUpdate.setName(category.getName());
         if (category.getCover() != null)
             categoryToUpdate.setCover(category.getCover());
 
@@ -69,5 +77,10 @@ public class CategoryService {
 
         logger.info("Category successfully deleted");
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
+    }
+
+    public Category findCategory(UUID id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new ApiRequestException("Cannot find Category with id: " + id));
     }
 }

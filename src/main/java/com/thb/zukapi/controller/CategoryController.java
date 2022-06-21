@@ -1,5 +1,7 @@
 package com.thb.zukapi.controller;
 
+import com.thb.zukapi.dtos.category.CategoryReadListTO;
+import com.thb.zukapi.dtos.category.CategoryReadTO;
 import com.thb.zukapi.models.Category;
 import com.thb.zukapi.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,21 +27,30 @@ public class CategoryController {
     @Operation(summary = "Get All Category")
     @ApiResponse(responseCode = "200", description = "Found all Category",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Category.class))})
+                    schema = @Schema(implementation = CategoryReadListTO.class))})
     @GetMapping("")
-    public List<Category> getAllCategory(@RequestParam(defaultValue = "0") Integer pageNo,
-                                         @RequestParam(defaultValue = "10") Integer pageSize,
-                                         @RequestParam(defaultValue = "name") String sortBy) {
+    public List<CategoryReadListTO> getAllCategory(@RequestParam(defaultValue = "0") Integer pageNo,
+                                                   @RequestParam(defaultValue = "15") Integer pageSize,
+                                                   @RequestParam(defaultValue = "name") String sortBy) {
         return categoryService.getAll(pageNo, pageSize, sortBy);
     }
 
     @Operation(summary = "Get a Category by its id")
     @ApiResponse(responseCode = "200", description = "Found the Category",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Category.class))})
+                    schema = @Schema(implementation = CategoryReadTO.class))})
     @GetMapping("/{id}")
-    public Category getCategoryById(@Parameter(name = "CategoryId", description = "ID of the Category_obj") @PathVariable UUID id) {
+    public CategoryReadTO getCategoryById(@Parameter(name = "CategoryId", description = "ID of the Category_obj") @PathVariable UUID id) {
         return categoryService.getCategory(id);
+    }
+
+    @Operation(summary = "Get a Category by its name")
+    @ApiResponse(responseCode = "200", description = "Found the Category",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Category.class))})
+    @GetMapping("name/{name}")
+    public Category getCategoryByName(@Parameter(name = "CategoryName", description = "Name of the Category") @PathVariable String name) {
+        return categoryService.getCategoryByName(name);
     }
 
     @Operation(summary = "Add One Category")

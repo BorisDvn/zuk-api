@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thb.zukapi.dtos.seeker.SeekerReadListTO;
+import com.thb.zukapi.dtos.seeker.SeekerReadTO;
+import com.thb.zukapi.dtos.seeker.SeekerWriteTO;
+
 import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.services.SeekerService;
 import com.thb.zukapi.transfertobjects.user.SignupTO;
