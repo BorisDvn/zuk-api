@@ -31,3 +31,4 @@ spring:
 zuk:
     jwtSecret: zukSecretKey
     jwtExpirationMs: 86400000
+
