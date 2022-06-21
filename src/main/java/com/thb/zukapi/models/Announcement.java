@@ -32,7 +32,6 @@ public class Announcement {
     @NotBlank
     String description;
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
     AnnouncementStatus status; // standby as default value
 

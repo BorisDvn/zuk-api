@@ -15,13 +15,13 @@ import com.thb.zukapi.models.Role;
 import com.thb.zukapi.models.RoleType;
 import com.thb.zukapi.repositories.RoleRepository;
 
-@EnableJpaAuditing(auditorAwareRef="auditorAware")
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @SpringBootApplication
-public class ZukApiApplication implements CommandLineRunner{
-	
+public class ZukApiApplication implements CommandLineRunner {
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	// Auditing Config
 	@Bean
 	public AuditorAware<String> auditorAware() {
@@ -31,7 +31,7 @@ public class ZukApiApplication implements CommandLineRunner{
 	public static void main(String[] args) {
 		SpringApplication.run(ZukApiApplication.class, args);
 	}
-	
+
 	@Override
 	public void run(String... args) throws Exception {
 		Role role1 = new Role();
@@ -48,7 +48,7 @@ public class ZukApiApplication implements CommandLineRunner{
 		role3.setId(UUID.randomUUID());
 		role3.setName(RoleType.MANAGER);
 		roleRepository.save(role3);
-		
+
 		Role role4 = new Role();
 		role4.setId(UUID.randomUUID());
 		role4.setName(RoleType.SEEKER);

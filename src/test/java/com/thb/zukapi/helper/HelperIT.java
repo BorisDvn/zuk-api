@@ -12,26 +12,26 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.thb.zukapi.ItBase;
-import com.thb.zukapi.models.Seeker;
+import com.thb.zukapi.models.Helper;
 import com.thb.zukapi.transfertobjects.user.SignupTO;
 
 import io.restassured.http.ContentType;
 
-public class SeekerIT extends ItBase {
+public class HelperIT extends ItBase {
 
-    Seeker seeker, seeker1;
+    Helper helper, helper1;
     
-    SignupTO signupSeeker;
+    SignupTO signupHelper;
 
     @BeforeEach
     public void setup() {
         super.setup();
 
-        seeker = buildSeeker();
-        seeker = seekerRepository.save(seeker);
+        helper = buildHelper();
+        helper = helperRepository.save(helper);
 
-        seeker1 = buildSeeker();
-        seeker1 = seekerRepository.save(seeker1);
+        helper1 = buildHelper();
+        helper1 = helperRepository.save(helper1);
 
     }
 
@@ -42,60 +42,60 @@ public class SeekerIT extends ItBase {
 
 
     @Test // TODO check why the test fail
-    public void createSeeker() {
-    	signupSeeker = buildSignup();
+    public void createHelper() {
+    	signupHelper = buildSignup();
     	
-    	System.out.println(signupSeeker);
+    	System.out.println(signupHelper);
 
         UUID id = UUID.fromString(
                 given()
                         .contentType(ContentType.JSON)
-                        .body(signupSeeker)
+                        .body(signupHelper)
                         .log().body()
-                        .post("zuk-api/v1/seeker")
+                        .post("zuk-api/v1/helper")
                         .then()
                         .log().body()
                         .statusCode(200)
                         .extract().body().path("id"));
 
-        Seeker seeker = seekerRepository.findById(id).get();
+        Helper helper = helperRepository.findById(id).get();
 
-        assertThat(signupSeeker.getLastname(), is(seeker.getLastname()));
-        assertThat(signupSeeker.getEmail(), is(seeker.getEmail()));
+        assertThat(signupHelper.getLastname(), is(helper.getLastname()));
+        assertThat(signupHelper.getEmail(), is(helper.getEmail()));
     }
     
     @Test
-    public void getSeeker() {
+    public void getHelper() {
 
         UUID id = UUID.fromString(
                 given()
                         .contentType(ContentType.JSON)
                         .log().body()
-                        .get("zuk-api/v1/seeker/"+seeker.getId())
+                        .get("zuk-api/v1/helper/"+helper.getId())
                         .then()
                         .log().body()
                         .statusCode(200)
                         .extract().body().path("id"));
 
-        Seeker seeker = seekerRepository.findById(id).get();
+        Helper helper = helperRepository.findById(id).get();
 
-        assertThat(seeker.getLastname(), is(seeker.getLastname()));
-        assertThat(seeker.getEmail(), is(seeker.getEmail()));
+        assertThat(helper.getLastname(), is(helper.getLastname()));
+        assertThat(helper.getEmail(), is(helper.getEmail()));
     }
     
     @Test
-    public void deleteSeeker() {
+    public void deleteHelper() {
 
         given()
                 .contentType(ContentType.JSON)
                 .log().body()
-                .get("zuk-api/v1/seeker/"+seeker.getId())
+                .get("zuk-api/v1/helper/"+helper.getId())
                 .then()
                 .log().body()
                 .statusCode(200);
 
-        Optional<Seeker> seeker_ = seekerRepository.findById(seeker.getId());
+        Optional<Helper> helper_ = helperRepository.findById(helper.getId());
 
-        assertThat(seeker_.isPresent(), is(false));
+        assertThat(helper_.isPresent(), is(false));
     }
 }
