@@ -28,7 +28,7 @@ public class HelperController {
     @GetMapping("")
     public List<Helper> getAllHelper(@RequestParam(defaultValue = "0") Integer pageNo,
                                      @RequestParam(defaultValue = "10") Integer pageSize,
-                                     @RequestParam(defaultValue = "nachname") String sortBy) {
+                                     @RequestParam(defaultValue = "firstname") String sortBy) {
         return helperService.getAll(pageNo, pageSize, sortBy);
     }
 

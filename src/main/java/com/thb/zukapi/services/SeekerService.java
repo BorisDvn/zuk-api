@@ -1,5 +1,6 @@
 package com.thb.zukapi.services;
 
+import com.thb.zukapi.dtos.seeker.*;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.RoleType;
 import com.thb.zukapi.models.Seeker;
@@ -25,20 +26,19 @@ public class SeekerService {
     @Autowired
     private SeekerRepository seekerRepository;
 
-    public Seeker getSeeker(UUID id) {
-        return seekerRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find Seeker with id: " + id));
+    public SeekerReadTO getSeeker(UUID id) {
+        return Seeker2SeekerReadTO.apply(findSeeker(id));
     }
 
-    public List<Seeker> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+    public List<SeekerReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         Page<Seeker> pagedResult = seekerRepository.findAll(paging);
 
-        return pagedResult.getContent();
+        return Seeker2SeekerReadListTO.apply(pagedResult.getContent());
     }
 
-    public Seeker addSeeker(Seeker seeker) {
+    public SeekerReadTO addSeeker(SeekerWriteTO seeker) {
 
         Seeker newSeeker = new Seeker();
 
@@ -55,12 +55,12 @@ public class SeekerService {
         newSeeker.setPassword(seeker.getPassword()); // TODO: encrypt
         newSeeker.setRole(RoleType.SEEKER);
 
-        return seekerRepository.save(newSeeker);
+        return Seeker2SeekerReadTO.apply(seekerRepository.save(newSeeker));
     }
 
-    public Seeker updateSeeker(Seeker seeker) {
+    public SeekerReadTO updateSeeker(SeekerWriteTO seeker) {
 
-        Seeker seekerToUpdate = getSeeker(seeker.getId());
+        Seeker seekerToUpdate = findSeeker(seeker.getId());
 
         if (seeker.getLastname() != null)
             seekerToUpdate.setLastname(seeker.getLastname());
@@ -81,11 +81,11 @@ public class SeekerService {
         if (seeker.getPassword() != null)
             seekerToUpdate.setPassword(seeker.getPassword()); // TODO: encrypt
 
-        return seekerRepository.save(seekerToUpdate);
+        return Seeker2SeekerReadTO.apply(seekerRepository.save(seekerToUpdate));
     }
 
     public ResponseEntity<String> deleteSeekerById(UUID id) {
-        Seeker seekerToDelete = getSeeker(id);
+        Seeker seekerToDelete = findSeeker(id);
 
         seekerRepository.deleteById(seekerToDelete.getId());
 
@@ -93,4 +93,8 @@ public class SeekerService {
         return new ResponseEntity<>("Seeker successfully deleted", HttpStatus.OK);
     }
 
+    public Seeker findSeeker(UUID id) {
+        return seekerRepository.findById(id)
+                .orElseThrow(() -> new ApiRequestException("Cannot find Seeker with id: " + id));
+    }
 }
