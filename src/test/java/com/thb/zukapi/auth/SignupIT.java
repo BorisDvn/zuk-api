@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Test;
 
 import com.thb.zukapi.ItBase;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
+import com.thb.zukapi.dtos.user.SigninTO;
 import com.thb.zukapi.models.Admin;
 import com.thb.zukapi.models.Seeker;
-import com.thb.zukapi.transfertobjects.user.SigninTO;
 
 import io.restassured.http.ContentType;
 
@@ -30,10 +30,10 @@ public class SignupIT extends ItBase {
     public void setup() {
         super.setup();
 
-        seeker = buildSeeker();
+        seeker = buildSeeker(user);
         seeker = seekerRepository.save(seeker);
 
-        seeker1 = buildSeeker();
+        seeker1 = buildSeeker(user1);
         seeker1 = seekerRepository.save(seeker1);
 
     }

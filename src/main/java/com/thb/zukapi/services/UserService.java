@@ -34,14 +34,14 @@ import org.springframework.stereotype.Service;
 
 import com.thb.zukapi.config.auth.JwtUtils;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
+import com.thb.zukapi.dtos.user.SigninResponse;
+import com.thb.zukapi.dtos.user.SigninTO;
+import com.thb.zukapi.dtos.user.SignupTO;
+import com.thb.zukapi.dtos.user.UpdatePasswordTO;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Role;
 import com.thb.zukapi.models.User;
 import com.thb.zukapi.repositories.UserRepository;
-import com.thb.zukapi.transfertobjects.user.SigninResponse;
-import com.thb.zukapi.transfertobjects.user.SigninTO;
-import com.thb.zukapi.transfertobjects.user.SignupTO;
-import com.thb.zukapi.transfertobjects.user.UpdatePasswordTO;
 
 @Service
 public class UserService implements UserDetailsService {

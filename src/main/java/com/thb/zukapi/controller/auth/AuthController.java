@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thb.zukapi.dtos.person.PersonWriteTO;
+import com.thb.zukapi.dtos.user.SigninTO;
 import com.thb.zukapi.services.AdminService;
 import com.thb.zukapi.services.HelperService;
 import com.thb.zukapi.services.ManagerService;
 import com.thb.zukapi.services.SeekerService;
 import com.thb.zukapi.services.UserService;
-import com.thb.zukapi.transfertobjects.user.SigninTO;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

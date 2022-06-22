@@ -27,10 +27,10 @@ public class SeekerIT extends ItBase {
     public void setup() {
         super.setup();
 
-        seeker = buildSeeker();
+        seeker = buildSeeker(user);
         seeker = seekerRepository.save(seeker);
 
-        seeker1 = buildSeeker();
+        seeker1 = buildSeeker(user1);
         seeker1 = seekerRepository.save(seeker1);
 
     }
@@ -41,7 +41,7 @@ public class SeekerIT extends ItBase {
     }
 
 
-    @Test // TODO check why the test fail
+    @Test
     public void createSeeker() {
     	signupSeeker = buildSignup();
     	

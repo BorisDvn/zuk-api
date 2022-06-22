@@ -12,8 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.thb.zukapi.ItBase;
+import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.models.Helper;
-import com.thb.zukapi.transfertobjects.user.SignupTO;
 
 import io.restassured.http.ContentType;
 
@@ -21,16 +21,19 @@ public class HelperIT extends ItBase {
 
     Helper helper, helper1;
     
-    SignupTO signupHelper;
+    PersonWriteTO signupHelper;
+        
+
 
     @BeforeEach
     public void setup() {
         super.setup();
 
-        helper = buildHelper();
+        
+        helper = buildHelper(user);
         helper = helperRepository.save(helper);
 
-        helper1 = buildHelper();
+        helper1 = buildHelper(user1);
         helper1 = helperRepository.save(helper1);
 
     }
@@ -41,7 +44,7 @@ public class HelperIT extends ItBase {
     }
 
 
-    @Test // TODO check why the test fail
+    @Test
     public void createHelper() {
     	signupHelper = buildSignup();
     	

@@ -15,6 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.thb.zukapi.dtos.person.PersonWriteTO;
+import com.thb.zukapi.dtos.seeker.Seeker2SeekerReadListTO;
+import com.thb.zukapi.dtos.seeker.Seeker2SeekerReadTO;
+import com.thb.zukapi.dtos.seeker.SeekerReadListTO;
+import com.thb.zukapi.dtos.seeker.SeekerReadTO;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.models.User;
@@ -31,17 +35,16 @@ public class SeekerService {
 	@Autowired
 	private UserService userService;
 
-	public Seeker getSeeker(UUID id) {
-		return seekerRepository.findById(id)
-				.orElseThrow(() -> new ApiRequestException("Cannot find Seeker with id: " + id));
+	public SeekerReadTO getSeeker(UUID id) {
+		return Seeker2SeekerReadTO.apply(findSeeker(id));
 	}
 
-	public List<Seeker> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+	public List<SeekerReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
 		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Seeker> pagedResult = seekerRepository.findAll(paging);
 
-		return pagedResult.getContent();
+		return Seeker2SeekerReadListTO.apply(pagedResult.getContent());
 	}
 
 	public Seeker addSeeker(PersonWriteTO seeker) {
@@ -68,7 +71,7 @@ public class SeekerService {
 
 	public Seeker updateSeeker(Seeker seeker) {
 
-		Seeker seekerToUpdate = getSeeker(seeker.getId());
+		Seeker seekerToUpdate = findSeeker(seeker.getId());
 
 		if (seeker.getLastname() != null)
 			seekerToUpdate.setLastname(seeker.getLastname());
@@ -91,7 +94,7 @@ public class SeekerService {
 	}
 
 	public ResponseEntity<String> deleteSeekerById(UUID id) {
-		Seeker seekerToDelete = getSeeker(id);
+		Seeker seekerToDelete = findSeeker(id);
 
 		seekerRepository.deleteById(seekerToDelete.getId());
 

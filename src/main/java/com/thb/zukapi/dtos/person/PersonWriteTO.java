@@ -58,7 +58,7 @@ public class PersonWriteTO {
 	@Enumerated(EnumType.STRING)
 	Gender gender;
 
-	@Size(min = 10)
+	@Size(min = 6)
 	String password;
 
 	String role;

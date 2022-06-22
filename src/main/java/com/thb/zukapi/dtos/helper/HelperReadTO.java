@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -20,6 +21,8 @@ import java.util.List;
 public class HelperReadTO extends PersonWriteTO {
 
     HelperType helperType;
+    
+	UUID userId;
 
     List<Announcement> announcements; // TODO ReadListTO
 

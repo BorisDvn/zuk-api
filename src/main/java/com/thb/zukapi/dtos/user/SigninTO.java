@@ -1,4 +1,4 @@
-package com.thb.zukapi.transfertobjects.user;
+package com.thb.zukapi.dtos.user;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

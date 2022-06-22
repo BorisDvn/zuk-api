@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thb.zukapi.dtos.person.PersonWriteTO;
+import com.thb.zukapi.dtos.seeker.SeekerReadListTO;
+import com.thb.zukapi.dtos.seeker.SeekerReadTO;
 import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.services.SeekerService;
 
@@ -38,7 +40,7 @@ public class SeekerController {
 	@ApiResponse(responseCode = "200", description = "Found all Seeker", content = {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = Seeker.class)) })
 	@GetMapping("")
-	public List<Seeker> getAllSeeker(@RequestParam(defaultValue = "0") Integer pageNo,
+	public List<SeekerReadListTO> getAllSeeker(@RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "nachname") String sortBy) {
 		return seekerService.getAll(pageNo, pageSize, sortBy);
@@ -48,7 +50,7 @@ public class SeekerController {
 	@ApiResponse(responseCode = "200", description = "Found the Seeker", content = {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = Seeker.class)) })
 	@GetMapping("/{id}")
-	public Seeker getSeekerById(
+	public SeekerReadTO getSeekerById(
 			@Parameter(name = "SeekerId", description = "ID of the Seeker_obj") @PathVariable UUID id) {
 		return seekerService.getSeeker(id);
 	}

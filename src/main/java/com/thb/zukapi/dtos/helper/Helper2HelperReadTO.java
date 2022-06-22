@@ -22,11 +22,7 @@ public class Helper2HelperReadTO {
 		out.setEmail(in.getEmail());
 		out.setAdresse(in.getAdresse());
 		out.setGender(in.getGender());
-
-		if (in.getUser().getPassword() != null)
-			out.setPassword(in.getUser().getPassword());
-
-		out.setRole(in.getUser().getRoles().iterator().next().getName().name());
+		out.setUserId(in.getUser().getId());
 
 		if (in.getAnnouncements() != null)
 			out.setAnnouncements(in.getAnnouncements());

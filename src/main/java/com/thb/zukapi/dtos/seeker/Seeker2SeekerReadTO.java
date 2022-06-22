@@ -22,6 +22,7 @@ public class Seeker2SeekerReadTO {
 		out.setEmail(in.getEmail());
 		out.setAdresse(in.getAdresse());
 		out.setGender(in.getGender());
+		out.setUserId(in.getUser().getId());
 
 		if (in.getAnnouncements() != null)
 			out.setAnnouncements(in.getAnnouncements());

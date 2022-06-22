@@ -29,8 +29,8 @@ public class Helper extends Person {
 	@OneToMany(mappedBy = "helper", fetch = FetchType.LAZY)
 	List<Announcement> announcements;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "user_id", nullable = false)
 	User user;
 
 }

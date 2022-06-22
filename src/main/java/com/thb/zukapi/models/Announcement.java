@@ -16,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Table(name = "announcement")
 public class Announcement {
     @Id
     @GeneratedValue(generator = "uuid2")
