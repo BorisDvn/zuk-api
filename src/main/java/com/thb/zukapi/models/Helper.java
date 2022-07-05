@@ -1,36 +1,36 @@
 package com.thb.zukapi.models;
 
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
+//@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Helper extends Person {
 
-	@Enumerated(EnumType.STRING)
-	HelperType helperType;
+    @Enumerated(EnumType.STRING)
+    HelperType helperType;
 
-	@OneToMany(mappedBy = "helper", fetch = FetchType.LAZY)
-	List<Announcement> announcements;
+    @Builder
+    public Helper(UUID id, String lastname, String firstname, String nationality,
+                  LocalDate dob, String phone, String email,
+                  String adresse, Gender gender, String password, RoleType role, HelperType helperType) {
+        super(id, lastname, firstname, nationality,
+                dob, phone, email,
+                adresse, gender, password, role);
 
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "user_id", nullable = false)
-	User user;
+        this.helperType = helperType;
+    }
 
+    @OneToMany(mappedBy = "helper", fetch = FetchType.LAZY)
+    List<Announcement> announcements;
 }

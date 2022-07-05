@@ -16,7 +16,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "announcement")
 public class Announcement {
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -34,6 +33,7 @@ public class Announcement {
     @NotBlank
     String description;
 
+    @NotBlank
     @Enumerated(EnumType.STRING)
     AnnouncementStatus status; // standby as default value
 

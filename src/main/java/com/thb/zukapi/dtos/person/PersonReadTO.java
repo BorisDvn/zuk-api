@@ -1,44 +1,28 @@
-package com.thb.zukapi.models;
+package com.thb.zukapi.dtos.person;
 
-import java.time.LocalDate;
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.thb.zukapi.models.Gender;
+import com.thb.zukapi.models.RoleType;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.util.UUID;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
-
-@Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @FieldDefaults(level = AccessLevel.PROTECTED)
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Person extends Auditable<String> {
-
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+public class PersonReadTO {
     UUID id;
 
     @Size(min = 2)
@@ -60,13 +44,11 @@ public abstract class Person extends Auditable<String> {
 
     @Email
     @NotBlank
-    @Column(unique = true)
     String email; // As username
 
     @NotBlank
     String adresse;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     Gender gender;
 
