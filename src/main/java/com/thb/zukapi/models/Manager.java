@@ -1,11 +1,15 @@
 package com.thb.zukapi.models;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import javax.persistence.Entity;
-import java.time.LocalDate;
-import java.util.UUID;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Setter
@@ -15,12 +19,8 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Manager extends Person {
 
-    @Builder
-    public Manager(UUID id, String lastname, String firstname, String nationality,
-                   LocalDate dob, String phone, String email,
-                   String adresse, Gender gender, String password, RoleType role) {
-        super(id, lastname, firstname, nationality,
-                dob, phone, email,
-                adresse, gender, password, role);
-    }
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	User user;
+	
 }

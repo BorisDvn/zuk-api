@@ -1,6 +1,6 @@
 package com.thb.zukapi.dtos.seeker;
 
-import com.thb.zukapi.dtos.person.PersonReadTO;
+import com.thb.zukapi.dtos.person.PersonWriteTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +13,5 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SeekerWriteTO extends PersonReadTO {
+public class SeekerWriteTO extends PersonWriteTO {
 }
