@@ -1,22 +1,23 @@
 package com.thb.zukapi.models;
 
-import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -25,45 +26,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+@Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@MappedSuperclass
-public class Person {
+@Table(name = "user_table")
+public class User {
 
 	@Id
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	UUID id;
 
-	@Size(min = 2)
-	@NotBlank
-	String lastname;
-
-	@Size(min = 2)
-	@NotBlank
-	String firstname;
-
-	String nationality;
-
-	@NotNull
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	LocalDate dob; // date of birth
-
-	@NotBlank
-	String phone;
-
 	@Email
 	@NotBlank
 	@Column(unique = true)
 	String email; // As username
 
-	@NotBlank
-	String adresse;
+	@Size(min = 10)
+	String password;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	Gender gender;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_roles",
+	joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+	inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	Set<Role> roles = new HashSet<>();
+
 }
