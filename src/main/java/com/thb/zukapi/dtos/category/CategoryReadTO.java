@@ -1,12 +1,19 @@
 package com.thb.zukapi.dtos.category;
 
-import com.thb.zukapi.models.Announcement;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.UUID;
+
+import javax.validation.constraints.NotBlank;
+
+import com.thb.zukapi.models.Announcement;
+import com.thb.zukapi.models.File;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 @Setter
 @Getter
@@ -18,7 +25,7 @@ public class CategoryReadTO {
     UUID id;
 
     @NotBlank
-    String cover; // cover pic
+    File cover; // cover pic
 
     @NotBlank
     String name;
