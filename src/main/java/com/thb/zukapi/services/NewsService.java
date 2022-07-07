@@ -1,8 +1,9 @@
 package com.thb.zukapi.services;
 
-import com.thb.zukapi.exception.ApiRequestException;
-import com.thb.zukapi.models.News;
-import com.thb.zukapi.repositories.NewsRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,66 +14,113 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import com.thb.zukapi.dtos.files.FileTO;
+import com.thb.zukapi.dtos.news.NewsWriteTO;
+import com.thb.zukapi.exception.ApiRequestException;
+import com.thb.zukapi.models.File;
+import com.thb.zukapi.models.News;
+import com.thb.zukapi.repositories.FileRepository;
+import com.thb.zukapi.repositories.NewsRepository;
+import com.thb.zukapi.utils.FileUpload;
 
 @Service
 public class NewsService {
 
-    private final Logger logger = LoggerFactory.getLogger(NewsService.class);
+	private final Logger logger = LoggerFactory.getLogger(NewsService.class);
 
-    @Autowired
-    private NewsRepository newsRepository;
+	private static final String uploadFolder = "/mux/";
 
-    public News getNews(UUID id) {
-        return newsRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find News with id: " + id));
-    }
+	@Autowired
+	private FileRepository fileRepo;
 
-    public List<News> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+	@Autowired
+	private FileUpload fileUpload;
 
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<News> pagedResult = newsRepository.findAll(paging);
+	@Autowired
+	private NewsRepository newsRepository;
 
-        return pagedResult.getContent();
-    }
+	public News getNews(UUID id) {
+		return newsRepository.findById(id)
+				.orElseThrow(() -> new ApiRequestException("Cannot find News with id: " + id));
+	}
 
-    public News addNews(News news) {
+	public List<News> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
-        News newNews = new News();
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Page<News> pagedResult = newsRepository.findAll(paging);
 
-        newNews.setTitle(news.getTitle());
-        newNews.setImages(news.getImages());
-        newNews.setDescription(news.getDescription());
-        newNews.setPublicationDate(LocalDateTime.now());
+		return pagedResult.getContent();
+	}
 
-        return newsRepository.save(newNews);
-    }
+	public News addNews(NewsWriteTO news, List<MultipartFile> files) {
 
-    public News updateNews(News news) {
+		List<File> uploadedFiles = new ArrayList<>();
 
-        News newsToUpdate = getNews(news.getId());
+		if (files.size() > 0) {
+			for (MultipartFile file : files) {
+				FileTO response = fileUpload.uploadToFileService(file, uploadFolder);
 
-        if (news.getTitle() != null)
-            newsToUpdate.setTitle(news.getTitle());
-        if (news.getImages() != null)
-            newsToUpdate.setImages(news.getImages());
-        if (news.getDescription() != null)
-            newsToUpdate.setDescription(news.getDescription());
-        if (news.getPublicationDate() != null) // TODO: update date? like last update?
-            newsToUpdate.setPublicationDate(news.getPublicationDate());
+				File cover = new File();
+				cover.setFileLink(response.getFileLink());
+				cover.setName(response.getFilename());
+				cover = fileRepo.save(cover);
+				uploadedFiles.add(cover);
+			}
+		}
 
-        return newsRepository.save(newsToUpdate);
-    }
+		News newNews = new News();
 
-    public ResponseEntity<String> deleteNewsById(UUID id) {
-        News newsToDelete = getNews(id);
+		newNews.setTitle(news.getTitle());
+		newNews.setImages(uploadedFiles);
+		newNews.setDescription(news.getDescription());
 
-        newsRepository.deleteById(newsToDelete.getId());
+		return newsRepository.save(newNews);
+	}
 
-        logger.info("News successfully deleted");
-        return new ResponseEntity<>("News successfully deleted", HttpStatus.OK);
-    }
+	public News updateNewsImage(UUID newsId, List<MultipartFile> files) {
+
+		News newsToUpdate = getNews(newsId);
+
+		if (files.size() > 0) {
+			for (MultipartFile file : files) {
+
+				if (!fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
+					FileTO response = fileUpload.uploadToFileService(file, uploadFolder);
+
+					File cover = new File();
+					cover.setFileLink(response.getFileLink());
+					cover.setName(response.getFilename());
+					cover = fileRepo.save(cover);
+
+					newsToUpdate.getImages().add(cover);
+				}
+
+			}
+		}
+
+		return newsRepository.save(newsToUpdate);
+	}
+
+	public News updateNews(NewsWriteTO news) {
+
+		News newsToUpdate = getNews(news.getId());
+
+		if (news.getTitle() != null)
+			newsToUpdate.setTitle(news.getTitle());
+		if (news.getDescription() != null)
+			newsToUpdate.setDescription(news.getDescription());
+
+		return newsRepository.save(newsToUpdate);
+	}
+
+	public ResponseEntity<String> deleteNewsById(UUID id) {
+		News newsToDelete = getNews(id);
+
+		newsRepository.deleteById(newsToDelete.getId());
+
+		logger.info("News successfully deleted");
+		return new ResponseEntity<>("News successfully deleted", HttpStatus.OK);
+	}
 }

@@ -1,10 +1,12 @@
 package com.thb.zukapi.models;
 
-import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AccessLevel;
@@ -20,20 +22,14 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Category extends Auditable<String> {
+public class File extends Auditable<String> {
 	@Id
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	UUID id;
 
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cover_id", referencedColumnName = "id")
-	File cover;
+	String fileLink; // cover pic
 
 	@NotBlank
-	@Column(unique = true)
-	private String name;
-
-	@OneToMany(mappedBy = "category")
-	private List<Announcement> announcements;
+	String name;
 }

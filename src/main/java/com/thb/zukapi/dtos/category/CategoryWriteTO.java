@@ -1,10 +1,9 @@
 package com.thb.zukapi.dtos.category;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
-
-import com.thb.zukapi.models.File;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,13 +17,12 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CategoryReadListTO {
+public class CategoryWriteTO {
 
-	UUID id;
+    UUID id;
 
-	@NotBlank
-	File cover; // cover pic
+    @NotBlank
+    String name;
 
-	@NotBlank
-	String name;
+    List<UUID> announcements;
 }

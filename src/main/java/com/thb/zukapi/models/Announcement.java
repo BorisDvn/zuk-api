@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,7 +29,10 @@ public class Announcement {
 
     LocalDateTime announcementDate;
 
-    byte[] images; // todo: bilder
+	@ElementCollection
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "image_id", referencedColumnName = "id")
+	List<File> images;
 
     @Lob
     @NotBlank

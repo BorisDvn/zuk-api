@@ -1,5 +1,6 @@
 package com.thb.zukapi.controller;
 
+import com.thb.zukapi.dtos.news.NewsWriteTO;
 import com.thb.zukapi.models.News;
 import com.thb.zukapi.services.NewsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -39,23 +41,38 @@ public class NewsController {
 		return newsService.getNews(id);
 	}
 
-	@Operation(summary = "Add One News")
-	@ApiResponse(responseCode = "200", description = "News added", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = News.class)) })
-	@PostMapping("")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-	public News addNews(@Parameter(name = "News", description = "News_obj to add") @RequestBody News news) {
-		return newsService.addNews(news);
-	}
+    @Operation(summary = "Add One News")
+    @ApiResponse(responseCode = "200", description = "News added",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = News.class))})
+    @PostMapping("")
+    public News addNews(
+            @Parameter(name = "News", description = "News_obj to add") 
+            @RequestPart NewsWriteTO news, 
+            @RequestPart List<MultipartFile> files) {
+        return newsService.addNews(news, files);
+    }
+    
+    @Operation(summary = "Add One News")
+    @ApiResponse(responseCode = "200", description = "News added",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = News.class))})
+    @PostMapping("/{newsId}")
+    public News addNews(
+            @Parameter(name = "News", description = "News_obj to add") 
+            @PathVariable UUID newsId,
+            @RequestPart List<MultipartFile> files) {
+        return newsService.updateNewsImage(newsId, files);
+    }
 
-	@Operation(summary = "Update News")
-	@ApiResponse(responseCode = "200", description = "News updated", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = News.class)) })
-	@PutMapping("")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-	public News updateNews(@Parameter(name = "News", description = "News_obj to update") @RequestBody News news) {
-		return newsService.updateNews(news);
-	}
+    @Operation(summary = "Update News")
+    @ApiResponse(responseCode = "200", description = "News updated",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = News.class))})
+    @PutMapping("")
+    public News updateNews(@Parameter(name = "News", description = "News_obj to update") @RequestBody NewsWriteTO news) {
+        return newsService.updateNews(news);
+    }
 
 	@Operation(summary = "Delete a News by its id")
 	@ApiResponse(responseCode = "200", description = "News deleted", content = {

@@ -1,12 +1,9 @@
 package com.thb.zukapi.services;
 
-import com.thb.zukapi.dtos.category.Category2CategoryReadListTO;
-import com.thb.zukapi.dtos.category.Category2CategoryReadTO;
-import com.thb.zukapi.dtos.category.CategoryReadListTO;
-import com.thb.zukapi.dtos.category.CategoryReadTO;
-import com.thb.zukapi.exception.ApiRequestException;
-import com.thb.zukapi.models.Category;
-import com.thb.zukapi.repositories.CategoryRepository;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,70 +14,113 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.UUID;
+import com.thb.zukapi.dtos.category.Category2CategoryReadListTO;
+import com.thb.zukapi.dtos.category.Category2CategoryReadTO;
+import com.thb.zukapi.dtos.category.CategoryReadListTO;
+import com.thb.zukapi.dtos.category.CategoryReadTO;
+import com.thb.zukapi.dtos.category.CategoryWriteTO;
+import com.thb.zukapi.dtos.files.FileTO;
+import com.thb.zukapi.exception.ApiRequestException;
+import com.thb.zukapi.models.Category;
+import com.thb.zukapi.models.File;
+import com.thb.zukapi.repositories.CategoryRepository;
+import com.thb.zukapi.repositories.FileRepository;
+import com.thb.zukapi.utils.FileUpload;
 
 @Service
 public class CategoryService {
 
-    private final Logger logger = LoggerFactory.getLogger(CategoryService.class);
+	@Autowired
+	private FileRepository fileRepo;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+	@Autowired
+	private FileUpload fileUpload;
 
-    public CategoryReadTO getCategory(UUID id) {
-        return Category2CategoryReadTO.apply(findCategory(id));
-    }
+	private final Logger logger = LoggerFactory.getLogger(CategoryService.class);
+	
+	private static final String uploadFolder = "/mux/";
 
-    public Category getCategoryByName(String name) {
-        return categoryRepository.findByName(name)
-                .orElseThrow(() -> new ApiRequestException("Cannot find Category with name: " + name));
-    }
+	@Autowired
+	private CategoryRepository categoryRepository;
 
-    public List<CategoryReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+	public CategoryReadTO getCategory(UUID id) {
+		return Category2CategoryReadTO.apply(findCategory(id));
+	}
 
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-        Page<Category> pagedResult = categoryRepository.findAll(paging);
+	public Category getCategoryByName(String name) {
+		return categoryRepository.findByName(name)
+				.orElseThrow(() -> new ApiRequestException("Cannot find Category with name: " + name));
+	}
 
-        return Category2CategoryReadListTO.apply(pagedResult.getContent());
-    }
+	public List<CategoryReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
-    public Category addCategory(Category category) {
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Page<Category> pagedResult = categoryRepository.findAll(paging);
 
-        Category newCategory = new Category();
+		return Category2CategoryReadListTO.apply(pagedResult.getContent());
+	}
 
-        newCategory.setCover(category.getCover());
-        newCategory.setName(category.getName());
-        newCategory.setAnnouncements(category.getAnnouncements());
+	public Category addCategory(CategoryWriteTO category, MultipartFile file) throws IOException {
 
-        return categoryRepository.save(newCategory);
-    }
+		FileTO response = fileUpload.uploadToFileService(file, uploadFolder);
 
-    public Category updateCategory(Category category) {
+		File cover = new File();
+		cover.setFileLink(response.getFileLink());
+		cover.setName(response.getFilename());
 
-        Category categoryToUpdate = findCategory(category.getId());
+		cover = fileRepo.save(cover);
 
-        if (category.getName() != null)
-            categoryToUpdate.setName(category.getName());
-        if (category.getCover() != null)
-            categoryToUpdate.setCover(category.getCover());
+		Category newCategory = new Category();
 
-        return categoryRepository.save(categoryToUpdate);
-    }
+		newCategory.setName(category.getName());
+		newCategory.setCover(cover);
 
-    public ResponseEntity<String> deleteCategoryById(UUID id) {
+		return categoryRepository.save(newCategory);
+	}
 
-        if (getCategory(id) != null) {
-            categoryRepository.deleteById(id);
-        }
+	public Category updateCategory(Category category) {
 
-        logger.info("Category successfully deleted");
-        return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
-    }
+		Category categoryToUpdate = findCategory(category.getId());
 
-    public Category findCategory(UUID id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new ApiRequestException("Cannot find Category with id: " + id));
-    }
+		if (category.getName() != null)
+			categoryToUpdate.setName(category.getName());
+		if (category.getCover() != null)
+			categoryToUpdate.setCover(category.getCover());
+
+		return categoryRepository.save(categoryToUpdate);
+	}
+
+	public Category updateCategoryImage(UUID categoryId, MultipartFile file) {
+
+		Category categoryToUpdate = findCategory(categoryId);
+
+		FileTO response = fileUpload.uploadToFileService(file, uploadFolder);
+
+		File cover = new File();
+		cover.setFileLink(response.getFileLink());
+		cover.setName(response.getFilename());
+
+		cover = fileRepo.save(cover);
+
+		categoryToUpdate.setCover(cover);
+
+		return categoryRepository.save(categoryToUpdate);
+	}
+
+	public ResponseEntity<String> deleteCategoryById(UUID id) {
+
+		if (getCategory(id) != null) {
+			categoryRepository.deleteById(id);
+		}
+
+		logger.info("Category successfully deleted");
+		return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
+	}
+
+	public Category findCategory(UUID id) {
+		return categoryRepository.findById(id)
+				.orElseThrow(() -> new ApiRequestException("Cannot find Category with id: " + id));
+	}
 }
