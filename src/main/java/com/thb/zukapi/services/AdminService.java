@@ -31,8 +31,7 @@ public class AdminService {
 	private UserService userService;
 
 	public Admin getAdmin(UUID id) {
-		return adminRepository.findById(id)
-				.orElseThrow(() -> new ApiRequestException("Cannot find Admin with id: " + id));
+		return findAdmin(id);
 	}
 
 	public List<Admin> getAll(Integer pageNo, Integer pageSize, String sortBy) {
@@ -96,6 +95,11 @@ public class AdminService {
 
 		logger.info("Admin successfully deleted");
 		return new ResponseEntity<>("Admin successfully deleted", HttpStatus.OK);
+	}
+	
+	public Admin findAdmin(UUID id) {
+		return adminRepository.findById(id)
+				.orElseThrow(() -> new ApiRequestException("Cannot find Admin with id: " + id));
 	}
 
 }

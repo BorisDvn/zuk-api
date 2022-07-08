@@ -26,7 +26,7 @@ public class Category extends Auditable<String> {
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	UUID id;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
     @JoinColumn(name = "cover_id", referencedColumnName = "id")
 	File cover;
 

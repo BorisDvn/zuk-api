@@ -20,6 +20,8 @@ import com.thb.zukapi.exception.ApiRequestException;
 public class FileUpload {
 
 	private final Logger logger = LoggerFactory.getLogger(FileUpload.class);
+	
+	public static final String uploadFolder = "/mux/";
 
 	@Value("${fileStorage.url}")
 	private String fileServiceUrl;

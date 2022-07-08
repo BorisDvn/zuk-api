@@ -39,8 +39,6 @@ public class CategoryService {
 	private FileUpload fileUpload;
 
 	private final Logger logger = LoggerFactory.getLogger(CategoryService.class);
-	
-	private static final String uploadFolder = "/mux/";
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -64,7 +62,7 @@ public class CategoryService {
 
 	public Category addCategory(CategoryWriteTO category, MultipartFile file) throws IOException {
 
-		FileTO response = fileUpload.uploadToFileService(file, uploadFolder);
+		FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
 
 		File cover = new File();
 		cover.setFileLink(response.getFileLink());
@@ -96,15 +94,20 @@ public class CategoryService {
 
 		Category categoryToUpdate = findCategory(categoryId);
 
-		FileTO response = fileUpload.uploadToFileService(file, uploadFolder);
+		// if the file already exist just use it
+		if (fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
+			categoryToUpdate.setCover(fileRepo.findByName(file.getOriginalFilename()).get());
+		} else {
+			// else upload it
+			FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
 
-		File cover = new File();
-		cover.setFileLink(response.getFileLink());
-		cover.setName(response.getFilename());
+			File cover = new File();
+			cover.setFileLink(response.getFileLink());
+			cover.setName(response.getFilename());
 
-		cover = fileRepo.save(cover);
-
-		categoryToUpdate.setCover(cover);
+			cover = fileRepo.save(cover);
+			categoryToUpdate.setCover(cover);
+		}
 
 		return categoryRepository.save(categoryToUpdate);
 	}
