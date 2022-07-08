@@ -35,7 +35,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "announ")
+@Table(name = "announcement")
 public class Announcement extends Auditable<String> {
 	@Id
 	@GeneratedValue(generator = "uuid2")
