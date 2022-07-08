@@ -30,8 +30,6 @@ public class NewsService {
 
 	private final Logger logger = LoggerFactory.getLogger(NewsService.class);
 
-	private static final String uploadFolder = "/mux/";
-
 	@Autowired
 	private FileRepository fileRepo;
 
@@ -42,8 +40,7 @@ public class NewsService {
 	private NewsRepository newsRepository;
 
 	public News getNews(UUID id) {
-		return newsRepository.findById(id)
-				.orElseThrow(() -> new ApiRequestException("Cannot find News with id: " + id));
+		return findNews(id);
 	}
 
 	public List<News> getAll(Integer pageNo, Integer pageSize, String sortBy) {
@@ -60,7 +57,7 @@ public class NewsService {
 
 		if (files.size() > 0) {
 			for (MultipartFile file : files) {
-				FileTO response = fileUpload.uploadToFileService(file, uploadFolder);
+				FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
 
 				File cover = new File();
 				cover.setFileLink(response.getFileLink());
@@ -79,30 +76,6 @@ public class NewsService {
 		return newsRepository.save(newNews);
 	}
 
-	public News updateNewsImage(UUID newsId, List<MultipartFile> files) {
-
-		News newsToUpdate = getNews(newsId);
-
-		if (files.size() > 0) {
-			for (MultipartFile file : files) {
-
-				if (!fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
-					FileTO response = fileUpload.uploadToFileService(file, uploadFolder);
-
-					File cover = new File();
-					cover.setFileLink(response.getFileLink());
-					cover.setName(response.getFilename());
-					cover = fileRepo.save(cover);
-
-					newsToUpdate.getImages().add(cover);
-				}
-
-			}
-		}
-
-		return newsRepository.save(newsToUpdate);
-	}
-
 	public News updateNews(NewsWriteTO news) {
 
 		News newsToUpdate = getNews(news.getId());
@@ -115,6 +88,42 @@ public class NewsService {
 		return newsRepository.save(newsToUpdate);
 	}
 
+	// manage images in another endpoint and not in updateFunction to simplefy the
+	// complexity
+	public News addImageNews(UUID newsId, MultipartFile file) {
+
+		News newsToUpdate = findNews(newsId);
+
+		if (fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
+			newsToUpdate.getImages().add(fileRepo.findByName(file.getOriginalFilename()).get());
+		} else {
+			FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
+
+			File image = new File();
+			image.setFileLink(response.getFileLink());
+			image.setName(response.getFilename());
+			image = fileRepo.save(image);
+
+			newsToUpdate.getImages().add(image);
+		}
+		return newsRepository.save(newsToUpdate);
+	}
+
+	// manage images in another endpoint and not in updateFunction to simplefy the
+	// complexity
+	public News removeImageNews(UUID newsId, MultipartFile file) {
+
+		News newsToUpdate = findNews(newsId);
+
+		if (fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
+			newsToUpdate.getImages().remove(fileRepo.findByName(file.getOriginalFilename()).get());
+		} else {
+			throw new ApiRequestException(
+					String.format("the file with name %s does not exist", file.getOriginalFilename()));
+		}
+		return newsRepository.save(newsToUpdate);
+	}
+
 	public ResponseEntity<String> deleteNewsById(UUID id) {
 		News newsToDelete = getNews(id);
 
@@ -122,5 +131,10 @@ public class NewsService {
 
 		logger.info("News successfully deleted");
 		return new ResponseEntity<>("News successfully deleted", HttpStatus.OK);
+	}
+
+	public News findNews(UUID id) {
+		return newsRepository.findById(id)
+				.orElseThrow(() -> new ApiRequestException("Cannot find News with id: " + id));
 	}
 }

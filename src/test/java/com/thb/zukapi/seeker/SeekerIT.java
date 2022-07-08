@@ -45,8 +45,6 @@ public class SeekerIT extends ItBase {
     public void createSeeker() {
     	signupSeeker = buildSignup();
     	
-    	System.out.println(signupSeeker);
-
         UUID id = UUID.fromString(
                 given()
                         .contentType(ContentType.JSON)

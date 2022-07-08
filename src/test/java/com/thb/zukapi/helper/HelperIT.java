@@ -48,8 +48,6 @@ public class HelperIT extends ItBase {
     public void createHelper() {
     	signupHelper = buildSignup();
     	
-    	System.out.println(signupHelper);
-
         UUID id = UUID.fromString(
                 given()
                         .contentType(ContentType.JSON)

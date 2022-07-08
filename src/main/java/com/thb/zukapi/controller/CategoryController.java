@@ -75,12 +75,23 @@ public class CategoryController {
     @PostMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public Category addCategory(
-            @Parameter(name = "Category", description = "Category_obj to add")
-            @RequestPart CategoryWriteTO category,
-            @RequestPart MultipartFile file) throws IOException {
+            @Parameter(name = "Category", description = "Category_obj to add") @RequestPart CategoryWriteTO category,
+            @Parameter(name = "File", description = "File to add") @RequestPart(required = false) MultipartFile file) throws IOException {
         return categoryService.addCategory(category, file);
     }
 
+    @Operation(summary = "Update Category image")
+    @ApiResponse(responseCode = "200", description = "Category updated",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Category.class))})
+    @PostMapping("/{categoryId}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    public Category updateCategoryImage(
+            @Parameter(name = "CategoryId", description = "CategoryId") @PathVariable UUID categoryId,
+            @Parameter(name = "File", description = "File to add") @RequestPart(required = true) MultipartFile file) throws IOException {
+        return categoryService.updateCategoryImage(categoryId, file);
+    }
+    
     @Operation(summary = "Update Category")
     @ApiResponse(responseCode = "200", description = "News Category",
             content = {@Content(mediaType = "application/json",

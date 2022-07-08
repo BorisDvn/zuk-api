@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -15,10 +16,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.thb.zukapi.dtos.category.CategoryWriteTO;
+import com.thb.zukapi.dtos.files.FileTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.dtos.user.SigninTO;
+
 import com.thb.zukapi.models.Contact;
 import com.thb.zukapi.models.ContactStatus;
+
+import com.thb.zukapi.models.Category;
+import com.thb.zukapi.models.File;
 import com.thb.zukapi.models.Gender;
 import com.thb.zukapi.models.Helper;
 import com.thb.zukapi.models.Role;
@@ -26,11 +33,16 @@ import com.thb.zukapi.models.RoleType;
 import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.models.User;
 import com.thb.zukapi.repositories.AdminRepository;
+
 import com.thb.zukapi.repositories.ContactRepository;
+
+import com.thb.zukapi.repositories.CategoryRepository;
+import com.thb.zukapi.repositories.FileRepository;
 import com.thb.zukapi.repositories.HelperRepository;
 import com.thb.zukapi.repositories.RoleRepository;
 import com.thb.zukapi.repositories.SeekerRepository;
 import com.thb.zukapi.repositories.UserRepository;
+import com.thb.zukapi.utils.FileUpload;
 
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 
@@ -43,13 +55,16 @@ public class ItBase {
 
 	@Autowired
 	protected SeekerRepository seekerRepository;
-	
+
+	@Autowired
+	protected CategoryRepository categoryRepository;
+
 	@Autowired
 	protected HelperRepository helperRepository;
 
 	@Autowired
 	protected AdminRepository adminRepository;
-	
+
 	@Autowired
 	protected ContactRepository contactRepository;
 
@@ -58,6 +73,12 @@ public class ItBase {
 
 	@Autowired
 	protected RoleRepository roleRepository;
+
+	@Autowired
+	protected FileRepository fileRepository;
+
+	@Mock
+	protected FileUpload fileUpload;
 
 	@Autowired
 	private WebApplicationContext wac;
@@ -142,7 +163,7 @@ public class ItBase {
 
 		return seeker;
 	}
-	
+
 	protected Helper buildHelper() {
 
 		Helper helper = new Helper();
@@ -156,33 +177,17 @@ public class ItBase {
 
 		return helper;
 	}
-	
+
 	protected Contact buildContact() {
 
 		Contact contact = new Contact();
 		contact.setSubject(UUID.randomUUID().toString());
 		contact.setStatus(ContactStatus.UNREAD);
 		contact.setDescription(UUID.randomUUID().toString());
-		
+
 		return contact;
 	}
 
-	protected SignupTO buildSignup() {
-
-		SignupTO seeker = new SignupTO();
-		seeker.setAdresse(UUID.randomUUID().toString());
-		seeker.setDob(LocalDate.now());
-		seeker.setEmail("123456@email.com");
-		seeker.setFirstname(UUID.randomUUID().toString());
-		seeker.setLastname(UUID.randomUUID().toString());
-		seeker.setGender(Gender.M);
-		seeker.setRole("SEEKER");
-		seeker.setPassword("123456789");
-		seeker.setPhone("+0012334234543");
-
-		return seeker;
-	}
-	
 	protected SigninTO buildSignin() {
 
 		SigninTO seeker = new SigninTO();
@@ -190,6 +195,38 @@ public class ItBase {
 		seeker.setPassword("123456789");
 
 		return seeker;
+	}
+
+	protected Category buildCategory(File file) {
+		Category cat = new Category();
+		cat.setName(UUID.randomUUID().toString());
+		cat.setCover(file);
+		return cat;
+	}
+
+	protected CategoryWriteTO buildCategoryWriteTO() {
+		CategoryWriteTO cat = new CategoryWriteTO();
+		cat.setName(UUID.randomUUID().toString());
+		return cat;
+	}
+
+	protected File buildFile() {
+		File file = new File();
+		file.setName(UUID.randomUUID().toString());
+		file.setFileLink(UUID.randomUUID().toString());
+		return file;
+	}
+
+	protected FileTO buildFileTO() {
+		FileTO file = new FileTO();
+		file.setId(UUID.randomUUID());
+		file.setFilename(UUID.randomUUID().toString());
+		file.setRemoteName(UUID.randomUUID().toString());
+		file.setRemoteId(UUID.randomUUID().toString());
+		file.setFilesize(1L);
+		file.setPath(UUID.randomUUID().toString());
+		file.setFileLink(UUID.randomUUID().toString());
+		return file;
 	}
 
 }
