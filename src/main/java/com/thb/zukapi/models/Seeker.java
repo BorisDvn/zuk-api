@@ -27,5 +27,5 @@ public class Seeker extends Person {
 
 	@OneToMany(mappedBy = "seeker", fetch = FetchType.LAZY)
 	List<Announcement> announcements;
-
 }
+

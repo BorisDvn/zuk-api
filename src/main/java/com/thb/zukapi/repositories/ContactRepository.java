@@ -5,11 +5,8 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.thb.zukapi.models.Helper;
+import com.thb.zukapi.models.Contact;
 
 @Repository
-public interface HelperRepository extends JpaRepository<Helper, UUID> {
-	
-	Optional<Seeker> findByEmail(String email);
-
+public interface ContactRepository extends JpaRepository<Contact, UUID> {
 }

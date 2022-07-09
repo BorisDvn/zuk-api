@@ -2,7 +2,6 @@ spring:
   application:
     name: zuk-api
 
-
   datasource:
     url: jdbc:postgresql://localhost/zuk-api-db
     username: postgres
@@ -22,7 +21,6 @@ spring:
 
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-
     hibernate:
       # Hibernate ddl auto (create, create-drop, validate, update)
       ddl-auto: update
@@ -31,4 +29,3 @@ spring:
 zuk:
     jwtSecret: zukSecretKey
     jwtExpirationMs: 86400000
-
