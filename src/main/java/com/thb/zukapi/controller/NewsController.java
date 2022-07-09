@@ -88,7 +88,7 @@ public class NewsController {
     @ApiResponse(responseCode = "200", description = "Image removed",
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = News.class))})
-    @DeleteMapping("/{newsId}")
+    @DeleteMapping("/image/{newsId}")
     public News removeImageNews(
     		@Parameter(name = "NewsId", description = "Id of the News") @PathVariable UUID newsId,
     		@Parameter(name = "file", description = "File to be removed") @RequestPart(required = true) MultipartFile file) {
