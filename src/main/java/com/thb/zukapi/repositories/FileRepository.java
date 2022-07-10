@@ -6,12 +6,11 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.thb.zukapi.models.Helper;
-import com.thb.zukapi.models.Seeker;
+import com.thb.zukapi.models.File;
 
 @Repository
-public interface HelperRepository extends JpaRepository<Helper, UUID> {
+public interface FileRepository extends JpaRepository<File, UUID> {
 
-	Optional<Helper> findByEmail(String email);
+	Optional<File> findByName(String name);
 
 }

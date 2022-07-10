@@ -12,40 +12,27 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "roles")
 public class Role {
 
 	@Id
 	@GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private UUID id;
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
 	private RoleType name;
 
-	public Role() {
-
-	}
-
 	public Role(RoleType name) {
-		this.name = name;
-	}
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	public RoleType getName() {
-		return name;
-	}
-
-	public void setName(RoleType name) {
 		this.name = name;
 	}
 

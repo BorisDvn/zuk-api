@@ -18,6 +18,5 @@ public class Category2CategoryReadListTO {
 
     public static List<CategoryReadListTO> apply(List<Category> categories) {
         return categories.stream().map(Category2CategoryReadListTO::apply).collect(Collectors.toList());
-        // categories.stream().map(category -> apply(category)).collect(Collectors.toList());
     }
 }

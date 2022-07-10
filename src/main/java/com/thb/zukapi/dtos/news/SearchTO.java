@@ -1,30 +1,29 @@
-package com.thb.zukapi.dtos.category;
+package com.thb.zukapi.dtos.news;
 
-import java.util.UUID;
+import java.util.List;
 
-import javax.validation.constraints.NotBlank;
-
-import com.thb.zukapi.models.File;
+import com.thb.zukapi.models.News;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CategoryReadListTO {
+public class SearchTO {
 
-	UUID id;
+	String status;
 
-	@NotBlank
-	File cover; // cover pic
+	List<News> news;
 
-	@NotBlank
-	String name;
+	int page;
+
 }

@@ -1,14 +1,33 @@
 package com.thb.zukapi.models;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import java.util.List;
+import java.util.UUID;
+
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Setter
@@ -17,33 +36,41 @@ import java.util.UUID;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "announcement")
-public class Announcement {
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    UUID id;
+public class Announcement extends Auditable<String> {
+	@Id
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	UUID id;
 
-    @NotBlank
-    String title;
+	@NotBlank
+	String title;
 
-    LocalDateTime announcementDate;
+	@ElementCollection
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "image_id", referencedColumnName = "id")
+	List<File> images;
 
-    byte[] images; // todo: bilder
+	@Lob
+	@NotBlank
+	String description;
 
-    @Lob
-    @NotBlank
-    String description;
+	@Enumerated(EnumType.STRING)
+	AnnouncementStatus status; // standby as default value
 
-    @Enumerated(EnumType.STRING)
-    AnnouncementStatus status; // standby as default value
+	@JsonIdentityReference(alwaysAsId = true)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
+	Category category;
 
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne(fetch = FetchType.LAZY)
-    Category category;
+	@ManyToOne(fetch = FetchType.LAZY)
+	Helper helper;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    Helper helper;
+	@ManyToOne(fetch = FetchType.LAZY)
+	Seeker seeker;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    Seeker seeker;
+	@ManyToOne(fetch = FetchType.LAZY)
+	Admin admin;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	Manager manager;
 }

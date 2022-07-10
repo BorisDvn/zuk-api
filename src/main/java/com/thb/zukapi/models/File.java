@@ -1,10 +1,13 @@
-package com.thb.zukapi.dtos.category;
+package com.thb.zukapi.models;
 
 import java.util.UUID;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
-import com.thb.zukapi.models.File;
+import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,17 +16,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+@Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CategoryReadListTO {
-
+public class File extends Auditable<String> {
+	@Id
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	UUID id;
 
-	@NotBlank
-	File cover; // cover pic
+	String fileLink; // cover pic
 
 	@NotBlank
 	String name;

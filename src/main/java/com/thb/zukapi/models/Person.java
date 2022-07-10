@@ -31,7 +31,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @MappedSuperclass
-public class Person {
+public class Person extends Auditable<String> {
 
 	@Id
 	@GeneratedValue(generator = "uuid2")

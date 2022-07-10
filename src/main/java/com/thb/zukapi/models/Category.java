@@ -21,18 +21,19 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Category extends Auditable<String> {
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    UUID id;
+	@Id
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	UUID id;
 
-    @NotBlank
-    String cover; // cover pic
+	@OneToOne
+    @JoinColumn(name = "cover_id", referencedColumnName = "id")
+	File cover;
 
-    @NotBlank
-    @Column(unique = true)
-    private String name;
+	@NotBlank
+	@Column(unique = true)
+	private String name;
 
-    @OneToMany(mappedBy = "category")
-    private List<Announcement> announcements;
+	@OneToMany(mappedBy = "category")
+	private List<Announcement> announcements;
 }

@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost/zuk-api-db
-    username: postgres
-    password: postgres
+    username: postgres_1
+    password: postgresQL
 
     hikari:
       auto-commit: false
@@ -29,3 +29,11 @@ spring:
 zuk:
     jwtSecret: zukSecretKey
     jwtExpirationMs: 86400000
+
+fileStorage:
+     url: http://85.214.194.89:8766/dropbox/
+
+# News Api
+newsApi:
+    authorization: S-wXaSPAhyptpFqvkxy4XyEs6sAVMxspQrO67jYESaxIA0R6
+    url: https://api.currentsapi.services/v1/search?keywords=Refugee&language=en&country=DE&page_size=10

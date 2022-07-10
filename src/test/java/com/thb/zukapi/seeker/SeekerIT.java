@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import com.thb.zukapi.ItBase;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.models.Seeker;
-import com.thb.zukapi.transfertobjects.user.SignupTO;
 
 import io.restassured.http.ContentType;
 
@@ -46,8 +45,6 @@ public class SeekerIT extends ItBase {
     public void createSeeker() {
     	signupSeeker = buildSignup();
     	
-    	System.out.println(signupSeeker);
-
         UUID id = UUID.fromString(
                 given()
                         .contentType(ContentType.JSON)

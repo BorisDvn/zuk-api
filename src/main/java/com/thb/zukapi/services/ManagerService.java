@@ -31,8 +31,7 @@ public class ManagerService {
 	private UserService userService;
 
 	public Manager getManager(UUID id) {
-		return managerRepository.findById(id)
-				.orElseThrow(() -> new ApiRequestException("Cannot find Manager with id: " + id));
+		return findManager(id);
 	}
 
 	public List<Manager> getAll(Integer pageNo, Integer pageSize, String sortBy) {
@@ -96,6 +95,11 @@ public class ManagerService {
 
 		logger.info("Manager successfully deleted");
 		return new ResponseEntity<>("Manager successfully deleted", HttpStatus.OK);
+	}
+
+	public Manager findManager(UUID id) {
+		return managerRepository.findById(id)
+				.orElseThrow(() -> new ApiRequestException("Cannot find Manager with id: " + id));
 	}
 
 }

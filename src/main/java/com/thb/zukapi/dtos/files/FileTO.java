@@ -1,10 +1,6 @@
-package com.thb.zukapi.dtos.category;
+package com.thb.zukapi.dtos.files;
 
 import java.util.UUID;
-
-import javax.validation.constraints.NotBlank;
-
-import com.thb.zukapi.models.File;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,13 +14,20 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CategoryReadListTO {
+public class FileTO {
 
 	UUID id;
 
-	@NotBlank
-	File cover; // cover pic
+	String filename;
 
-	@NotBlank
-	String name;
+	String remoteName;
+
+	String remoteId;
+
+	Long filesize;
+
+	String path;
+
+	String fileLink;
+
 }

@@ -1,24 +1,37 @@
 package com.thb.zukapi.models;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class News extends Auditable<String>{
+public class News extends Auditable<String> {
+
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -28,13 +41,20 @@ public class News extends Auditable<String>{
     String title;
 
     @ElementCollection
-    @LazyCollection(LazyCollectionOption.FALSE)
-    List<String> images;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    List<File> images;
 
-    @Lob
     @NotBlank
+    @Column(columnDefinition = "text")
     String description;
 
-    LocalDateTime publicationDate;
+    String url;
+
+    String author;
+
+    String image;
+
+    String published;
 
 }
