@@ -32,36 +32,29 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class News extends Auditable<String> {
 
-	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	UUID id;
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    UUID id;
 
-	// Since Postgres 9.2 increasing the character limit,
-	// including going from varchar to text
+    @NotBlank
+    String title;
 
-	@Column(columnDefinition = "text")
-	@NotBlank
-	String title;
+    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    List<File> images;
 
-	@ElementCollection
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "image_id", referencedColumnName = "id")
-	List<File> images;
+    @NotBlank
+    @Column(columnDefinition = "text")
+    String description;
 
-	@NotBlank
-	@Column(columnDefinition = "text")
-	String description;
+    String url;
 
-	@Column(columnDefinition = "text")
-	String url;
+    String author;
 
-	@Column(columnDefinition = "text")
-	String author;
+    String image;
 
-	@Column(columnDefinition = "text")
-	String image;
-
-	String published;
+    String published;
 
 }
