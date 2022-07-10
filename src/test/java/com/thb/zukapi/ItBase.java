@@ -62,9 +62,9 @@ public class ItBase {
 	@Autowired
 	protected AdminRepository adminRepository;
 
-    @Autowired
-    protected ContactRepository contactRepository;
-	
+	@Autowired
+	protected ContactRepository contactRepository;
+
 	@Autowired
 	protected CategoryRepository categoryRepository;
 
