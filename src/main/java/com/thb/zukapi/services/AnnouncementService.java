@@ -61,7 +61,7 @@ public class AnnouncementService {
 
 	@Autowired
 	private FileRepository fileRepo;
-	
+
 	@Autowired
 	private SeekerRepository seekerRepository;
 
@@ -95,18 +95,19 @@ public class AnnouncementService {
 
 		return Announcement2AnnouncementReadTO.apply(result);
 	}
-	
+
 	public List<AnnouncementReadListTO> getAnnouncementByType(AnnouncementStype type) {
 
 		List<Announcement> result = announcementRepository.findByType(type);
 
 		return Announcement2AnnouncementReadListTO.apply(result);
 	}
-	
+
 	public List<AnnouncementReadListTO> getAnnouncementByUserEmail(String email) {
-		
+
 		if (seekerRepository.findByEmail(email).isPresent())
-			return Announcement2AnnouncementReadListTO.apply(seekerRepository.findByEmail(email).get().getAnnouncements());
+			return Announcement2AnnouncementReadListTO
+					.apply(seekerRepository.findByEmail(email).get().getAnnouncements());
 // Maybe needed after
 //		if (managerRepository.findByEmail(email).isPresent())
 //			return Announcement2AnnouncementReadTO.apply(managerRepository.findByEmail(email).get().getAnnouncements());
@@ -115,11 +116,12 @@ public class AnnouncementService {
 //			return Announcement2AnnouncementReadTO.apply(adminRepository.findByEmail(email).get().getAnnouncements());
 
 		if (helperRepository.findByEmail(email).isPresent())
-			return Announcement2AnnouncementReadListTO.apply(helperRepository.findByEmail(email).get().getAnnouncements());
+			return Announcement2AnnouncementReadListTO
+					.apply(helperRepository.findByEmail(email).get().getAnnouncements());
 
 		if (announcementRepository.findByEmail(email).size() > 0)
 			return Announcement2AnnouncementReadListTO.apply(announcementRepository.findByEmail(email));
-		
+
 		throw new ApiRequestException("Cannot find Announcement for user with email: " + email);
 	}
 
@@ -136,7 +138,7 @@ public class AnnouncementService {
 
 		// standby as default value
 		newAnnouncement.setStatus(AnnouncementStatus.STANDBY);
-		
+
 		newAnnouncement.setType(announcement.getType());
 
 		newAnnouncement.setCategory(category);
@@ -198,7 +200,7 @@ public class AnnouncementService {
 		announcementToUpdate.setStatus(announcement.getStatus());
 
 		announcementToUpdate.setCategory(category);
-		
+
 		announcementToUpdate.setType(announcement.getType());
 
 		if (announcement.getCreatorId() != null) {
@@ -233,7 +235,7 @@ public class AnnouncementService {
 		Announcement announcementToUpdate = findAnnouncement(announcementId);
 
 		// if the file already exist just use it
-		if (file!= null && fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
+		if (file != null && fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
 			announcementToUpdate.getImages().add(fileRepo.findByName(file.getOriginalFilename()).get());
 		} else {
 			// else upload
@@ -256,7 +258,7 @@ public class AnnouncementService {
 		Announcement announcementToUpdate = findAnnouncement(announcementId);
 
 		// if the file already exist remove it
-		if (file!= null && fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
+		if (file != null && fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
 			announcementToUpdate.getImages().remove(fileRepo.findByName(file.getOriginalFilename()).get());
 		} else {
 			throw new ApiRequestException(
