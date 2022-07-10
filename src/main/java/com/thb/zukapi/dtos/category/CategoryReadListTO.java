@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
 
-import com.thb.zukapi.models.File;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,9 +19,6 @@ import lombok.experimental.FieldDefaults;
 public class CategoryReadListTO {
 
 	UUID id;
-
-	@NotBlank
-	File cover; // cover pic
 
 	@NotBlank
 	String name;

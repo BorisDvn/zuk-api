@@ -22,6 +22,7 @@ import com.thb.zukapi.dtos.files.FileTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.dtos.user.SigninTO;
 import com.thb.zukapi.models.Announcement;
+import com.thb.zukapi.models.AnnouncementStatus;
 import com.thb.zukapi.models.Category;
 import com.thb.zukapi.models.Contact;
 import com.thb.zukapi.models.ContactStatus;
@@ -249,6 +250,7 @@ public class ItBase {
 		announcement.setDescription(UUID.randomUUID().toString());
 		announcement.setHelper(creator);
 		announcement.setCategory(category);
+		announcement.setStatus(AnnouncementStatus.PROCESSED);
 
 		return announcement;
 	}

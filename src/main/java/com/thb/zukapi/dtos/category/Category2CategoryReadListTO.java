@@ -10,7 +10,6 @@ public class Category2CategoryReadListTO {
         CategoryReadListTO out = new CategoryReadListTO();
 
         out.setId(in.getId());
-        out.setCover(in.getCover());
         out.setName(in.getName());
 
         return out;

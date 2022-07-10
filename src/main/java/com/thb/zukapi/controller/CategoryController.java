@@ -64,7 +64,7 @@ public class CategoryController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Category.class))})
     @GetMapping("name/{name}")
-    public Category getCategoryByName(@Parameter(name = "CategoryName", description = "Name of the Category") @PathVariable String name) {
+    public CategoryReadTO getCategoryByName(@Parameter(name = "CategoryName", description = "Name of the Category") @PathVariable String name) {
         return categoryService.getCategoryByName(name);
     }
 
@@ -74,7 +74,7 @@ public class CategoryController {
                     schema = @Schema(implementation = Category.class))})
     @PostMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public Category addCategory(
+    public CategoryReadTO addCategory(
             @Parameter(name = "Category", description = "Category_obj to add") @RequestPart CategoryWriteTO category,
             @Parameter(name = "File", description = "File to add") @RequestPart(required = false) MultipartFile file) throws IOException {
         return categoryService.addCategory(category, file);
@@ -86,7 +86,7 @@ public class CategoryController {
                     schema = @Schema(implementation = Category.class))})
     @PostMapping("/{categoryId}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public Category updateCategoryImage(
+    public CategoryReadTO updateCategoryImage(
             @Parameter(name = "CategoryId", description = "CategoryId") @PathVariable UUID categoryId,
             @Parameter(name = "File", description = "File to add") @RequestPart(required = true) MultipartFile file) throws IOException {
         return categoryService.updateCategoryImage(categoryId, file);
@@ -98,7 +98,7 @@ public class CategoryController {
                     schema = @Schema(implementation = Category.class))})
     @PutMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public Category updateCategory(@Parameter(name = "Category", description = "Category_obj to update") @RequestBody Category category) {
+    public CategoryReadTO updateCategory(@Parameter(name = "Category", description = "Category_obj to update") @RequestBody CategoryWriteTO category) {
         return categoryService.updateCategory(category);
     }
 

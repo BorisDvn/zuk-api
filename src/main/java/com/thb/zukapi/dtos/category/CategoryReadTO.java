@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
 
-import com.thb.zukapi.models.Announcement;
+import com.thb.zukapi.dtos.announcements.AnnouncementReadListTO;
 import com.thb.zukapi.models.File;
 
 import lombok.AccessLevel;
@@ -30,5 +30,5 @@ public class CategoryReadTO {
     @NotBlank
     String name;
 
-    List<Announcement> announcements; // TODO: announcementsReadList!?
+    List<AnnouncementReadListTO> announcements;
 }

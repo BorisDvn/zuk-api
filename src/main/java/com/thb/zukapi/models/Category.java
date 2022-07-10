@@ -34,6 +34,6 @@ public class Category extends Auditable<String> {
 	@Column(unique = true)
 	private String name;
 
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
 	private List<Announcement> announcements;
 }
