@@ -36,4 +36,4 @@ fileStorage:
 # News Api
 newsApi:
     authorization: S-wXaSPAhyptpFqvkxy4XyEs6sAVMxspQrO67jYESaxIA0R6
-    url: https://api.currentsapi.services/v1/search?keywords=Refugee&language=en&country=DE&page_size=200
+    url: https://api.currentsapi.services/v1/search?keywords=Refugee&language=en&country=DE&page_size=10
