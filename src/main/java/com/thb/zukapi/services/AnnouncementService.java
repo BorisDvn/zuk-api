@@ -16,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.thb.zukapi.dtos.announcements.Announcement2AnnouncementReadListTO;
 import com.thb.zukapi.dtos.announcements.Announcement2AnnouncementReadTO;
+import com.thb.zukapi.dtos.announcements.AnnouncementReadListTO;
 import com.thb.zukapi.dtos.announcements.AnnouncementReadTO;
 import com.thb.zukapi.dtos.announcements.AnnouncementWriteTO;
 import com.thb.zukapi.dtos.files.FileTO;
@@ -62,12 +64,19 @@ public class AnnouncementService {
 		return Announcement2AnnouncementReadTO.apply(findAnnouncement(id));
 	}
 
-	public List<AnnouncementReadTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+	public List<AnnouncementReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
 		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Announcement> pagedResult = announcementRepository.findAll(paging);
 
-		return Announcement2AnnouncementReadTO.apply(pagedResult.getContent());
+		return Announcement2AnnouncementReadListTO.apply(pagedResult.getContent());
+	}
+	
+	public List<AnnouncementReadTO> getAnnouncementByCategory(String catName) {
+
+		List<Announcement> pagedResult = announcementRepository.findAnnouncementByCategory_Name(catName);
+
+		return Announcement2AnnouncementReadTO.apply(pagedResult);
 	}
 
 	public AnnouncementReadTO addAnnouncement(AnnouncementWriteTO announcement, List<MultipartFile> files) {
@@ -125,27 +134,29 @@ public class AnnouncementService {
 		// find the category
 		Category category = categoryService.findCategory(announcement.getCategoryId());
 
-		Announcement newAnnouncement = new Announcement();
+		announcementToUpdate.setTitle(announcement.getTitle());
 
-		newAnnouncement.setTitle(announcement.getTitle());
-
-		newAnnouncement.setDescription(announcement.getDescription());
+		announcementToUpdate.setDescription(announcement.getDescription());
 
 		// standby as default value
-		newAnnouncement.setStatus(AnnouncementStatus.STANDBY);
+		announcementToUpdate.setStatus(announcement.getStatus());
 
-		newAnnouncement.setCategory(category);
+		announcementToUpdate.setCategory(category);
 
 		// set the creator accordind the user type
 		switch (announcement.getCreatorStatus().toString()) {
 		case "SEEKER":
-			newAnnouncement.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
+			announcementToUpdate.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
+			break;
 		case "HELPER":
-			newAnnouncement.setHelper(helperService.findHelper(announcement.getCreatorId()));
+			announcementToUpdate.setHelper(helperService.findHelper(announcement.getCreatorId()));
+			break;
 		case "ADMIN":
-			newAnnouncement.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
+			announcementToUpdate.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
+			break;
 		case "MANAGER":
-			newAnnouncement.setManager(managerService.getManager(announcement.getCreatorId()));
+			announcementToUpdate.setManager(managerService.getManager(announcement.getCreatorId()));
+			break;
 		}
 
 		return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));

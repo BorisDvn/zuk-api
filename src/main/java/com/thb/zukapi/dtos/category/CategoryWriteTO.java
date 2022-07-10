@@ -1,6 +1,5 @@
 package com.thb.zukapi.dtos.category;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
@@ -23,6 +22,4 @@ public class CategoryWriteTO {
 
     @NotBlank
     String name;
-
-    List<UUID> announcements;
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +41,12 @@ public class AuthController {
 	@Autowired
 	ManagerService managerService;
 
+	@GetMapping("/{email}")
+	public ResponseEntity<?> getUserByMail(@PathVariable String email) {
+
+		return userService.getUserByMail(email);
+	}
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody SigninTO loginRequest) {
 
@@ -47,7 +55,6 @@ public class AuthController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody PersonWriteTO signUpRequest) {
-		
 
 		// make the signup according the role type
 		switch (signUpRequest.getRole()) {

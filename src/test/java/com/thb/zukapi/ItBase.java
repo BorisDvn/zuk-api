@@ -16,15 +16,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.thb.zukapi.dtos.announcements.AnnouncementWriteTO;
 import com.thb.zukapi.dtos.category.CategoryWriteTO;
 import com.thb.zukapi.dtos.files.FileTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.dtos.user.SigninTO;
-
+import com.thb.zukapi.models.Announcement;
+import com.thb.zukapi.models.AnnouncementStatus;
+import com.thb.zukapi.models.Category;
 import com.thb.zukapi.models.Contact;
 import com.thb.zukapi.models.ContactStatus;
-
-import com.thb.zukapi.models.Category;
 import com.thb.zukapi.models.File;
 import com.thb.zukapi.models.Gender;
 import com.thb.zukapi.models.Helper;
@@ -33,10 +34,9 @@ import com.thb.zukapi.models.RoleType;
 import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.models.User;
 import com.thb.zukapi.repositories.AdminRepository;
-
-import com.thb.zukapi.repositories.ContactRepository;
-
+import com.thb.zukapi.repositories.AnnouncementRepository;
 import com.thb.zukapi.repositories.CategoryRepository;
+import com.thb.zukapi.repositories.ContactRepository;
 import com.thb.zukapi.repositories.FileRepository;
 import com.thb.zukapi.repositories.HelperRepository;
 import com.thb.zukapi.repositories.RoleRepository;
@@ -60,13 +60,13 @@ public class ItBase {
 	protected HelperRepository helperRepository;
 
 	@Autowired
-	protected CategoryRepository categoryRepository;
-
-	@Autowired
 	protected AdminRepository adminRepository;
 
 	@Autowired
 	protected ContactRepository contactRepository;
+
+	@Autowired
+	protected CategoryRepository categoryRepository;
 
 	@Autowired
 	protected UserRepository userRepository;
@@ -76,6 +76,9 @@ public class ItBase {
 
 	@Autowired
 	protected FileRepository fileRepository;
+
+	@Autowired
+	protected AnnouncementRepository announcementRepository;
 
 	@Mock
 	protected FileUpload fileUpload;
@@ -101,7 +104,10 @@ public class ItBase {
 
 		adminRepository.deleteAll();
 		seekerRepository.deleteAll();
+		announcementRepository.deleteAll();
 		helperRepository.deleteAll();
+		categoryRepository.deleteAll();
+		fileRepository.deleteAll();
 		userRepository.deleteAll();
 		contactRepository.deleteAll();
 	}
@@ -117,6 +123,14 @@ public class ItBase {
 		seeker.setGender(Gender.M);
 		seeker.setPhone("+0012334234543");
 		seeker.setUser(user);
+
+		return seeker;
+	}
+
+	protected Seeker buildSeekerWithAnnouncement(User user, Announcement announcemn) {
+
+		Seeker seeker = buildSeeker(user);
+		seeker.getAnnouncements().add(announcemn);
 
 		return seeker;
 	}
@@ -228,4 +242,29 @@ public class ItBase {
 		file.setFileLink(UUID.randomUUID().toString());
 		return file;
 	}
+
+	protected Announcement buildAnnouncement(Helper creator, Category category) {
+
+		Announcement announcement = new Announcement();
+		announcement.setTitle(UUID.randomUUID().toString());
+		announcement.setDescription(UUID.randomUUID().toString());
+		announcement.setHelper(creator);
+		announcement.setCategory(category);
+		announcement.setStatus(AnnouncementStatus.PROCESSED);
+
+		return announcement;
+	}
+
+	protected AnnouncementWriteTO buildAnnouncementWriteTO(UUID creatorId, UUID categoryId) {
+
+		AnnouncementWriteTO announcement = new AnnouncementWriteTO();
+		announcement.setTitle(UUID.randomUUID().toString());
+		announcement.setDescription(UUID.randomUUID().toString());
+		announcement.setCreatorStatus(RoleType.HELPER);
+		announcement.setCreatorId(creatorId);
+		announcement.setCategoryId(categoryId);
+
+		return announcement;
+	}
+
 }

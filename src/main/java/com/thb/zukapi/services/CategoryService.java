@@ -42,14 +42,18 @@ public class CategoryService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-
+	
 	public CategoryReadTO getCategory(UUID id) {
 		return Category2CategoryReadTO.apply(findCategory(id));
 	}
 
-	public Category getCategoryByName(String name) {
-		return categoryRepository.findByName(name)
-				.orElseThrow(() -> new ApiRequestException("Cannot find Category with name: " + name));
+	public CategoryReadTO getCategoryByName(String name) {
+
+		if (categoryRepository.findByName(name).isPresent()) {
+			return Category2CategoryReadTO.apply(categoryRepository.findByName(name).get());
+		} else {
+			throw new ApiRequestException("Cannot find Category with name: " + name);
+		}
 	}
 
 	public List<CategoryReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
@@ -60,7 +64,7 @@ public class CategoryService {
 		return Category2CategoryReadListTO.apply(pagedResult.getContent());
 	}
 
-	public Category addCategory(CategoryWriteTO category, MultipartFile file) throws IOException {
+	public CategoryReadTO addCategory(CategoryWriteTO category, MultipartFile file) throws IOException {
 
 		FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
 
@@ -75,22 +79,20 @@ public class CategoryService {
 		newCategory.setName(category.getName());
 		newCategory.setCover(cover);
 
-		return categoryRepository.save(newCategory);
+		return Category2CategoryReadTO.apply(categoryRepository.save(newCategory));
 	}
 
-	public Category updateCategory(Category category) {
+	public CategoryReadTO updateCategory(CategoryWriteTO category) {
 
 		Category categoryToUpdate = findCategory(category.getId());
 
 		if (category.getName() != null)
 			categoryToUpdate.setName(category.getName());
-		if (category.getCover() != null)
-			categoryToUpdate.setCover(category.getCover());
 
-		return categoryRepository.save(categoryToUpdate);
+		return Category2CategoryReadTO.apply(categoryRepository.save(categoryToUpdate));
 	}
 
-	public Category updateCategoryImage(UUID categoryId, MultipartFile file) {
+	public CategoryReadTO updateCategoryImage(UUID categoryId, MultipartFile file) {
 
 		Category categoryToUpdate = findCategory(categoryId);
 
@@ -109,12 +111,13 @@ public class CategoryService {
 			categoryToUpdate.setCover(cover);
 		}
 
-		return categoryRepository.save(categoryToUpdate);
+		return Category2CategoryReadTO.apply(categoryRepository.save(categoryToUpdate));
 	}
 
 	public ResponseEntity<String> deleteCategoryById(UUID id) {
 
 		if (getCategory(id) != null) {
+			
 			categoryRepository.deleteById(id);
 		}
 

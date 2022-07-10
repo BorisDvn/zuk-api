@@ -27,6 +27,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 @Entity
@@ -34,6 +35,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "announcement")
 public class Announcement extends Auditable<String> {
@@ -63,14 +65,18 @@ public class Announcement extends Auditable<String> {
 	Category category;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "helper_id", referencedColumnName = "id")
 	Helper helper;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "seeker_id", referencedColumnName = "id")
 	Seeker seeker;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "admin_id", referencedColumnName = "id")
 	Admin admin;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "manager_id", referencedColumnName = "id")
 	Manager manager;
 }

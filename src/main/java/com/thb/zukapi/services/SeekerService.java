@@ -69,7 +69,7 @@ public class SeekerService {
 		return seekerRepository.save(newSeeker);
 	}
 
-	public Seeker updateSeeker(Seeker seeker) {
+	public SeekerReadTO updateSeeker(PersonWriteTO seeker) {
 
 		Seeker seekerToUpdate = findSeeker(seeker.getId());
 
@@ -90,7 +90,7 @@ public class SeekerService {
 		if (seeker.getGender() != null)
 			seekerToUpdate.setGender(seeker.getGender());
 
-		return seekerRepository.save(seekerToUpdate);
+		return Seeker2SeekerReadTO.apply(seekerRepository.save(seekerToUpdate));
 	}
 
 	public ResponseEntity<String> deleteSeekerById(UUID id) {

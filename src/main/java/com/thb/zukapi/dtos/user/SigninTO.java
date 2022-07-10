@@ -18,7 +18,5 @@ public class SigninTO {
 
 	@Size(min = 6)
 	String password;
-	
-	String role;
 
 }

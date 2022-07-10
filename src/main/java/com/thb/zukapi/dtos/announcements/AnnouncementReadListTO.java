@@ -1,12 +1,12 @@
-package com.thb.zukapi.dtos.category;
+package com.thb.zukapi.dtos.announcements;
 
-import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 
-import com.thb.zukapi.dtos.announcements.AnnouncementReadListTO;
-import com.thb.zukapi.models.File;
+import com.thb.zukapi.models.AnnouncementStatus;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,15 +20,14 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CategoryReadTO {
+public class AnnouncementReadListTO {
 
-    UUID id;
+	UUID id;
 
-    @NotBlank
-    File cover; // cover pic
+	@NotBlank
+	String title;
 
-    @NotBlank
-    String name;
+	@Enumerated(EnumType.STRING)
+	AnnouncementStatus status;
 
-    List<AnnouncementReadListTO> announcements;
 }
