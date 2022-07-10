@@ -42,7 +42,7 @@ public class AnnouncementWriteTO {
 
 	UUID categoryId;
 
-	UUID creatorId;
+	UUID creatorId; // Admin, Helper, Seeker, Manager
 
 	//for not registered users
 	@Email
