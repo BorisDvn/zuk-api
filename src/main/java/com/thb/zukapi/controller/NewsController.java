@@ -52,7 +52,7 @@ public class NewsController {
 	public News getNewsById(@Parameter(name = "NewsId", description = "ID of the News_obj") @PathVariable UUID id) {
 		return newsService.getNews(id);
 	}
-
+	
     @Operation(summary = "Add One News")
     @ApiResponse(responseCode = "200", description = "News added",
             content = {@Content(mediaType = "application/json",
