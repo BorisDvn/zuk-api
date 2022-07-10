@@ -17,6 +17,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.dtos.user.SigninTO;
+import com.thb.zukapi.models.Contact;
+import com.thb.zukapi.models.ContactStatus;
 import com.thb.zukapi.models.Gender;
 import com.thb.zukapi.models.Helper;
 import com.thb.zukapi.models.Role;
@@ -24,6 +26,7 @@ import com.thb.zukapi.models.RoleType;
 import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.models.User;
 import com.thb.zukapi.repositories.AdminRepository;
+import com.thb.zukapi.repositories.ContactRepository;
 import com.thb.zukapi.repositories.HelperRepository;
 import com.thb.zukapi.repositories.RoleRepository;
 import com.thb.zukapi.repositories.SeekerRepository;
@@ -40,16 +43,13 @@ public class ItBase {
 
 	@Autowired
 	protected SeekerRepository seekerRepository;
-	
-	@Autowired
-	protected HelperRepository helperRepository;
 
 	@Autowired
 	protected HelperRepository helperRepository;
 
 	@Autowired
 	protected AdminRepository adminRepository;
-	
+
 	@Autowired
 	protected ContactRepository contactRepository;
 
@@ -142,7 +142,7 @@ public class ItBase {
 
 		return seeker;
 	}
-	
+
 	protected Helper buildHelper() {
 
 		Helper helper = new Helper();
@@ -156,40 +156,15 @@ public class ItBase {
 
 		return helper;
 	}
-	
+
 	protected Contact buildContact() {
 
 		Contact contact = new Contact();
 		contact.setSubject(UUID.randomUUID().toString());
 		contact.setStatus(ContactStatus.UNREAD);
 		contact.setDescription(UUID.randomUUID().toString());
-		
+
 		return contact;
-	}
-
-	protected SignupTO buildSignup() {
-
-		SignupTO seeker = new SignupTO();
-		seeker.setAdresse(UUID.randomUUID().toString());
-		seeker.setDob(LocalDate.now());
-		seeker.setEmail("123456@email.com");
-		seeker.setFirstname(UUID.randomUUID().toString());
-		seeker.setLastname(UUID.randomUUID().toString());
-		seeker.setGender(Gender.M);
-		seeker.setRole("SEEKER");
-		seeker.setPassword("123456789");
-		seeker.setPhone("+0012334234543");
-
-		return seeker;
-	}
-	
-	protected SigninTO buildSignin() {
-
-		SigninTO seeker = new SigninTO();
-		seeker.setEmail("123456@email.com");
-		seeker.setPassword("123456789");
-
-		return seeker;
 	}
 
 	protected SigninTO buildSignin() {
