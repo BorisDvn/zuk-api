@@ -33,4 +33,5 @@ public class SeekerReadTO extends PersonWriteTO {
 	String lastModifiedBy;
 
 	Date lastModifiedDate;
+
 }
