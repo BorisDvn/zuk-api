@@ -57,7 +57,7 @@ public class ItBase {
 	protected SeekerRepository seekerRepository;
 
 	@Autowired
-	protected CategoryRepository categoryRepository;
+	protected HelperRepository helperRepository;
 
 	@Autowired
 	protected CategoryRepository categoryRepository;
@@ -148,30 +148,6 @@ public class ItBase {
 		return helper;
 	}
 
-	protected Helper buildHelper() {
-
-		Helper helper = new Helper();
-		helper.setAdresse(UUID.randomUUID().toString());
-		helper.setDob(LocalDate.now());
-		helper.setEmail(UUID.randomUUID().toString() + "@email.com");
-		helper.setFirstname(UUID.randomUUID().toString());
-		helper.setLastname(UUID.randomUUID().toString());
-		helper.setGender(Gender.M);
-		helper.setPhone("+0012334234543");
-
-		return helper;
-	}
-
-	protected Contact buildContact() {
-
-		Contact contact = new Contact();
-		contact.setSubject(UUID.randomUUID().toString());
-		contact.setStatus(ContactStatus.UNREAD);
-		contact.setDescription(UUID.randomUUID().toString());
-
-		return contact;
-	}
-
 	protected PersonWriteTO buildSignup() {
 
 		PersonWriteTO seeker = new PersonWriteTO();
@@ -234,13 +210,6 @@ public class ItBase {
 		return cat;
 	}
 
-	protected File buildFile() {
-		File file = new File();
-		file.setName(UUID.randomUUID().toString());
-		file.setFileLink(UUID.randomUUID().toString());
-		return file;
-	}
-
 	protected FileTO buildFileTO() {
 		FileTO file = new FileTO();
 		file.setId(UUID.randomUUID());
@@ -253,36 +222,10 @@ public class ItBase {
 		return file;
 	}
 
-	protected Category buildCategory(File file) {
-		Category cat = new Category();
-		cat.setName(UUID.randomUUID().toString());
-		cat.setCover(file);
-		return cat;
-	}
-
-	protected CategoryWriteTO buildCategoryWriteTO() {
-		CategoryWriteTO cat = new CategoryWriteTO();
-		cat.setName(UUID.randomUUID().toString());
-		return cat;
-	}
-
 	protected File buildFile() {
 		File file = new File();
 		file.setName(UUID.randomUUID().toString());
 		file.setFileLink(UUID.randomUUID().toString());
 		return file;
 	}
-
-	protected FileTO buildFileTO() {
-		FileTO file = new FileTO();
-		file.setId(UUID.randomUUID());
-		file.setFilename(UUID.randomUUID().toString());
-		file.setRemoteName(UUID.randomUUID().toString());
-		file.setRemoteId(UUID.randomUUID().toString());
-		file.setFilesize(1L);
-		file.setPath(UUID.randomUUID().toString());
-		file.setFileLink(UUID.randomUUID().toString());
-		return file;
-	}
-
 }
