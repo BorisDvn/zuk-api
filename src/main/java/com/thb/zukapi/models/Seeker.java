@@ -1,5 +1,6 @@
 package com.thb.zukapi.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,12 +13,14 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Seeker extends Person {
 
@@ -25,7 +28,7 @@ public class Seeker extends Person {
 	@JoinColumn(name = "user_id")
 	User user;
 
-	@OneToMany(mappedBy = "seeker", fetch = FetchType.LAZY)
-	List<Announcement> announcements;
+	@OneToMany(mappedBy = "seeker", fetch = FetchType.EAGER)
+	List<Announcement> announcements = new ArrayList<Announcement>();
 }
 

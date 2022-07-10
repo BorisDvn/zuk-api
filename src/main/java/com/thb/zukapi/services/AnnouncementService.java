@@ -16,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.thb.zukapi.dtos.announcements.Announcement2AnnouncementReadListTO;
 import com.thb.zukapi.dtos.announcements.Announcement2AnnouncementReadTO;
+import com.thb.zukapi.dtos.announcements.AnnouncementReadListTO;
 import com.thb.zukapi.dtos.announcements.AnnouncementReadTO;
 import com.thb.zukapi.dtos.announcements.AnnouncementWriteTO;
 import com.thb.zukapi.dtos.files.FileTO;
@@ -62,12 +64,12 @@ public class AnnouncementService {
 		return Announcement2AnnouncementReadTO.apply(findAnnouncement(id));
 	}
 
-	public List<AnnouncementReadTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+	public List<AnnouncementReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
 		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Announcement> pagedResult = announcementRepository.findAll(paging);
 
-		return Announcement2AnnouncementReadTO.apply(pagedResult.getContent());
+		return Announcement2AnnouncementReadListTO.apply(pagedResult.getContent());
 	}
 	
 	public List<AnnouncementReadTO> getAnnouncementByCategory(String catName) {

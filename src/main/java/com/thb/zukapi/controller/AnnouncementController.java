@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.thb.zukapi.dtos.announcements.AnnouncementReadListTO;
 import com.thb.zukapi.dtos.announcements.AnnouncementReadTO;
 import com.thb.zukapi.dtos.announcements.AnnouncementWriteTO;
 import com.thb.zukapi.models.Announcement;
@@ -44,7 +45,7 @@ public class AnnouncementController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = AnnouncementReadTO.class))})
     @GetMapping("")
-    public List<AnnouncementReadTO> getAllAnnouncement(@RequestParam(defaultValue = "0") Integer pageNo,
+    public List<AnnouncementReadListTO> getAllAnnouncement(@RequestParam(defaultValue = "0") Integer pageNo,
                                                    @RequestParam(defaultValue = "15") Integer pageSize,
                                                    @RequestParam(defaultValue = "title") String sortBy) {
         return announcementService.getAll(pageNo, pageSize, sortBy);

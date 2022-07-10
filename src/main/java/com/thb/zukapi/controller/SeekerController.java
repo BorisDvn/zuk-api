@@ -70,8 +70,8 @@ public class SeekerController {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = Seeker.class)) })
 	@PutMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-	public Seeker updateSeeker(
-			@Parameter(name = "Seeker", description = "Seeker_obj to update") @RequestBody Seeker seeker) {
+	public SeekerReadTO updateSeeker(
+			@Parameter(name = "Seeker", description = "Seeker_obj to update") @RequestBody PersonWriteTO seeker) {
 		return seekerService.updateSeeker(seeker);
 	}
 

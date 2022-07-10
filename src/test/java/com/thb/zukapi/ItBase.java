@@ -63,7 +63,7 @@ public class ItBase {
 
 	@Autowired
 	protected ContactRepository contactRepository;
-	
+
 	@Autowired
 	protected CategoryRepository categoryRepository;
 
@@ -122,6 +122,14 @@ public class ItBase {
 		seeker.setGender(Gender.M);
 		seeker.setPhone("+0012334234543");
 		seeker.setUser(user);
+
+		return seeker;
+	}
+
+	protected Seeker buildSeekerWithAnnouncement(User user, Announcement announcemn) {
+
+		Seeker seeker = buildSeeker(user);
+		seeker.getAnnouncements().add(announcemn);
 
 		return seeker;
 	}

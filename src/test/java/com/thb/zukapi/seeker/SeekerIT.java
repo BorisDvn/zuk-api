@@ -13,6 +13,10 @@ import org.junit.jupiter.api.Test;
 
 import com.thb.zukapi.ItBase;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
+import com.thb.zukapi.models.Announcement;
+import com.thb.zukapi.models.Category;
+import com.thb.zukapi.models.File;
+import com.thb.zukapi.models.Helper;
 import com.thb.zukapi.models.Seeker;
 
 import io.restassured.http.ContentType;
@@ -22,12 +26,32 @@ public class SeekerIT extends ItBase {
     Seeker seeker, seeker1;
     
     PersonWriteTO signupSeeker;
+    
+    Announcement announcement;
+    
+    Category category;
+    
+    File file;
+        
+    Helper helper;
 
     @BeforeEach
     public void setup() {
         super.setup();
-
-        seeker = buildSeeker(user);
+        
+        file = buildFile();
+        file = fileRepository.save(file);
+        
+        category = buildCategory(file);
+        category = categoryRepository.save(category);
+        
+        helper = buildHelper(user);
+        helper = helperRepository.save(helper);
+        
+        announcement = buildAnnouncement(helper, category);
+        announcement = announcementRepository.save(announcement);
+         
+        seeker = buildSeekerWithAnnouncement(user, announcement);
         seeker = seekerRepository.save(seeker);
 
         seeker1 = buildSeeker(user1);
@@ -63,7 +87,34 @@ public class SeekerIT extends ItBase {
     }
     
     @Test
+    public void updateSeeker() {
+    	PersonWriteTO update = buildSignup();
+    	update.setId(seeker.getId());
+    	update.setAdresse(UUID.randomUUID().toString());
+    	
+        UUID id = UUID.fromString(
+                given()
+                        .contentType(ContentType.JSON)
+                        .body(update)
+                        .log().body()
+                        .put("zuk-api/v1/seeker")
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .extract().body().path("id"));
+
+        Seeker seeker = seekerRepository.findById(id).get();
+
+        assertThat(seeker.getId(), is(update.getId()));
+        assertThat(seeker.getLastname(), is(update.getLastname()));
+        assertThat(seeker.getEmail(), is(update.getEmail()));
+    }
+    
+    @Test
     public void getSeeker() {
+    	
+    	seeker.getAnnouncements().add(announcement);
+    	seekerRepository.save(seeker);
 
         UUID id = UUID.fromString(
                 given()
@@ -75,10 +126,12 @@ public class SeekerIT extends ItBase {
                         .statusCode(200)
                         .extract().body().path("id"));
 
-        Seeker seeker = seekerRepository.findById(id).get();
+        Seeker seeker_ = seekerRepository.findById(id).get();
+        System.out.println(seeker_.getAnnouncements());
+        System.out.println(seeker);
 
-        assertThat(seeker.getLastname(), is(seeker.getLastname()));
-        assertThat(seeker.getEmail(), is(seeker.getEmail()));
+        assertThat(seeker_.getLastname(), is(seeker.getLastname()));
+        assertThat(seeker_.getEmail(), is(seeker.getEmail()));
     }
     
     @Test

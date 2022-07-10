@@ -41,6 +41,10 @@ import com.thb.zukapi.dtos.user.UpdatePasswordTO;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Role;
 import com.thb.zukapi.models.User;
+import com.thb.zukapi.repositories.AdminRepository;
+import com.thb.zukapi.repositories.HelperRepository;
+import com.thb.zukapi.repositories.ManagerRepository;
+import com.thb.zukapi.repositories.SeekerRepository;
 import com.thb.zukapi.repositories.UserRepository;
 
 @Service
@@ -63,6 +67,18 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private JwtUtils jwtUtils;
+
+	@Autowired
+	private SeekerRepository seekerRepository;
+
+	@Autowired
+	private AdminRepository adminRepository;
+
+	@Autowired
+	private ManagerRepository managerRepository;
+
+	@Autowired
+	private HelperRepository helperRepository;
 
 	public User getUser(UUID id) {
 		return userRepository.findById(id)
@@ -110,7 +126,7 @@ public class UserService implements UserDetailsService {
 		return userRepository.save(userToUpdate);
 	}
 
-	// delete a system user 
+	// delete a system user
 	public ResponseEntity<String> deleteUserById(UUID id) {
 		User userToDelete = getUser(id);
 
@@ -165,23 +181,23 @@ public class UserService implements UserDetailsService {
 			Role role = roleService.getRole(strRoles);
 
 			switch (role.getName()) {
-				case SEEKER:
-					roles.add(role);
-				    break;
-				case HELPER:
-					roles.add(role);
-					break;
-				case MANAGER:
-					roles.add(role);
-					roles.add(roleService.getRole("SEEKER"));
-					roles.add(roleService.getRole("HELPER"));
-					break;
-				case ADMIN:
-					roles.add(role);
-					roles.add(roleService.getRole("MANAGER"));
-					roles.add(roleService.getRole("SEEKER"));
-					roles.add(roleService.getRole("HELPER"));
-					break;
+			case SEEKER:
+				roles.add(role);
+				break;
+			case HELPER:
+				roles.add(role);
+				break;
+			case MANAGER:
+				roles.add(role);
+				roles.add(roleService.getRole("SEEKER"));
+				roles.add(roleService.getRole("HELPER"));
+				break;
+			case ADMIN:
+				roles.add(role);
+				roles.add(roleService.getRole("MANAGER"));
+				roles.add(roleService.getRole("SEEKER"));
+				roles.add(roleService.getRole("HELPER"));
+				break;
 			}
 
 		}
@@ -197,7 +213,7 @@ public class UserService implements UserDetailsService {
 		String jwt = jwtUtils.generateJwtToken(authentication);
 
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		
+
 		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
@@ -211,5 +227,22 @@ public class UserService implements UserDetailsService {
 
 		return ResponseEntity.ok(new SigninResponse(jwt, userDetails.getUsername(), roles));
 
+	}
+
+	public ResponseEntity<?> getUserByMail(String email) {
+
+		if (seekerRepository.findByEmail(email).isPresent())
+			return ResponseEntity.ok(seekerRepository.findByEmail(email).get());
+
+		if (managerRepository.findByEmail(email).isPresent())
+			return ResponseEntity.ok(managerRepository.findByEmail(email).get());
+
+		if (adminRepository.findByEmail(email).isPresent())
+			return ResponseEntity.ok(adminRepository.findByEmail(email).get());
+
+		if (helperRepository.findByEmail(email).isPresent())
+			return ResponseEntity.ok(helperRepository.findByEmail(email).get());
+
+		return ResponseEntity.badRequest().build();
 	}
 }
