@@ -38,6 +38,7 @@ public class News extends Auditable<String> {
     UUID id;
 
     @NotBlank
+    @Column(columnDefinition = "text")
     String title;
 
     @ElementCollection
@@ -49,10 +50,12 @@ public class News extends Auditable<String> {
     @Column(columnDefinition = "text")
     String description;
 
+    @Column(columnDefinition = "text")
     String url;
 
     String author;
 
+    @Column(columnDefinition = "text")
     String image;
 
     String published;
