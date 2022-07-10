@@ -90,7 +90,7 @@ public class HelperIT extends ItBase {
         given()
                 .contentType(ContentType.JSON)
                 .log().body()
-                .get("zuk-api/v1/helper/"+helper.getId())
+                .delete("zuk-api/v1/helper/"+helper.getId())
                 .then()
                 .log().body()
                 .statusCode(200);

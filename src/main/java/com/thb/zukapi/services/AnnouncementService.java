@@ -69,6 +69,13 @@ public class AnnouncementService {
 
 		return Announcement2AnnouncementReadTO.apply(pagedResult.getContent());
 	}
+	
+	public List<AnnouncementReadTO> getAnnouncementByCategory(String catName) {
+
+		List<Announcement> pagedResult = announcementRepository.findAnnouncementByCategory_Name(catName);
+
+		return Announcement2AnnouncementReadTO.apply(pagedResult);
+	}
 
 	public AnnouncementReadTO addAnnouncement(AnnouncementWriteTO announcement, List<MultipartFile> files) {
 
@@ -125,27 +132,29 @@ public class AnnouncementService {
 		// find the category
 		Category category = categoryService.findCategory(announcement.getCategoryId());
 
-		Announcement newAnnouncement = new Announcement();
+		announcementToUpdate.setTitle(announcement.getTitle());
 
-		newAnnouncement.setTitle(announcement.getTitle());
-
-		newAnnouncement.setDescription(announcement.getDescription());
+		announcementToUpdate.setDescription(announcement.getDescription());
 
 		// standby as default value
-		newAnnouncement.setStatus(AnnouncementStatus.STANDBY);
+		announcementToUpdate.setStatus(announcement.getStatus());
 
-		newAnnouncement.setCategory(category);
+		announcementToUpdate.setCategory(category);
 
 		// set the creator accordind the user type
 		switch (announcement.getCreatorStatus().toString()) {
 		case "SEEKER":
-			newAnnouncement.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
+			announcementToUpdate.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
+			break;
 		case "HELPER":
-			newAnnouncement.setHelper(helperService.findHelper(announcement.getCreatorId()));
+			announcementToUpdate.setHelper(helperService.findHelper(announcement.getCreatorId()));
+			break;
 		case "ADMIN":
-			newAnnouncement.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
+			announcementToUpdate.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
+			break;
 		case "MANAGER":
-			newAnnouncement.setManager(managerService.getManager(announcement.getCreatorId()));
+			announcementToUpdate.setManager(managerService.getManager(announcement.getCreatorId()));
+			break;
 		}
 
 		return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));
