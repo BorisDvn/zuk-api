@@ -78,6 +78,13 @@ public class AnnouncementService {
 
 		return Announcement2AnnouncementReadTO.apply(pagedResult);
 	}
+	
+	public List<AnnouncementReadTO> getAnnouncementByCategory(String catName) {
+
+		List<Announcement> pagedResult = announcementRepository.findAnnouncementByCategory_Name(catName);
+
+		return Announcement2AnnouncementReadTO.apply(pagedResult);
+	}
 
 	public AnnouncementReadTO addAnnouncement(AnnouncementWriteTO announcement, List<MultipartFile> files) {
 
