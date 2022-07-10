@@ -16,6 +16,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -37,40 +38,46 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "announcement")
 public class Announcement extends Auditable<String> {
-	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	UUID id;
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    UUID id;
 
-	@NotBlank
-	String title;
+    @NotBlank
+    String title;
 
-	@ElementCollection
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "image_id", referencedColumnName = "id")
-	List<File> images;
+    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    List<File> images;
 
-	@Lob
-	@NotBlank
-	String description;
+    @Lob
+    @NotBlank
+    String description;
 
-	@Enumerated(EnumType.STRING)
-	AnnouncementStatus status; // standby as default value
+    @Enumerated(EnumType.STRING)
+    AnnouncementStatus status; // standby as default value
 
-	@JsonIdentityReference(alwaysAsId = true)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
-	Category category;
+    //for not registered users
+    @Email
+    String email;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	Helper helper;
+    String tel;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	Seeker seeker;
+    @JsonIdentityReference(alwaysAsId = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
+    Category category;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	Admin admin;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Helper helper;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	Manager manager;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Seeker seeker;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    Admin admin;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    Manager manager;
 }
