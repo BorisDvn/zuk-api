@@ -63,7 +63,7 @@ public class Person extends Auditable<String> {
 	String email; // As username
 
 	@NotBlank
-	String adresse;
+	String address;
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)

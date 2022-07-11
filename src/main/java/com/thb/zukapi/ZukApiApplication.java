@@ -34,28 +34,29 @@ public class ZukApiApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		// Save roles only one type
 		Role role1 = new Role();
 		role1.setId(UUID.randomUUID());
 		role1.setName(RoleType.ADMIN);
-		if(!roleRepository.existsByName(role1.getName()))
+		if (!roleRepository.existsByName(role1.getName()))
 			roleRepository.save(role1);
 
 		Role role2 = new Role();
 		role2.setId(UUID.randomUUID());
 		role2.setName(RoleType.HELPER);
-		if(!roleRepository.existsByName(role2.getName()))
+		if (!roleRepository.existsByName(role2.getName()))
 			roleRepository.save(role2);
 
 		Role role3 = new Role();
 		role3.setId(UUID.randomUUID());
 		role3.setName(RoleType.MANAGER);
-		if(!roleRepository.existsByName(role3.getName()))
+		if (!roleRepository.existsByName(role3.getName()))
 			roleRepository.save(role3);
 
 		Role role4 = new Role();
 		role4.setId(UUID.randomUUID());
 		role4.setName(RoleType.SEEKER);
-		if(!roleRepository.existsByName(role4.getName()))
+		if (!roleRepository.existsByName(role4.getName()))
 			roleRepository.save(role4);
 	}
 

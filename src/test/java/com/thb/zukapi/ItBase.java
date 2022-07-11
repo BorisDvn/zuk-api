@@ -17,12 +17,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.thb.zukapi.dtos.announcements.AnnouncementWriteTO;
+import com.thb.zukapi.dtos.applicants.ApplicantReadTO;
 import com.thb.zukapi.dtos.category.CategoryWriteTO;
 import com.thb.zukapi.dtos.files.FileTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.dtos.user.SigninTO;
 import com.thb.zukapi.models.Announcement;
 import com.thb.zukapi.models.AnnouncementStatus;
+import com.thb.zukapi.models.Applicant;
 import com.thb.zukapi.models.Category;
 import com.thb.zukapi.models.Contact;
 import com.thb.zukapi.models.ContactStatus;
@@ -35,6 +37,7 @@ import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.models.User;
 import com.thb.zukapi.repositories.AdminRepository;
 import com.thb.zukapi.repositories.AnnouncementRepository;
+import com.thb.zukapi.repositories.ApplicantRepository;
 import com.thb.zukapi.repositories.CategoryRepository;
 import com.thb.zukapi.repositories.ContactRepository;
 import com.thb.zukapi.repositories.FileRepository;
@@ -62,8 +65,13 @@ public class ItBase {
 	@Autowired
 	protected AdminRepository adminRepository;
 
+<<<<<<< HEAD
 	@Autowired
 	protected ContactRepository contactRepository;
+=======
+    @Autowired
+    protected ContactRepository contactRepository;
+>>>>>>> c2ba808 ( implement Applicant)
 
 	@Autowired
 	protected CategoryRepository categoryRepository;
@@ -79,6 +87,9 @@ public class ItBase {
 
 	@Autowired
 	protected AnnouncementRepository announcementRepository;
+	
+	@Autowired
+	protected ApplicantRepository applicantRepository;
 
 	@Mock
 	protected FileUpload fileUpload;
@@ -103,6 +114,7 @@ public class ItBase {
 	public void cleanup() {
 
 		adminRepository.deleteAll();
+		applicantRepository.deleteAll();
 		seekerRepository.deleteAll();
 		announcementRepository.deleteAll();
 		helperRepository.deleteAll();
@@ -114,6 +126,7 @@ public class ItBase {
 
 	protected Seeker buildSeeker(User user) {
 
+<<<<<<< HEAD
 		Seeker seeker = new Seeker();
 		seeker.setAdresse(UUID.randomUUID().toString());
 		seeker.setDob(LocalDate.now());
@@ -123,6 +136,17 @@ public class ItBase {
 		seeker.setGender(Gender.M);
 		seeker.setPhone("+0012334234543");
 		seeker.setUser(user);
+=======
+        Seeker seeker = new Seeker();
+        seeker.setAddress(UUID.randomUUID().toString());
+        seeker.setDob(LocalDate.now());
+        seeker.setEmail(UUID.randomUUID().toString() + "@email.com");
+        seeker.setFirstname(UUID.randomUUID().toString());
+        seeker.setLastname(UUID.randomUUID().toString());
+        seeker.setGender(Gender.M);
+        seeker.setPhone("+0012334234543");
+        seeker.setUser(user);
+>>>>>>> c2ba808 ( implement Applicant)
 
 		return seeker;
 	}
@@ -136,6 +160,7 @@ public class ItBase {
 	}
 
 	protected User buildUser(Role role) {
+<<<<<<< HEAD
 
 		User user = new User();
 		user.setPassword(UUID.randomUUID().toString());
@@ -208,6 +233,83 @@ public class ItBase {
 		file.setFileLink(UUID.randomUUID().toString());
 		return file;
 	}
+=======
+
+        User user = new User();
+        user.setPassword(UUID.randomUUID().toString());
+        user.setEmail(UUID.randomUUID().toString() + "@email.com");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+
+        return user;
+    }
+
+    protected Helper buildHelper(User user) {
+
+		Helper helper = new Helper();
+		helper.setAddress(UUID.randomUUID().toString());
+		helper.setDob(LocalDate.now());
+		helper.setEmail(UUID.randomUUID().toString() + "@email.com");
+		helper.setFirstname(UUID.randomUUID().toString());
+		helper.setLastname(UUID.randomUUID().toString());
+		helper.setGender(Gender.M);
+		helper.setPhone("+0012334234543");
+		helper.setUser(user);
+
+        return helper;
+    }
+
+    protected PersonWriteTO buildSignup() {
+
+		PersonWriteTO seeker = new PersonWriteTO();
+		seeker.setAddress(UUID.randomUUID().toString());
+		seeker.setDob(LocalDate.now());
+		seeker.setEmail("123456@email.com");
+		seeker.setFirstname(UUID.randomUUID().toString());
+		seeker.setLastname(UUID.randomUUID().toString());
+		seeker.setGender(Gender.M);
+		seeker.setRole("SEEKER");
+		seeker.setPassword("123456789");
+		seeker.setPhone("+0012334234543");
+
+
+        return seeker;
+    }
+
+    protected Contact buildContact() {
+
+        Contact contact = new Contact();
+        contact.setSubject(UUID.randomUUID().toString());
+        contact.setStatus(ContactStatus.UNREAD);
+        contact.setDescription(UUID.randomUUID().toString());
+
+        return contact;
+    }
+
+    protected SigninTO buildSignin() {
+
+        SigninTO seeker = new SigninTO();
+        seeker.setEmail("123456@email.com");
+        seeker.setPassword("123456789");
+
+        return seeker;
+    }
+
+
+
+    protected FileTO buildFileTO() {
+        FileTO file = new FileTO();
+        file.setId(UUID.randomUUID());
+        file.setFilename(UUID.randomUUID().toString());
+        file.setRemoteName(UUID.randomUUID().toString());
+        file.setRemoteId(UUID.randomUUID().toString());
+        file.setFilesize(1L);
+        file.setPath(UUID.randomUUID().toString());
+        file.setFileLink(UUID.randomUUID().toString());
+        return file;
+    }
+>>>>>>> c2ba808 ( implement Applicant)
 
 	protected Category buildCategory(File file) {
 		Category cat = new Category();
@@ -251,6 +353,53 @@ public class ItBase {
 		announcement.setCategoryId(categoryId);
 
 		return announcement;
+	}
+
+	protected Applicant buildApplicant(Seeker creator, Announcement announcement) {
+
+		Applicant applicant = new Applicant();
+		applicant.setDetails(UUID.randomUUID().toString());
+		applicant.setAnnouncement(announcement);
+		applicant.setSeeker(creator);
+		applicant.setStatus(ContactStatus.UNREAD);
+
+		return applicant;
+	}
+
+	protected Applicant buildApplicant(Announcement announcement) {
+
+		Applicant applicant = new Applicant();
+		applicant.setDetails(UUID.randomUUID().toString());
+		applicant.setAnnouncement(announcement);
+		applicant.setEmail(UUID.randomUUID().toString());
+		applicant.setStatus(ContactStatus.UNREAD);
+		applicant.setPhone(UUID.randomUUID().toString());
+		applicant.setName(UUID.randomUUID().toString());
+		return applicant;
+	}
+
+	protected ApplicantReadTO buildApplicantReadTO(UUID announcementId) {
+
+		ApplicantReadTO applicant = new ApplicantReadTO();
+		applicant.setDetails(UUID.randomUUID().toString());
+		applicant.setAnnouncementId(announcementId);
+		applicant.setStatus(ContactStatus.UNREAD);
+		applicant.setPhone(UUID.randomUUID().toString());
+		applicant.setName(UUID.randomUUID().toString());
+		applicant.setEmail(UUID.randomUUID().toString());
+
+		return applicant;
+	}
+
+	protected ApplicantReadTO buildApplicantReadTO(UUID seekerId, UUID announcementId) {
+
+		ApplicantReadTO applicant = new ApplicantReadTO();
+		applicant.setDetails(UUID.randomUUID().toString());
+		applicant.setAnnouncementId(announcementId);
+		applicant.setSeekerId(seekerId);
+		applicant.setStatus(ContactStatus.UNREAD);
+
+		return applicant;
 	}
 
 }

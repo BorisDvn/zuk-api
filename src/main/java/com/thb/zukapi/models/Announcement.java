@@ -83,8 +83,11 @@ public class Announcement extends Auditable<String> {
 	@JoinColumn(name = "manager_id", referencedColumnName = "id")
 	Manager manager;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     Category category;
+
+	@ElementCollection
+	@OneToMany(mappedBy = "announcement", fetch = FetchType.LAZY)
+	List<Applicant> applicants;
 }
