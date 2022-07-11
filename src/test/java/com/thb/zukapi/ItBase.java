@@ -2,13 +2,9 @@ package com.thb.zukapi;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.thb.zukapi.dtos.announcements.AnnouncementWriteTO;
-import com.thb.zukapi.models.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +46,6 @@ import com.thb.zukapi.utils.FileUpload;
 
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-testit.yml")
 @ActiveProfiles("testit")
@@ -70,8 +62,8 @@ public class ItBase {
 	@Autowired
 	protected AdminRepository adminRepository;
 
-    @Autowired
-    protected ContactRepository contactRepository;
+	@Autowired
+	protected ContactRepository contactRepository;
 
 	@Autowired
 	protected CategoryRepository categoryRepository;
