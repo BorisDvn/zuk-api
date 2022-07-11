@@ -34,40 +34,40 @@ import com.thb.zukapi.utils.FileUpload;
 @Service
 public class AnnouncementService {
 
-	private final Logger logger = LoggerFactory.getLogger(AnnouncementService.class);
+    private final Logger logger = LoggerFactory.getLogger(AnnouncementService.class);
 
-	@Autowired
-	private CategoryService categoryService;
+    @Autowired
+    private CategoryService categoryService;
 
-	@Autowired
-	private AdminService adminService;
+    @Autowired
+    private AdminService adminService;
 
-	@Autowired
-	private ManagerService managerService;
+    @Autowired
+    private ManagerService managerService;
 
-	@Autowired
-	private HelperService helperService;
+    @Autowired
+    private HelperService helperService;
 
-	@Autowired
-	private SeekerService seekerService;
+    @Autowired
+    private SeekerService seekerService;
 
-	@Autowired
-	private FileUpload fileUpload;
+    @Autowired
+    private FileUpload fileUpload;
 
-	@Autowired
-	private FileRepository fileRepo;
+    @Autowired
+    private FileRepository fileRepo;
 
-	@Autowired
-	private AnnouncementRepository announcementRepository;
+    @Autowired
+    private AnnouncementRepository announcementRepository;
 
-	public AnnouncementReadTO getAnnouncement(UUID id) {
-		return Announcement2AnnouncementReadTO.apply(findAnnouncement(id));
-	}
+    public AnnouncementReadTO getAnnouncement(UUID id) {
+        return Announcement2AnnouncementReadTO.apply(findAnnouncement(id));
+    }
 
 	public List<AnnouncementReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
-		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-		Page<Announcement> pagedResult = announcementRepository.findAll(paging);
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Page<Announcement> pagedResult = announcementRepository.findAll(paging);
 
 		return Announcement2AnnouncementReadListTO.apply(pagedResult.getContent());
 	}
@@ -79,60 +79,92 @@ public class AnnouncementService {
 		return Announcement2AnnouncementReadTO.apply(pagedResult);
 	}
 
-	public AnnouncementReadTO addAnnouncement(AnnouncementWriteTO announcement, List<MultipartFile> files) {
+    public AnnouncementReadTO addAnnouncement(AnnouncementWriteTO announcement, List<MultipartFile> files) {
 
-		// find the category
-		Category category = categoryService.findCategory(announcement.getCategoryId());
+        // find the category
+        Category category = categoryService.findCategory(announcement.getCategoryId());
 
-		Announcement newAnnouncement = new Announcement();
+        Announcement newAnnouncement = new Announcement();
 
-		newAnnouncement.setTitle(announcement.getTitle());
+        newAnnouncement.setTitle(announcement.getTitle());
+        newAnnouncement.setDescription(announcement.getDescription());
+        newAnnouncement.setStatus(AnnouncementStatus.STANDBY);// standby as default value
+        newAnnouncement.setCategory(category);
+        // for not registered users
+        newAnnouncement.setEmail(announcement.getEmail());
+        newAnnouncement.setTel(announcement.getTel());
 
-		newAnnouncement.setDescription(announcement.getDescription());
+        // set images
+        List<File> uploadedFiles = new ArrayList<>();
 
-		// standby as default value
-		newAnnouncement.setStatus(AnnouncementStatus.STANDBY);
+        if (files.size() > 0) {
+            for (MultipartFile file : files) {
+                FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
 
-		newAnnouncement.setCategory(category);
+                File cover = new File();
+                cover.setFileLink(response.getFileLink());
+                cover.setName(response.getFilename());
+                cover = fileRepo.save(cover);
+                uploadedFiles.add(cover);
+            }
+        }
 
-		// set images
-		List<File> uploadedFiles = new ArrayList<>();
+        newAnnouncement.setImages(uploadedFiles);
 
-		if (files.size() > 0) {
-			for (MultipartFile file : files) {
-				FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
+        // set the creator according the usertype
+        switch (announcement.getCreatorStatus().toString()) {
+            case "SEEKER":
+                newAnnouncement.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
+            case "HELPER":
+                newAnnouncement.setHelper(helperService.findHelper(announcement.getCreatorId()));
+            case "ADMIN":
+                newAnnouncement.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
+            case "MANAGER":
+                newAnnouncement.setManager(managerService.getManager(announcement.getCreatorId()));
+        }
 
-				File cover = new File();
-				cover.setFileLink(response.getFileLink());
-				cover.setName(response.getFilename());
-				cover = fileRepo.save(cover);
-				uploadedFiles.add(cover);
-			}
-		}
+        return Announcement2AnnouncementReadTO.apply(announcementRepository.save(newAnnouncement));
+    }
 
-		newAnnouncement.setImages(uploadedFiles);
+    public AnnouncementReadTO updateAnnouncement(AnnouncementWriteTO announcement) {
 
-		// set the creator according the usertype
-		switch (announcement.getCreatorStatus().toString()) {
-		case "SEEKER":
-			newAnnouncement.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
-		case "HELPER":
-			newAnnouncement.setHelper(helperService.findHelper(announcement.getCreatorId()));
-		case "ADMIN":
-			newAnnouncement.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
-		case "MANAGER":
-			newAnnouncement.setManager(managerService.getManager(announcement.getCreatorId()));
-		}
+        Announcement announcementToUpdate = findAnnouncement(announcement.getId());
 
-		return Announcement2AnnouncementReadTO.apply(announcementRepository.save(newAnnouncement));
-	}
+        if (announcement.getTitle() != null)
+            announcementToUpdate.setTitle(announcement.getTitle());
+        if (announcement.getDescription() != null)
+            announcementToUpdate.setDescription(announcement.getDescription());
+        if (announcement.getStatus() != null)
+            announcementToUpdate.setStatus(announcement.getStatus());
+        // for not registered users (doubt here)
+        if (announcement.getEmail() != null)
+            announcementToUpdate.setEmail(announcement.getEmail());
+        if (announcement.getTel() != null)
+            announcementToUpdate.setTel(announcement.getTel());
+        // category
+        if (announcement.getCategoryId() != null) {
+            Category category = categoryService.findCategory(announcement.getCategoryId());
+            announcementToUpdate.setCategory(category);
+        }
 
-	public AnnouncementReadTO updateAnnouncement(AnnouncementWriteTO announcement) {
+        // set the creator accordind the user type
+        switch (announcement.getCreatorStatus().toString()) {
+            case "SEEKER":
+                announcementToUpdate.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
+            case "HELPER":
+                announcementToUpdate.setHelper(helperService.findHelper(announcement.getCreatorId()));
+            case "ADMIN":
+                announcementToUpdate.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
+            case "MANAGER":
+                announcementToUpdate.setManager(managerService.getManager(announcement.getCreatorId()));
+        }
 
-		Announcement announcementToUpdate = findAnnouncement(announcement.getId());
+        return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));
+    }
 
-		// find the category
-		Category category = categoryService.findCategory(announcement.getCategoryId());
+    // manage images in another endpoint and not in updateFunction to simplefy the
+    // complexity
+    public AnnouncementReadTO addImageAnnouncement(UUID announcementId, MultipartFile file) {
 
 		announcementToUpdate.setTitle(announcement.getTitle());
 
@@ -158,61 +190,53 @@ public class AnnouncementService {
 			announcementToUpdate.setManager(managerService.getManager(announcement.getCreatorId()));
 			break;
 		}
+        Announcement announcementToUpdate = findAnnouncement(announcementId);
 
-		return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));
-	}
+        // if the file already exist just use it
+        if (fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
+            announcementToUpdate.getImages().add(fileRepo.findByName(file.getOriginalFilename()).get());
+        } else {
+            // else upload
+            FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
 
-	// manage images in another endpoint and not in updateFunction to simplefy the
-	// complexity
-	public AnnouncementReadTO addImageAnnouncement(UUID announcementId, MultipartFile file) {
+            File image = new File();
+            image.setFileLink(response.getFileLink());
+            image.setName(response.getFilename());
+            image = fileRepo.save(image);
 
-		Announcement announcementToUpdate = findAnnouncement(announcementId);
+            announcementToUpdate.getImages().add(image);
+        }
+        return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));
+    }
 
-		// if the file already exist just use it
-		if (fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
-			announcementToUpdate.getImages().add(fileRepo.findByName(file.getOriginalFilename()).get());
-		} else {
-			// else upload
-			FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
+    // manage images in another endpoint and not in updateFunction to simplefy the
+    // complexity
+    public AnnouncementReadTO removeImageAnnouncement(UUID announcementId, MultipartFile file) {
 
-			File image = new File();
-			image.setFileLink(response.getFileLink());
-			image.setName(response.getFilename());
-			image = fileRepo.save(image);
+        Announcement announcementToUpdate = findAnnouncement(announcementId);
 
-			announcementToUpdate.getImages().add(image);
-		}
-		return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));
-	}
+        // if the file already exist remove it
+        if (fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
+            announcementToUpdate.getImages().remove(fileRepo.findByName(file.getOriginalFilename()).get());
+        } else {
+            throw new ApiRequestException(
+                    String.format("the file with name %s does not exist", file.getOriginalFilename()));
+        }
+        return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));
+    }
 
-	// manage images in another endpoint and not in updateFunction to simplefy the
-	// complexity
-	public AnnouncementReadTO removeImageAnnouncement(UUID announcementId, MultipartFile file) {
+    public ResponseEntity<String> deleteAnnouncementById(UUID id) {
+        Announcement announcementToDelete = findAnnouncement(id);
 
-		Announcement announcementToUpdate = findAnnouncement(announcementId);
+        announcementRepository.deleteById(announcementToDelete.getId());
+        logger.info("successfully deleted");
 
-		// if the file already exist remove it
-		if (fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
-			announcementToUpdate.getImages().remove(fileRepo.findByName(file.getOriginalFilename()).get());
-		} else {
-			throw new ApiRequestException(
-					String.format("the file with name %s does not exist", file.getOriginalFilename()));
-		}
-		return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));
-	}
+        return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
+    }
 
-	public ResponseEntity<String> deleteAnnouncementById(UUID id) {
-		Announcement announcementToDelete = findAnnouncement(id);
-
-		announcementRepository.deleteById(announcementToDelete.getId());
-		logger.info("successfully deleted");
-
-		return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
-	}
-
-	public Announcement findAnnouncement(UUID id) {
-		return announcementRepository.findById(id)
-				.orElseThrow(() -> new ApiRequestException("Cannot find Announcement with id: " + id));
-	}
+    public Announcement findAnnouncement(UUID id) {
+        return announcementRepository.findById(id)
+                .orElseThrow(() -> new ApiRequestException("Cannot find Announcement with id: " + id));
+    }
 
 }

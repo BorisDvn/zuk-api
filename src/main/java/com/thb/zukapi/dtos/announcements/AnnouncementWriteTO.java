@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.thb.zukapi.models.AnnouncementStatus;
@@ -41,5 +42,11 @@ public class AnnouncementWriteTO {
 
 	UUID categoryId;
 
-	UUID creatorId;
+	UUID creatorId; // Admin, Helper, Seeker, Manager
+
+	//for not registered users
+	@Email
+	String email;
+
+	String tel;
 }

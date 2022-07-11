@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.CreatedBy;
@@ -62,4 +63,10 @@ public class AnnouncementReadTO {
 	String lastModifiedBy;
 
 	Date lastModifiedDate;
+
+	//for not registered users
+	@Email
+	String email;
+
+	String tel;
 }

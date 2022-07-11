@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Announcement2AnnouncementReadTO {
-	public static AnnouncementReadTO apply(Announcement in) {
-		AnnouncementReadTO out = new AnnouncementReadTO();
+    public static AnnouncementReadTO apply(Announcement in) {
+        AnnouncementReadTO out = new AnnouncementReadTO();
 
 		out.setId(in.getId());
 		out.setTitle(in.getTitle());
@@ -21,30 +21,36 @@ public class Announcement2AnnouncementReadTO {
 		out.setLastModifiedBy(in.getLastModifiedBy());
 		out.setLastModifiedDate(in.getLastModifiedDate());
 
-		if (in.getAdmin() != null) {
-			out.setCreatorId(in.getAdmin().getId());
-			out.setCreatorStatus(RoleType.ADMIN);
-		}
+        if (in.getAdmin() != null) {
+            out.setCreatorId(in.getAdmin().getId());
+            out.setCreatorStatus(RoleType.ADMIN);
+        }
 
-		if (in.getManager() != null) {
-			out.setCreatorId(in.getManager().getId());
-			out.setCreatorStatus(RoleType.MANAGER);
-		}
+        if (in.getManager() != null) {
+            out.setCreatorId(in.getManager().getId());
+            out.setCreatorStatus(RoleType.MANAGER);
+        }
 
-		if (in.getSeeker() != null) {
-			out.setCreatorId(in.getSeeker().getId());
-			out.setCreatorStatus(RoleType.SEEKER);
-		}
+        if (in.getSeeker() != null) {
+            out.setCreatorId(in.getSeeker().getId());
+            out.setCreatorStatus(RoleType.SEEKER);
+        }
 
-		if (in.getHelper() != null) {
-			out.setCreatorId(in.getHelper().getId());
-			out.setCreatorStatus(RoleType.HELPER);
-		}
+        if (in.getHelper() != null) {
+            out.setCreatorId(in.getHelper().getId());
+            out.setCreatorStatus(RoleType.HELPER);
+        }
 
-		return out;
-	}
+        if (in.getEmail() != null)
+            out.setEmail(in.getEmail());
 
-	public static List<AnnouncementReadTO> apply(List<Announcement> categories) {
-		return categories.stream().map(Announcement2AnnouncementReadTO::apply).collect(Collectors.toList());
-	}
+        if (in.getTel() != null)
+            out.setTel(in.getTel());
+
+        return out;
+    }
+
+    public static List<AnnouncementReadTO> apply(List<Announcement> categories) {
+        return categories.stream().map(Announcement2AnnouncementReadTO::apply).collect(Collectors.toList());
+    }
 }
