@@ -205,21 +205,4 @@ public class ItBase {
         file.setFileLink(UUID.randomUUID().toString());
         return file;
     }
-
-    protected AnnouncementWriteTO buildAnnouncementWriteTO() {
-
-        AnnouncementWriteTO announcement = new AnnouncementWriteTO();
-
-        announcement.setTitle(UUID.randomUUID().toString());
-        announcement.setDescription(UUID.randomUUID().toString());
-        announcement.setStatus(AnnouncementStatus.STANDBY);
-
-        /* RoleType creatorStatus;
-        UUID categoryId;
-        UUID creatorId;*/ 
-        announcement.setEmail(UUID.randomUUID().toString() + "@email.com");
-        announcement.setTel("+0012334234543");
-
-        return announcement;
-    }
 }
