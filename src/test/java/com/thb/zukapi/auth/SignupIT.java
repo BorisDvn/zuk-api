@@ -92,6 +92,23 @@ public class SignupIT extends ItBase {
     }
     
     @Test
+    public void getUserByEmail() {
+        
+        UUID id = UUID.fromString(
+                given()
+                        .contentType(ContentType.JSON)
+                        
+                        .log().body()
+                        .get("zuk-api/v1/auth/"+seeker.getEmail())
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .extract().body().path("id"));
+
+
+    }
+    
+    @Test
     public void signinSeeker() throws InterruptedException {
     	
     	signupSeeker = buildSignup();

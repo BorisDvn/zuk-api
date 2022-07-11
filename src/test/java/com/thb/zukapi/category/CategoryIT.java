@@ -1,4 +1,4 @@
-/*package com.thb.zukapi.category;
+package com.thb.zukapi.category;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -7,15 +7,12 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.thb.zukapi.ItBase;
 import com.thb.zukapi.dtos.category.CategoryWriteTO;
@@ -193,4 +190,3 @@ public class CategoryIT extends ItBase {
 		assertThat(category_.isPresent(), is(false));
 	}
 }
-*/
