@@ -162,34 +162,10 @@ public class AnnouncementService {
         return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));
     }
 
-    // manage images in another endpoint and not in updateFunction to simplefy the
+    /// manage images in another endpoint and not in updateFunction to simplefy the
     // complexity
     public AnnouncementReadTO addImageAnnouncement(UUID announcementId, MultipartFile file) {
 
-		announcementToUpdate.setTitle(announcement.getTitle());
-
-		announcementToUpdate.setDescription(announcement.getDescription());
-
-		// standby as default value
-		announcementToUpdate.setStatus(announcement.getStatus());
-
-		announcementToUpdate.setCategory(category);
-
-		// set the creator accordind the user type
-		switch (announcement.getCreatorStatus().toString()) {
-		case "SEEKER":
-			announcementToUpdate.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
-			break;
-		case "HELPER":
-			announcementToUpdate.setHelper(helperService.findHelper(announcement.getCreatorId()));
-			break;
-		case "ADMIN":
-			announcementToUpdate.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
-			break;
-		case "MANAGER":
-			announcementToUpdate.setManager(managerService.getManager(announcement.getCreatorId()));
-			break;
-		}
         Announcement announcementToUpdate = findAnnouncement(announcementId);
 
         // if the file already exist just use it

@@ -205,12 +205,7 @@ public class ItBase {
         return seeker;
     }
 
-    protected Category buildCategory(File file) {
-        Category cat = new Category();
-        cat.setName(UUID.randomUUID().toString());
-        cat.setCover(file);
-        return cat;
-    }
+
 
     protected FileTO buildFileTO() {
         FileTO file = new FileTO();
@@ -235,18 +230,6 @@ public class ItBase {
 		CategoryWriteTO cat = new CategoryWriteTO();
 		cat.setName(UUID.randomUUID().toString());
 		return cat;
-	}
-
-	protected FileTO buildFileTO() {
-		FileTO file = new FileTO();
-		file.setId(UUID.randomUUID());
-		file.setFilename(UUID.randomUUID().toString());
-		file.setRemoteName(UUID.randomUUID().toString());
-		file.setRemoteId(UUID.randomUUID().toString());
-		file.setFilesize(1L);
-		file.setPath(UUID.randomUUID().toString());
-		file.setFileLink(UUID.randomUUID().toString());
-		return file;
 	}
 
 	protected File buildFile() {

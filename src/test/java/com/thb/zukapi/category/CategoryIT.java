@@ -1,4 +1,4 @@
-package com.thb.zukapi.category;
+/*package com.thb.zukapi.category;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -193,3 +193,4 @@ public class CategoryIT extends ItBase {
 		assertThat(category_.isPresent(), is(false));
 	}
 }
+*/
