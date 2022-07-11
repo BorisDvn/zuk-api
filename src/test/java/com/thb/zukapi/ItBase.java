@@ -51,13 +51,13 @@ import io.restassured.module.mockmvc.RestAssuredMockMvc;
 @ActiveProfiles("testit")
 public class ItBase {
 
-    protected MockMvc mockMvc;
+	protected MockMvc mockMvc;
 
-    @Autowired
-    protected SeekerRepository seekerRepository;
+	@Autowired
+	protected SeekerRepository seekerRepository;
 
-    @Autowired
-    protected HelperRepository helperRepository;
+	@Autowired
+	protected HelperRepository helperRepository;
 
 	@Autowired
 	protected AdminRepository adminRepository;
@@ -71,11 +71,11 @@ public class ItBase {
 	@Autowired
 	protected UserRepository userRepository;
 
-    @Autowired
-    protected RoleRepository roleRepository;
+	@Autowired
+	protected RoleRepository roleRepository;
 
-    @Autowired
-    protected FileRepository fileRepository;
+	@Autowired
+	protected FileRepository fileRepository;
 
 	@Autowired
 	protected AnnouncementRepository announcementRepository;
@@ -83,24 +83,24 @@ public class ItBase {
 	@Mock
 	protected FileUpload fileUpload;
 
-    @Autowired
-    private WebApplicationContext wac;
+	@Autowired
+	private WebApplicationContext wac;
 
-    protected User user, user1;
+	protected User user, user1;
 
-    protected Role role, role1;
+	protected Role role, role1;
 
-    @BeforeEach
-    public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-        RestAssuredMockMvc.webAppContextSetup(wac);
+	@BeforeEach
+	public void setup() {
+		this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+		RestAssuredMockMvc.webAppContextSetup(wac);
 
-        // build some system users and roles
-        user = userRepository.save(buildUser(roleRepository.findByName(RoleType.HELPER).get()));
-        user1 = userRepository.save(buildUser(roleRepository.findByName(RoleType.ADMIN).get()));
-    }
+		// build some system users and roles
+		user = userRepository.save(buildUser(roleRepository.findByName(RoleType.HELPER).get()));
+		user1 = userRepository.save(buildUser(roleRepository.findByName(RoleType.ADMIN).get()));
+	}
 
-    public void cleanup() {
+	public void cleanup() {
 
 		adminRepository.deleteAll();
 		seekerRepository.deleteAll();
@@ -112,20 +112,20 @@ public class ItBase {
 		contactRepository.deleteAll();
 	}
 
-    protected Seeker buildSeeker(User user) {
+	protected Seeker buildSeeker(User user) {
 
-        Seeker seeker = new Seeker();
-        seeker.setAdresse(UUID.randomUUID().toString());
-        seeker.setDob(LocalDate.now());
-        seeker.setEmail(UUID.randomUUID().toString() + "@email.com");
-        seeker.setFirstname(UUID.randomUUID().toString());
-        seeker.setLastname(UUID.randomUUID().toString());
-        seeker.setGender(Gender.M);
-        seeker.setPhone("+0012334234543");
-        seeker.setUser(user);
+		Seeker seeker = new Seeker();
+		seeker.setAdresse(UUID.randomUUID().toString());
+		seeker.setDob(LocalDate.now());
+		seeker.setEmail(UUID.randomUUID().toString() + "@email.com");
+		seeker.setFirstname(UUID.randomUUID().toString());
+		seeker.setLastname(UUID.randomUUID().toString());
+		seeker.setGender(Gender.M);
+		seeker.setPhone("+0012334234543");
+		seeker.setUser(user);
 
-        return seeker;
-    }
+		return seeker;
+	}
 
 	protected Seeker buildSeekerWithAnnouncement(User user, Announcement announcemn) {
 
@@ -137,79 +137,77 @@ public class ItBase {
 
 	protected User buildUser(Role role) {
 
-        User user = new User();
-        user.setPassword(UUID.randomUUID().toString());
-        user.setEmail(UUID.randomUUID().toString() + "@email.com");
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
+		User user = new User();
+		user.setPassword(UUID.randomUUID().toString());
+		user.setEmail(UUID.randomUUID().toString() + "@email.com");
+		Set<Role> roles = new HashSet<>();
+		roles.add(role);
+		user.setRoles(roles);
 
-        return user;
-    }
+		return user;
+	}
 
-    protected Helper buildHelper(User user) {
+	protected Helper buildHelper(User user) {
 
-        Helper helper = new Helper();
-        helper.setAdresse(UUID.randomUUID().toString());
-        helper.setDob(LocalDate.now());
-        helper.setEmail(UUID.randomUUID().toString() + "@email.com");
-        helper.setFirstname(UUID.randomUUID().toString());
-        helper.setLastname(UUID.randomUUID().toString());
-        helper.setGender(Gender.M);
-        helper.setPhone("+0012334234543");
-        helper.setUser(user);
+		Helper helper = new Helper();
+		helper.setAdresse(UUID.randomUUID().toString());
+		helper.setDob(LocalDate.now());
+		helper.setEmail(UUID.randomUUID().toString() + "@email.com");
+		helper.setFirstname(UUID.randomUUID().toString());
+		helper.setLastname(UUID.randomUUID().toString());
+		helper.setGender(Gender.M);
+		helper.setPhone("+0012334234543");
+		helper.setUser(user);
 
-        return helper;
-    }
+		return helper;
+	}
 
-    protected PersonWriteTO buildSignup() {
+	protected PersonWriteTO buildSignup() {
 
-        PersonWriteTO seeker = new PersonWriteTO();
-        seeker.setAdresse(UUID.randomUUID().toString());
-        seeker.setDob(LocalDate.now());
-        seeker.setEmail("123456@email.com");
-        seeker.setFirstname(UUID.randomUUID().toString());
-        seeker.setLastname(UUID.randomUUID().toString());
-        seeker.setGender(Gender.M);
-        seeker.setRole("SEEKER");
-        seeker.setPassword("123456789");
-        seeker.setPhone("+0012334234543");
+		PersonWriteTO seeker = new PersonWriteTO();
+		seeker.setAdresse(UUID.randomUUID().toString());
+		seeker.setDob(LocalDate.now());
+		seeker.setEmail("123456@email.com");
+		seeker.setFirstname(UUID.randomUUID().toString());
+		seeker.setLastname(UUID.randomUUID().toString());
+		seeker.setGender(Gender.M);
+		seeker.setRole("SEEKER");
+		seeker.setPassword("123456789");
+		seeker.setPhone("+0012334234543");
 
-        return seeker;
-    }
+		return seeker;
+	}
 
-    protected Contact buildContact() {
+	protected Contact buildContact() {
 
-        Contact contact = new Contact();
-        contact.setSubject(UUID.randomUUID().toString());
-        contact.setStatus(ContactStatus.UNREAD);
-        contact.setDescription(UUID.randomUUID().toString());
+		Contact contact = new Contact();
+		contact.setSubject(UUID.randomUUID().toString());
+		contact.setStatus(ContactStatus.UNREAD);
+		contact.setDescription(UUID.randomUUID().toString());
 
-        return contact;
-    }
+		return contact;
+	}
 
-    protected SigninTO buildSignin() {
+	protected SigninTO buildSignin() {
 
-        SigninTO seeker = new SigninTO();
-        seeker.setEmail("123456@email.com");
-        seeker.setPassword("123456789");
+		SigninTO seeker = new SigninTO();
+		seeker.setEmail("123456@email.com");
+		seeker.setPassword("123456789");
 
-        return seeker;
-    }
+		return seeker;
+	}
 
-
-
-    protected FileTO buildFileTO() {
-        FileTO file = new FileTO();
-        file.setId(UUID.randomUUID());
-        file.setFilename(UUID.randomUUID().toString());
-        file.setRemoteName(UUID.randomUUID().toString());
-        file.setRemoteId(UUID.randomUUID().toString());
-        file.setFilesize(1L);
-        file.setPath(UUID.randomUUID().toString());
-        file.setFileLink(UUID.randomUUID().toString());
-        return file;
-    }
+	protected FileTO buildFileTO() {
+		FileTO file = new FileTO();
+		file.setId(UUID.randomUUID());
+		file.setFilename(UUID.randomUUID().toString());
+		file.setRemoteName(UUID.randomUUID().toString());
+		file.setRemoteId(UUID.randomUUID().toString());
+		file.setFilesize(1L);
+		file.setPath(UUID.randomUUID().toString());
+		file.setFileLink(UUID.randomUUID().toString());
+		return file;
+	}
 
 	protected Category buildCategory(File file) {
 		Category cat = new Category();
