@@ -82,8 +82,8 @@ public class AnnouncementService {
         newAnnouncement.setStatus(AnnouncementStatus.STANDBY);// standby as default value
         newAnnouncement.setCategory(category);
         // for not registered users
-        newAnnouncement.setEmail((announcement.getEmail() != null) ? announcement.getEmail() : null);
-        newAnnouncement.setTel((announcement.getTel() != null) ? announcement.getTel() : null);
+        newAnnouncement.setEmail(announcement.getEmail());
+        newAnnouncement.setTel(announcement.getTel());
 
         // set images
         List<File> uploadedFiles = new ArrayList<>();
@@ -121,31 +121,33 @@ public class AnnouncementService {
 
         Announcement announcementToUpdate = findAnnouncement(announcement.getId());
 
-        // find the category
-        Category category = categoryService.findCategory(announcement.getCategoryId());
-
-        Announcement newAnnouncement = new Announcement();
-
-        newAnnouncement.setTitle(announcement.getTitle());
-        newAnnouncement.setDescription(announcement.getDescription());
-        newAnnouncement.setStatus(AnnouncementStatus.STANDBY);// standby as default value
-        newAnnouncement.setCategory(category);
-        // for not registered users
-        if(announcement.getEmail() != null)
-            newAnnouncement.setEmail(announcement.getEmail());
-        if(announcement.getTel() != null)
-            newAnnouncement.setTel(announcement.getTel());
+        if (announcement.getTitle() != null)
+            announcementToUpdate.setTitle(announcement.getTitle());
+        if (announcement.getDescription() != null)
+            announcementToUpdate.setDescription(announcement.getDescription());
+        if (announcement.getStatus() != null)
+            announcementToUpdate.setStatus(announcement.getStatus());
+        // for not registered users (doubt here)
+        if (announcement.getEmail() != null)
+            announcementToUpdate.setEmail(announcement.getEmail());
+        if (announcement.getTel() != null)
+            announcementToUpdate.setTel(announcement.getTel());
+        // category
+        if (announcement.getCategoryId() != null) {
+            Category category = categoryService.findCategory(announcement.getCategoryId());
+            announcementToUpdate.setCategory(category);
+        }
 
         // set the creator accordind the user type
         switch (announcement.getCreatorStatus().toString()) {
             case "SEEKER":
-                newAnnouncement.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
+                announcementToUpdate.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
             case "HELPER":
-                newAnnouncement.setHelper(helperService.findHelper(announcement.getCreatorId()));
+                announcementToUpdate.setHelper(helperService.findHelper(announcement.getCreatorId()));
             case "ADMIN":
-                newAnnouncement.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
+                announcementToUpdate.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
             case "MANAGER":
-                newAnnouncement.setManager(managerService.getManager(announcement.getCreatorId()));
+                announcementToUpdate.setManager(managerService.getManager(announcement.getCreatorId()));
         }
 
         return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));
