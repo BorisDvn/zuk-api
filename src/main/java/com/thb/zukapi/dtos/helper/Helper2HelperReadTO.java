@@ -13,6 +13,10 @@ public class Helper2HelperReadTO {
 		out.setId(in.getId());
 		out.setLastname(in.getLastname());
 		out.setFirstname(in.getFirstname());
+		out.setCreatedBy(in.getCreatedBy());
+		out.setCreatedDate(in.getCreatedDate());
+		out.setLastModifiedBy(in.getLastModifiedBy());
+		out.setLastModifiedDate(in.getLastModifiedDate());
 
 		if (in.getNationality() != null)
 			out.setNationality(in.getNationality());

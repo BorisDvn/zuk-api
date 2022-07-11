@@ -1,5 +1,6 @@
 package com.thb.zukapi.dtos.seeker;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,4 +25,12 @@ public class SeekerReadTO extends PersonWriteTO {
 	UUID userId;
 
     List<AnnouncementReadListTO> announcements;
+   
+    String createdBy;
+
+	Date createdDate;
+
+	String lastModifiedBy;
+
+	Date lastModifiedDate;
 }

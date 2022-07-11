@@ -16,6 +16,10 @@ public class Announcement2AnnouncementReadTO {
 		out.setStatus(in.getStatus());
 		out.setCategoryId(in.getCategory().getId());
 		out.setImages(in.getImages());
+		out.setCreatedBy(in.getCreatedBy());
+		out.setCreatedDate(in.getCreatedDate());
+		out.setLastModifiedBy(in.getLastModifiedBy());
+		out.setLastModifiedDate(in.getLastModifiedDate());
 
 		if (in.getAdmin() != null) {
 			out.setCreatorId(in.getAdmin().getId());
