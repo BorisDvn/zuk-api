@@ -1,5 +1,6 @@
 package com.thb.zukapi.dtos.category;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,4 +32,12 @@ public class CategoryReadTO {
     String name;
 
     List<AnnouncementReadListTO> announcements;
+    
+    String createdBy;
+
+	Date createdDate;
+
+	String lastModifiedBy;
+
+	Date lastModifiedDate;
 }

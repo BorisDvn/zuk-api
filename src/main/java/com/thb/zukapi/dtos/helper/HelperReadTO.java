@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,5 +26,13 @@ public class HelperReadTO extends PersonWriteTO {
 	UUID userId;
 
     List<Announcement> announcements; // TODO ReadListTO
+    
+    String createdBy;
+
+	Date createdDate;
+
+	String lastModifiedBy;
+
+	Date lastModifiedDate;
 
 }
