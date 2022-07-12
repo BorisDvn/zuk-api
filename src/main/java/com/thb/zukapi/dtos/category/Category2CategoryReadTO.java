@@ -13,7 +13,8 @@ public class Category2CategoryReadTO {
 		out.setId(in.getId());
 		out.setCover(in.getCover());
 		out.setName(in.getName());
-		out.setAnnouncements(Announcement2AnnouncementReadListTO.apply(in.getAnnouncements()));
+		if(in.getAnnouncements() != null)
+			out.setAnnouncements(Announcement2AnnouncementReadListTO.apply(in.getAnnouncements()));
 		out.setCreatedBy(in.getCreatedBy());
 		out.setCreatedDate(in.getCreatedDate());
 		out.setLastModifiedBy(in.getLastModifiedBy());

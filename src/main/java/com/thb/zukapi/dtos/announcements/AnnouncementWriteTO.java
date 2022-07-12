@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.thb.zukapi.models.AnnouncementStatus;
+import com.thb.zukapi.models.AnnouncementStype;
 import com.thb.zukapi.models.RoleType;
 
 import lombok.AccessLevel;
@@ -39,6 +40,9 @@ public class AnnouncementWriteTO {
 
 	@Enumerated(EnumType.STRING)
 	RoleType creatorStatus;
+	
+    @Enumerated(EnumType.STRING)
+    AnnouncementStype type;
 
 	UUID categoryId;
 

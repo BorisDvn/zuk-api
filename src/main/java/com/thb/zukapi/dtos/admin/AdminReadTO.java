@@ -1,4 +1,4 @@
-package com.thb.zukapi.dtos.helper;
+package com.thb.zukapi.dtos.admin;
 
 import java.util.Date;
 import java.util.UUID;
@@ -18,7 +18,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class HelperReadTO extends PersonWriteTO {
+public class AdminReadTO extends PersonWriteTO {
 
     HelperType helperType;
     

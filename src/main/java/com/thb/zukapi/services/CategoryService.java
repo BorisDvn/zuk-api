@@ -97,7 +97,7 @@ public class CategoryService {
 		Category categoryToUpdate = findCategory(categoryId);
 
 		// if the file already exist just use it
-		if (fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
+		if (file!= null && fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
 			categoryToUpdate.setCover(fileRepo.findByName(file.getOriginalFilename()).get());
 		} else {
 			// else upload it

@@ -24,6 +24,7 @@ import com.thb.zukapi.dtos.announcements.AnnouncementReadListTO;
 import com.thb.zukapi.dtos.announcements.AnnouncementReadTO;
 import com.thb.zukapi.dtos.announcements.AnnouncementWriteTO;
 import com.thb.zukapi.models.Announcement;
+import com.thb.zukapi.models.AnnouncementStype;
 import com.thb.zukapi.services.AnnouncementService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -125,5 +126,27 @@ public class AnnouncementController {
 	@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteAnnouncement(@Parameter(name = "AnnouncementId", description = "Id of the Announcement to delete") @PathVariable UUID id) {
         return announcementService.deleteAnnouncementById(id);
+    }
+    
+    @Operation(summary = "Get All Announcement of a User")
+    @ApiResponse(responseCode = "200", description = "Found all Announcement of a user",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AnnouncementReadListTO.class))})
+    @GetMapping("/user")
+    public List<AnnouncementReadListTO> getAnnouncementByEmail(
+    		@Parameter(name = "User Email", description = "User Email")
+    		@RequestParam String email) {
+        return announcementService.getAnnouncementByUserEmail(email);
+    }
+    
+    @Operation(summary = "Get All Announcement by type")
+    @ApiResponse(responseCode = "200", description = "Found all Announcement by type",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = AnnouncementReadListTO.class))})
+    @GetMapping("/type")
+    public List<AnnouncementReadListTO> getAnnouncementByType(
+    		@Parameter(name = "Type", description = "Type")
+    		@RequestParam AnnouncementStype type) {
+        return announcementService.getAnnouncementByType(type);
     }
 }

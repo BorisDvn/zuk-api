@@ -7,17 +7,11 @@ import java.util.UUID;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import com.thb.zukapi.models.AnnouncementStatus;
+import com.thb.zukapi.models.AnnouncementStype;
 import com.thb.zukapi.models.File;
 import com.thb.zukapi.models.RoleType;
 
@@ -49,6 +43,9 @@ public class AnnouncementReadTO {
 
 	@Enumerated(EnumType.STRING)
 	RoleType creatorStatus;
+	
+    @Enumerated(EnumType.STRING)
+    AnnouncementStype type;
 
 	UUID categoryId;
 

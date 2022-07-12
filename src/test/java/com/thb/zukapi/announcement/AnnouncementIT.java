@@ -19,6 +19,7 @@ import com.thb.zukapi.dtos.announcements.AnnouncementWriteTO;
 import com.thb.zukapi.dtos.files.FileTO;
 import com.thb.zukapi.models.Announcement;
 import com.thb.zukapi.models.AnnouncementStatus;
+import com.thb.zukapi.models.AnnouncementStype;
 import com.thb.zukapi.models.Category;
 import com.thb.zukapi.models.File;
 import com.thb.zukapi.models.Helper;
@@ -51,9 +52,11 @@ public class AnnouncementIT extends ItBase {
         helper = helperRepository.save(helper);
         
         announcement = buildAnnouncement(helper, category);
+        announcement.setType(AnnouncementStype.NEED);
         announcement = announcementRepository.save(announcement);
 
         announcement1 = buildAnnouncement(helper, category);
+        announcement1.setType(AnnouncementStype.OFFER);
         announcement1 = announcementRepository.save(announcement1);
         
         fileTO = buildFileTO();
@@ -131,6 +134,49 @@ public class AnnouncementIT extends ItBase {
                         .contentType(ContentType.JSON)
                         .log().body()
                         .get("zuk-api/v1/announcement/category/"+category.getName())
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .body("id", containsInAnyOrder(announcement.getId().toString(), announcement1.getId().toString()));
+    }
+    
+    @Test
+    public void getAnnouncementByType() {
+
+                given()
+                        .contentType(ContentType.JSON)
+                        .log().body()
+                        .param("type", "NEED")
+                        .get("zuk-api/v1/announcement/type")
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .body("id", containsInAnyOrder(announcement.getId().toString()));
+    }
+    
+    @Test
+    public void getAnnouncementByType__() {
+
+                given()
+                        .contentType(ContentType.JSON)
+                        .log().body()
+                        .param("type", "OFFER")
+                        .get("zuk-api/v1/announcement/type")
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .body("id", containsInAnyOrder(announcement1.getId().toString()));
+    }
+    
+    @Test
+    public void getAnnouncementByUserEmail() {
+
+                given()
+                        .contentType(ContentType.JSON)
+                        .log().body()
+                        .param("email", helper.getEmail())
+                        .param("type", "NEED")
+                        .get("zuk-api/v1/announcement/user")
                         .then()
                         .log().body()
                         .statusCode(200)

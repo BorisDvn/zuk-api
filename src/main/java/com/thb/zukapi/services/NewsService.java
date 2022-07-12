@@ -72,7 +72,7 @@ public class NewsService {
 
 		List<File> uploadedFiles = new ArrayList<>();
 
-		if (files.size() > 0) {
+		if (files != null && files.size() > 0) {
 			for (MultipartFile file : files) {
 				FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
 

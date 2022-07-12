@@ -33,7 +33,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.thb.zukapi.config.auth.JwtUtils;
+import com.thb.zukapi.dtos.admin.Admin2AdminReadTO;
+import com.thb.zukapi.dtos.helper.Helper2HelperReadTO;
+import com.thb.zukapi.dtos.manager.Manager2ManagerReadTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
+import com.thb.zukapi.dtos.seeker.Seeker2SeekerReadTO;
 import com.thb.zukapi.dtos.user.SigninResponse;
 import com.thb.zukapi.dtos.user.SigninTO;
 import com.thb.zukapi.dtos.user.SignupTO;
@@ -232,16 +236,16 @@ public class UserService implements UserDetailsService {
 	public ResponseEntity<?> getUserByMail(String email) {
 
 		if (seekerRepository.findByEmail(email).isPresent())
-			return ResponseEntity.ok(seekerRepository.findByEmail(email).get());
+			return ResponseEntity.ok(Seeker2SeekerReadTO.apply(seekerRepository.findByEmail(email).get()));
 
 		if (managerRepository.findByEmail(email).isPresent())
-			return ResponseEntity.ok(managerRepository.findByEmail(email).get());
+			return ResponseEntity.ok(Manager2ManagerReadTO.apply(managerRepository.findByEmail(email).get()));
 
 		if (adminRepository.findByEmail(email).isPresent())
-			return ResponseEntity.ok(adminRepository.findByEmail(email).get());
+			return ResponseEntity.ok(Admin2AdminReadTO.apply(adminRepository.findByEmail(email).get()));
 
 		if (helperRepository.findByEmail(email).isPresent())
-			return ResponseEntity.ok(helperRepository.findByEmail(email).get());
+			return ResponseEntity.ok(Helper2HelperReadTO.apply(helperRepository.findByEmail(email).get()));
 
 		return ResponseEntity.badRequest().build();
 	}

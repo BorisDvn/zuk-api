@@ -25,10 +25,15 @@ import com.thb.zukapi.dtos.files.FileTO;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Announcement;
 import com.thb.zukapi.models.AnnouncementStatus;
+import com.thb.zukapi.models.AnnouncementStype;
 import com.thb.zukapi.models.Category;
 import com.thb.zukapi.models.File;
+import com.thb.zukapi.repositories.AdminRepository;
 import com.thb.zukapi.repositories.AnnouncementRepository;
 import com.thb.zukapi.repositories.FileRepository;
+import com.thb.zukapi.repositories.HelperRepository;
+import com.thb.zukapi.repositories.ManagerRepository;
+import com.thb.zukapi.repositories.SeekerRepository;
 import com.thb.zukapi.utils.FileUpload;
 
 @Service
@@ -56,6 +61,18 @@ public class AnnouncementService {
 
 	@Autowired
 	private FileRepository fileRepo;
+	
+	@Autowired
+	private SeekerRepository seekerRepository;
+
+	@Autowired
+	private AdminRepository adminRepository;
+
+	@Autowired
+	private ManagerRepository managerRepository;
+
+	@Autowired
+	private HelperRepository helperRepository;
 
 	@Autowired
 	private AnnouncementRepository announcementRepository;
@@ -71,12 +88,39 @@ public class AnnouncementService {
 
 		return Announcement2AnnouncementReadListTO.apply(pagedResult.getContent());
 	}
-	
+
 	public List<AnnouncementReadTO> getAnnouncementByCategory(String catName) {
 
-		List<Announcement> pagedResult = announcementRepository.findAnnouncementByCategory_Name(catName);
+		List<Announcement> result = announcementRepository.findAnnouncementByCategory_Name(catName);
 
-		return Announcement2AnnouncementReadTO.apply(pagedResult);
+		return Announcement2AnnouncementReadTO.apply(result);
+	}
+	
+	public List<AnnouncementReadListTO> getAnnouncementByType(AnnouncementStype type) {
+
+		List<Announcement> result = announcementRepository.findByType(type);
+
+		return Announcement2AnnouncementReadListTO.apply(result);
+	}
+	
+	public List<AnnouncementReadListTO> getAnnouncementByUserEmail(String email) {
+		
+		if (seekerRepository.findByEmail(email).isPresent())
+			return Announcement2AnnouncementReadListTO.apply(seekerRepository.findByEmail(email).get().getAnnouncements());
+// Maybe needed after
+//		if (managerRepository.findByEmail(email).isPresent())
+//			return Announcement2AnnouncementReadTO.apply(managerRepository.findByEmail(email).get().getAnnouncements());
+//
+//		if (adminRepository.findByEmail(email).isPresent())
+//			return Announcement2AnnouncementReadTO.apply(adminRepository.findByEmail(email).get().getAnnouncements());
+
+		if (helperRepository.findByEmail(email).isPresent())
+			return Announcement2AnnouncementReadListTO.apply(helperRepository.findByEmail(email).get().getAnnouncements());
+
+		if (announcementRepository.findByEmail(email).size() > 0)
+			return Announcement2AnnouncementReadListTO.apply(announcementRepository.findByEmail(email));
+		
+		throw new ApiRequestException("Cannot find Announcement for user with email: " + email);
 	}
 
 	public AnnouncementReadTO addAnnouncement(AnnouncementWriteTO announcement, List<MultipartFile> files) {
@@ -92,13 +136,15 @@ public class AnnouncementService {
 
 		// standby as default value
 		newAnnouncement.setStatus(AnnouncementStatus.STANDBY);
+		
+		newAnnouncement.setType(announcement.getType());
 
 		newAnnouncement.setCategory(category);
 
 		// set images
 		List<File> uploadedFiles = new ArrayList<>();
 
-		if (files.size() > 0) {
+		if (files != null && files.size() > 0) {
 			for (MultipartFile file : files) {
 				FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
 
@@ -112,20 +158,26 @@ public class AnnouncementService {
 
 		newAnnouncement.setImages(uploadedFiles);
 
-		// set the creator according the usertype
-		switch (announcement.getCreatorStatus().toString()) {
-		case "SEEKER":
-			newAnnouncement.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
-			break;
-		case "HELPER":
-			newAnnouncement.setHelper(helperService.findHelper(announcement.getCreatorId()));
-			break;
-		case "ADMIN":
-			newAnnouncement.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
-			break;
-		case "MANAGER":
-			newAnnouncement.setManager(managerService.getManager(announcement.getCreatorId()));
-			break;
+		if (announcement.getCreatorId() != null) {
+			// set the creator according the usertype
+			switch (announcement.getCreatorStatus().toString()) {
+			case "SEEKER":
+				newAnnouncement.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
+				break;
+			case "HELPER":
+				newAnnouncement.setHelper(helperService.findHelper(announcement.getCreatorId()));
+				break;
+			case "ADMIN":
+				newAnnouncement.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
+				break;
+			case "MANAGER":
+				newAnnouncement.setManager(managerService.getManager(announcement.getCreatorId()));
+				break;
+			}
+
+		} else {
+			newAnnouncement.setEmail(announcement.getEmail());
+			newAnnouncement.setEmail(announcement.getTel());
 		}
 
 		return Announcement2AnnouncementReadTO.apply(announcementRepository.save(newAnnouncement));
@@ -146,21 +198,29 @@ public class AnnouncementService {
 		announcementToUpdate.setStatus(announcement.getStatus());
 
 		announcementToUpdate.setCategory(category);
+		
+		announcementToUpdate.setType(announcement.getType());
 
-		// set the creator accordind the user type
-		switch (announcement.getCreatorStatus().toString()) {
-		case "SEEKER":
-			announcementToUpdate.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
-			break;
-		case "HELPER":
-			announcementToUpdate.setHelper(helperService.findHelper(announcement.getCreatorId()));
-			break;
-		case "ADMIN":
-			announcementToUpdate.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
-			break;
-		case "MANAGER":
-			announcementToUpdate.setManager(managerService.getManager(announcement.getCreatorId()));
-			break;
+		if (announcement.getCreatorId() != null) {
+			// set the creator according the usertype
+			switch (announcement.getCreatorStatus().toString()) {
+			case "SEEKER":
+				announcementToUpdate.setSeeker(seekerService.findSeeker(announcement.getCreatorId()));
+				break;
+			case "HELPER":
+				announcementToUpdate.setHelper(helperService.findHelper(announcement.getCreatorId()));
+				break;
+			case "ADMIN":
+				announcementToUpdate.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
+				break;
+			case "MANAGER":
+				announcementToUpdate.setManager(managerService.getManager(announcement.getCreatorId()));
+				break;
+			}
+
+		} else {
+			announcementToUpdate.setEmail(announcement.getEmail());
+			announcementToUpdate.setEmail(announcement.getTel());
 		}
 
 		return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));
@@ -173,7 +233,7 @@ public class AnnouncementService {
 		Announcement announcementToUpdate = findAnnouncement(announcementId);
 
 		// if the file already exist just use it
-		if (fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
+		if (file!= null && fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
 			announcementToUpdate.getImages().add(fileRepo.findByName(file.getOriginalFilename()).get());
 		} else {
 			// else upload
@@ -196,7 +256,7 @@ public class AnnouncementService {
 		Announcement announcementToUpdate = findAnnouncement(announcementId);
 
 		// if the file already exist remove it
-		if (fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
+		if (file!= null && fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
 			announcementToUpdate.getImages().remove(fileRepo.findByName(file.getOriginalFilename()).get());
 		} else {
 			throw new ApiRequestException(

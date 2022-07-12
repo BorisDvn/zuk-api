@@ -43,7 +43,7 @@ public class News extends Auditable<String> {
 
     @ElementCollection
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    @JoinColumn(name = "image_news_id", referencedColumnName = "id")
     List<File> images; // by uploading
 
     @NotBlank

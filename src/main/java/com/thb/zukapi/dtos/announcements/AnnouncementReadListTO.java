@@ -29,5 +29,7 @@ public class AnnouncementReadListTO {
 
 	@Enumerated(EnumType.STRING)
 	AnnouncementStatus status;
+	
+	String imageLink;
 
 }

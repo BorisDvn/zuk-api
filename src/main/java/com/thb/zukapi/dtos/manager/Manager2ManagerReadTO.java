@@ -1,14 +1,14 @@
-package com.thb.zukapi.dtos.helper;
+package com.thb.zukapi.dtos.manager;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.thb.zukapi.models.Helper;
+import com.thb.zukapi.models.Manager;
 
-public class Helper2HelperReadTO {
+public class Manager2ManagerReadTO {
 
-	public static HelperReadTO apply(Helper in) {
-		HelperReadTO out = new HelperReadTO();
+	public static ManagerReadTO apply(Manager in) {
+		ManagerReadTO out = new ManagerReadTO();
 
 		out.setId(in.getId());
 		out.setLastname(in.getLastname());
@@ -28,13 +28,11 @@ public class Helper2HelperReadTO {
 		out.setGender(in.getGender());
 		out.setUserId(in.getUser().getId());
 
-		out.setHelperType(in.getHelperType());
-
 		return out;
 	}
 
-	public static List<HelperReadTO> apply(List<Helper> helpers) {
-		return helpers.stream().map(Helper2HelperReadTO::apply).collect(Collectors.toList());
+	public static List<ManagerReadTO> apply(List<Manager> helpers) {
+		return helpers.stream().map(Manager2ManagerReadTO::apply).collect(Collectors.toList());
 	}
 
 }

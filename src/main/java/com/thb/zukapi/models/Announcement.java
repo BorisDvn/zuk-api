@@ -21,8 +21,6 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,7 +48,7 @@ public class Announcement extends Auditable<String> {
 
     @ElementCollection
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    @JoinColumn(name = "image_announcement_id", referencedColumnName = "id")
     List<File> images;
 
     @Lob
@@ -59,6 +57,9 @@ public class Announcement extends Auditable<String> {
 
     @Enumerated(EnumType.STRING)
     AnnouncementStatus status; // standby as default value
+    
+    @Enumerated(EnumType.STRING)
+    AnnouncementStype type;
 
     //for not registered users
     @Email

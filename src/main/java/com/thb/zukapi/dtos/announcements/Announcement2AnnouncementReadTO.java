@@ -20,6 +20,7 @@ public class Announcement2AnnouncementReadTO {
 		out.setCreatedDate(in.getCreatedDate());
 		out.setLastModifiedBy(in.getLastModifiedBy());
 		out.setLastModifiedDate(in.getLastModifiedDate());
+		out.setType(in.getType());
 
         if (in.getAdmin() != null) {
             out.setCreatorId(in.getAdmin().getId());
