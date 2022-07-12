@@ -13,5 +13,7 @@ import com.thb.zukapi.models.RoleType;
 public interface RoleRepository extends JpaRepository<Role, UUID>{
 	
 	Optional<Role> findByName(RoleType name);
+	
+	Boolean existsByName(RoleType name);
 
 }
