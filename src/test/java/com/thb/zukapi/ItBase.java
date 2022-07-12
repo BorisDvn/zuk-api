@@ -396,7 +396,7 @@ public class ItBase {
 		ApplicantReadTO applicant = new ApplicantReadTO();
 		applicant.setDetails(UUID.randomUUID().toString());
 		applicant.setAnnouncementId(announcementId);
-		applicant.setSeekerId(seekerId);
+		applicant.setCreatorId(seekerId);
 		applicant.setStatus(ContactStatus.UNREAD);
 
 		return applicant;

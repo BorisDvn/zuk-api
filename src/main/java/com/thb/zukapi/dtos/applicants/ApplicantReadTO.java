@@ -46,9 +46,9 @@ public class ApplicantReadTO {
 
 	// this will be use for the push notification purpose. (Later) -> from frontend
 
-	String deviceId;
+	String deviceId;	
 
-	UUID seekerId;
+	UUID creatorId;
 	
 	String createdBy;
 

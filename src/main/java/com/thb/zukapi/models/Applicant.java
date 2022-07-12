@@ -61,4 +61,8 @@ public class Applicant extends Auditable<String> {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "seeker_id", referencedColumnName = "id")
 	Seeker seeker;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "helper_id", referencedColumnName = "id")
+	Helper helper;
 }

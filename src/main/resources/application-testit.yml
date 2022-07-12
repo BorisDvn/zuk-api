@@ -3,14 +3,13 @@ spring:
          name:  interaction-design-api
                
     datasource: 
-         url: jdbc:h2:mem:testdb
-         username: sa
-         password: password
-         driverClassName: org.h2.Driver
+          url: jdbc:postgresql://localhost/zuk-api-db
+          username: postgres_1
+          password: postgresQL
     
     jpa:
        database:
-         platform: org.hibernate.dialect.H2Dialect
+         platform: org.hibernate.dialect.PostgreSQLDialect
        show-sql: false   
        hibernate:
        # Hibernate ddl auto (create, create-drop, validate, update)

@@ -22,6 +22,7 @@ import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Announcement;
 import com.thb.zukapi.models.Applicant;
 import com.thb.zukapi.models.ContactStatus;
+import com.thb.zukapi.models.Helper;
 import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.repositories.ApplicantRepository;
 
@@ -37,6 +38,9 @@ public class ApplicantService {
 
 	@Autowired
 	private SeekerService seekerService;
+
+	@Autowired
+	private HelperService helperService;
 
 	public ApplicantReadTO getApplicant(UUID id) {
 		return Applicant2ApplicantReadTO.apply(findApplicant(id));
@@ -55,6 +59,7 @@ public class ApplicantService {
 		Announcement announcement = announcementService.findAnnouncement(applicant.getAnnouncementId());
 
 		Seeker seeker = null;
+		Helper helper = null;
 
 		Applicant newApplicant = new Applicant();
 
@@ -64,10 +69,17 @@ public class ApplicantService {
 
 		newApplicant.setDeviceId(applicant.getDeviceId());
 
-		if (applicant.getSeekerId() != null) {
-			seeker = seekerService.findSeeker(applicant.getSeekerId());
+		if (applicant.getCreatorId() != null) {
+			if (seekerService.findOptionalSeeker(applicant.getCreatorId()).isPresent()) {
+				seeker = seekerService.findSeeker(applicant.getCreatorId());
+				newApplicant.setSeeker(seeker);
+			}
+				
+			if (helperService.findOptionalHelper(applicant.getCreatorId()).isPresent()) {
+				helper = helperService.findHelper(applicant.getCreatorId());
+				newApplicant.setHelper(helper);
+			}				
 
-			newApplicant.setSeeker(seeker);
 		} else {
 			newApplicant.setEmail(applicant.getEmail());
 			newApplicant.setPhone(applicant.getPhone());
@@ -80,6 +92,9 @@ public class ApplicantService {
 	public ApplicantReadTO updateApplicant(ApplicantReadTO applicant) {
 
 		Applicant applicantToUpdate = findApplicant(applicant.getId());
+		
+		Seeker seeker = null;
+		Helper helper = null;
 
 		if (applicant.getDetails() != null)
 			applicantToUpdate.setDetails(applicant.getDetails());
@@ -89,21 +104,28 @@ public class ApplicantService {
 			applicantToUpdate.setAnnouncement(announcement);
 		}
 
-		applicantToUpdate.setStatus(applicant.getStatus());
-
-		applicantToUpdate.setEmail(applicant.getEmail());
-
-		applicantToUpdate.setPhone(applicant.getPhone());
-
-		applicantToUpdate.setName(applicant.getName());
+		applicantToUpdate.setStatus(applicant.getStatus());		
 
 		applicantToUpdate.setDeviceId(applicant.getDeviceId());
 
-		if (applicant.getSeekerId() != null) {
-			Seeker seeker = seekerService.findSeeker(applicant.getSeekerId());
-			applicantToUpdate.setSeeker(seeker);
-		}
 
+		if (applicant.getCreatorId() != null) {
+			if (seekerService.findOptionalSeeker(applicant.getCreatorId()).isPresent()) {
+				seeker = seekerService.findSeeker(applicant.getCreatorId());
+				applicantToUpdate.setSeeker(seeker);
+			}
+				
+			if (helperService.findOptionalHelper(applicant.getCreatorId()).isPresent()) {
+				helper = helperService.findHelper(applicant.getCreatorId());
+				applicantToUpdate.setHelper(helper);
+			}				
+
+		} else {
+			applicantToUpdate.setEmail(applicant.getEmail());
+			applicantToUpdate.setPhone(applicant.getPhone());
+			applicantToUpdate.setName(applicant.getName());
+		}
+		
 		return Applicant2ApplicantReadTO.apply(applicantRepository.save(applicantToUpdate));
 	}
 

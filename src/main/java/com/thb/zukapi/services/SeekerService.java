@@ -1,6 +1,7 @@
 package com.thb.zukapi.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -105,6 +106,10 @@ public class SeekerService {
 	public Seeker findSeeker(UUID id) {
 		return seekerRepository.findById(id)
 				.orElseThrow(() -> new ApiRequestException("Cannot find Seeker with id: " + id));
+	}
+	
+	public Optional<Seeker> findOptionalSeeker(UUID id) {
+		return seekerRepository.findById(id);
 	}
 
 }

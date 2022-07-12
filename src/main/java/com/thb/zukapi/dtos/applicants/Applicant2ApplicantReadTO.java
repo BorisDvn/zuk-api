@@ -22,7 +22,9 @@ public class Applicant2ApplicantReadTO {
 			out.setName(in.getName());
 
 		if(in.getSeeker() != null)
-			out.setSeekerId(in.getSeeker().getId());
+			out.setCreatorId(in.getSeeker().getId());
+		if(in.getHelper() != null)
+			out.setCreatorId(in.getHelper().getId());
 		if(in.getDeviceId() != null)
 			out.setDeviceId(in.getDeviceId());
 		

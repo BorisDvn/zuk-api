@@ -1,6 +1,7 @@
 package com.thb.zukapi.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -108,6 +109,10 @@ public class HelperService {
 	public Helper findHelper(UUID id) {
 		return helperRepository.findById(id)
 				.orElseThrow(() -> new ApiRequestException("Cannot find Helper with id: " + id));
+	}
+
+	public Optional<Helper> findOptionalHelper(UUID id) {
+		return helperRepository.findById(id);
 	}
 
 }
