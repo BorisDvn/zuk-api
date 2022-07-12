@@ -1,6 +1,7 @@
 package com.thb.zukapi.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -63,7 +64,7 @@ public class SeekerService {
 		newSeeker.setDob(seeker.getDob());
 		newSeeker.setPhone(seeker.getPhone());
 		newSeeker.setEmail(seeker.getEmail());
-		newSeeker.setAdresse(seeker.getAdresse());
+		newSeeker.setAddress(seeker.getAddress());
 		newSeeker.setGender(seeker.getGender());
 
 		return seekerRepository.save(newSeeker);
@@ -85,8 +86,8 @@ public class SeekerService {
 			seekerToUpdate.setPhone(seeker.getPhone());
 		if (seeker.getEmail() != null)
 			seekerToUpdate.setEmail(seeker.getEmail());
-		if (seeker.getAdresse() != null)
-			seekerToUpdate.setAdresse(seeker.getAdresse());
+		if (seeker.getAddress() != null)
+			seekerToUpdate.setAddress(seeker.getAddress());
 		if (seeker.getGender() != null)
 			seekerToUpdate.setGender(seeker.getGender());
 
@@ -105,6 +106,10 @@ public class SeekerService {
 	public Seeker findSeeker(UUID id) {
 		return seekerRepository.findById(id)
 				.orElseThrow(() -> new ApiRequestException("Cannot find Seeker with id: " + id));
+	}
+	
+	public Optional<Seeker> findOptionalSeeker(UUID id) {
+		return seekerRepository.findById(id);
 	}
 
 }

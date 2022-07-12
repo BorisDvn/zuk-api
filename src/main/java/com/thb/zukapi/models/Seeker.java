@@ -30,5 +30,7 @@ public class Seeker extends Person {
 
 	@OneToMany(mappedBy = "seeker", fetch = FetchType.EAGER)
 	List<Announcement> announcements = new ArrayList<Announcement>();
-}
 
+	@OneToMany(mappedBy = "seeker")
+	List<Applicant> applicants = new ArrayList<Applicant>();
+}

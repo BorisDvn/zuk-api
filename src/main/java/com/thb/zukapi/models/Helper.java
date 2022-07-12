@@ -1,5 +1,6 @@
 package com.thb.zukapi.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -32,5 +33,8 @@ public class Helper extends Person {
 	@OneToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	User user;
+	
+	@OneToMany(mappedBy = "helper")
+	List<Applicant> applicants = new ArrayList<Applicant>();
 
 }

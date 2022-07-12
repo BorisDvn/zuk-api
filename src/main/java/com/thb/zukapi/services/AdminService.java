@@ -58,7 +58,7 @@ public class AdminService {
 		newAdmin.setDob(admin.getDob());
 		newAdmin.setPhone(admin.getPhone());
 		newAdmin.setEmail(admin.getEmail());
-		newAdmin.setAdresse(admin.getAdresse());
+		newAdmin.setAddress(admin.getAddress());
 		newAdmin.setGender(admin.getGender());
 
 		return adminRepository.save(newAdmin);
@@ -80,8 +80,8 @@ public class AdminService {
 			adminToUpdate.setPhone(admin.getPhone());
 		if (admin.getEmail() != null)
 			adminToUpdate.setEmail(admin.getEmail());
-		if (admin.getAdresse() != null)
-			adminToUpdate.setAdresse(admin.getAdresse());
+		if (admin.getAddress() != null)
+			adminToUpdate.setAddress(admin.getAddress());
 		if (admin.getGender() != null)
 			adminToUpdate.setGender(admin.getGender());
 

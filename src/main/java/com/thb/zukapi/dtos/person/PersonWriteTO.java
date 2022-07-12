@@ -53,7 +53,7 @@ public class PersonWriteTO {
 	String email; // As username
 
 	@NotBlank
-	String adresse;
+	String address;
 
 	@Enumerated(EnumType.STRING)
 	Gender gender;

@@ -90,7 +90,7 @@ public class SeekerIT extends ItBase {
     public void updateSeeker() {
     	PersonWriteTO update = buildSignup();
     	update.setId(seeker.getId());
-    	update.setAdresse(UUID.randomUUID().toString());
+    	update.setAddress(UUID.randomUUID().toString());
     	
         UUID id = UUID.fromString(
                 given()

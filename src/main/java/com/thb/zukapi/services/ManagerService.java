@@ -58,7 +58,7 @@ public class ManagerService {
 		}
 		newManager.setDob(manager.getDob());
 		newManager.setPhone(manager.getPhone());
-		newManager.setAdresse(manager.getAdresse());
+		newManager.setAddress(manager.getAddress());
 		newManager.setGender(manager.getGender());
 
 		return managerRepository.save(newManager);
@@ -80,8 +80,8 @@ public class ManagerService {
 			managerToUpdate.setPhone(manager.getPhone());
 		if (manager.getEmail() != null)
 			managerToUpdate.setEmail(manager.getEmail());
-		if (manager.getAdresse() != null)
-			managerToUpdate.setAdresse(manager.getAdresse());
+		if (manager.getAddress() != null)
+			managerToUpdate.setAddress(manager.getAddress());
 		if (manager.getGender() != null)
 			managerToUpdate.setGender(manager.getGender());
 

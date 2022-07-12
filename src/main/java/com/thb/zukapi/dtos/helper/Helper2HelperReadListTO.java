@@ -1,10 +1,9 @@
 package com.thb.zukapi.dtos.helper;
 
-import com.thb.zukapi.models.Helper;
-import com.thb.zukapi.models.Seeker;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.thb.zukapi.models.Helper;
 
 public class Helper2HelperReadListTO {
 
@@ -21,7 +20,7 @@ public class Helper2HelperReadListTO {
         out.setDob(in.getDob());
         out.setPhone(in.getPhone());
         out.setEmail(in.getEmail());
-        out.setAdresse(in.getAdresse());
+        out.setAdresse(in.getAddress());
         out.setGender(in.getGender());
         out.setHelperType(in.getHelperType());
 

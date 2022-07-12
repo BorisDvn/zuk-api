@@ -1,6 +1,7 @@
 package com.thb.zukapi.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -65,7 +66,7 @@ public class HelperService {
 		newHelper.setDob(helper.getDob());
 		newHelper.setPhone(helper.getPhone());
 		newHelper.setEmail(helper.getEmail());
-		newHelper.setAdresse(helper.getAdresse());
+		newHelper.setAddress(helper.getAddress());
 		newHelper.setGender(helper.getGender());
 		newHelper.setHelperType(helper.getHelperType());
 
@@ -88,8 +89,8 @@ public class HelperService {
 			helperToUpdate.setPhone(helper.getPhone());
 		if (helper.getEmail() != null)
 			helperToUpdate.setEmail(helper.getEmail());
-		if (helper.getAdresse() != null)
-			helperToUpdate.setAdresse(helper.getAdresse());
+		if (helper.getAddress() != null)
+			helperToUpdate.setAddress(helper.getAddress());
 		if (helper.getGender() != null)
 			helperToUpdate.setGender(helper.getGender());
 
@@ -108,6 +109,10 @@ public class HelperService {
 	public Helper findHelper(UUID id) {
 		return helperRepository.findById(id)
 				.orElseThrow(() -> new ApiRequestException("Cannot find Helper with id: " + id));
+	}
+
+	public Optional<Helper> findOptionalHelper(UUID id) {
+		return helperRepository.findById(id);
 	}
 
 }

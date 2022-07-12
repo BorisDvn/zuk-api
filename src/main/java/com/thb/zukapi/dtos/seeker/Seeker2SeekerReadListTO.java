@@ -20,7 +20,7 @@ public class Seeker2SeekerReadListTO {
         out.setDob(in.getDob());
         out.setPhone(in.getPhone());
         out.setEmail(in.getEmail());
-        out.setAdresse(in.getAdresse());
+        out.setAdresse(in.getAddress());
         out.setGender(in.getGender());
 
         return out;
