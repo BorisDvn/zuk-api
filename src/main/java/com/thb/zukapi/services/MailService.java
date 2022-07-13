@@ -34,7 +34,7 @@ public class MailService {
     private String from;
 
     // simple mail
-    public ResponseEntity<String> sendHtmlMessage(Email email) {
+    public ResponseEntity<String> sendMessage(Email email) {
 
         try {
             MimeMessage message = emailSender.createMimeMessage();
@@ -60,7 +60,7 @@ public class MailService {
     }
 
     // Mail with multipartFile
-    public ResponseEntity<String> sendHtmlMessageAttachment(Email email, List<MultipartFile> files) {
+    public ResponseEntity<String> sendMessageAttachment(Email email, List<MultipartFile> files) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
 
@@ -92,7 +92,7 @@ public class MailService {
     }
 
     // Mail with DataSource
-    public ResponseEntity<String> sendHtmlMessageAttachment(Email email, DataSource source) {
+    public ResponseEntity<String> sendMessageAttachmentDts(Email email, DataSource source) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
 
