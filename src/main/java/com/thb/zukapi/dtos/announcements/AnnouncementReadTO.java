@@ -51,7 +51,7 @@ public class AnnouncementReadTO {
 
 	UUID creatorId;
 
-	List<File> images;
+	List<String> images;
 	
 	String createdBy;
 
