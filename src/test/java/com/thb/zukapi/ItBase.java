@@ -22,6 +22,7 @@ import com.thb.zukapi.dtos.category.CategoryWriteTO;
 import com.thb.zukapi.dtos.files.FileTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.dtos.user.SigninTO;
+import com.thb.zukapi.models.Admin;
 import com.thb.zukapi.models.Announcement;
 import com.thb.zukapi.models.AnnouncementStatus;
 import com.thb.zukapi.models.Applicant;
@@ -305,6 +306,21 @@ public class ItBase {
 		applicant.setStatus(ContactStatus.UNREAD);
 
 		return applicant;
+	}
+	
+	protected Admin buildAdmin(User user) {
+
+		Admin admin = new Admin();
+		admin.setAddress(UUID.randomUUID().toString());
+		admin.setDob(LocalDate.now());
+		admin.setEmail(UUID.randomUUID().toString() + "@email.com");
+		admin.setFirstname(UUID.randomUUID().toString());
+		admin.setLastname(UUID.randomUUID().toString());
+		admin.setGender(Gender.M);
+		admin.setPhone("+0012334234543");
+		admin.setUser(user);
+
+		return admin;
 	}
 
 }
