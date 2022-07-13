@@ -94,6 +94,13 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- Tests end -->
+
+		<!-- Email Start -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<!-- Email End -->
 		
 		<!-- JWT -->
 		<dependency>
@@ -101,6 +108,7 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
+		<!-- JWT -->
 	</dependencies>
 
 	<build>
