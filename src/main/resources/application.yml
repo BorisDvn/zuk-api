@@ -25,15 +25,27 @@ spring:
       # Hibernate ddl auto (create, create-drop, validate, update)
       ddl-auto: update
 
+  mail:
+    host: smtp-relay.sendinblue.com
+    port: 587
+    username: dovonon@th-brandenburg.de
+    password: TCjYxkvJH39zM0VQ
+    protocol: smtp
+    #tls: true
+    properties.mail.smtp:
+      auth: false
+      starttls.enable: false
+      ssl.trust:
+
 # JWT
 zuk:
-    jwtSecret: zukSecretKey
-    jwtExpirationMs: 86400000
+  jwtSecret: zukSecretKey
+  jwtExpirationMs: 86400000
 
 fileStorage:
-     url: http://85.214.194.89:8766/dropbox/
+  url: http://85.214.194.89:8766/dropbox/
 
 # News Api
 newsApi:
-    authorization: S-wXaSPAhyptpFqvkxy4XyEs6sAVMxspQrO67jYESaxIA0R6
-    url: https://api.currentsapi.services/v1/search?keywords=Refugee&language=en&country=DE&page_size=20
+  authorization: S-wXaSPAhyptpFqvkxy4XyEs6sAVMxspQrO67jYESaxIA0R6
+  url: https://api.currentsapi.services/v1/search?keywords=Refugee&language=en&country=DE&page_size=20
