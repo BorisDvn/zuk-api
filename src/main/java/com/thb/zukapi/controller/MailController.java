@@ -20,17 +20,10 @@ public class MailController {
         this.mailService = mailService;
     }
 
-    @Operation(summary = "Send simple email without attachment")
-    @PostMapping(value = "/simple-email")
-    public ResponseEntity<String> sendAttachmentEmail(
-            @Parameter(name = "mail", description = "mail to send") @RequestBody Email mail) {
-        return mailService.sendMessage(mail);
-    }
-
     @Operation(summary = "Send email with attachment")
     @PostMapping(value = "/attachment")
-    public ResponseEntity<String> sendAttachmentEmail(@Parameter(name = "mail", description = "Email to send") @RequestPart Email mail,
-                                                      @Parameter(name = "Files", description = "Liste of attachment") @RequestPart List<MultipartFile> files) {
+    public ResponseEntity<String> sendEmail(@Parameter(name = "mail", description = "Email to send") @RequestPart Email mail,
+                                            @Parameter(name = "Files", description = "Liste of attachment") @RequestPart(required = false) List<MultipartFile> files) {
         return mailService.sendMessageAttachment(mail, files);
     }
 }

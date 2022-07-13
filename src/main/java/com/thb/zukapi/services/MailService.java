@@ -33,32 +33,6 @@ public class MailService {
     @Value("${spring.mail.username}")
     private String from;
 
-    // simple mail
-    public ResponseEntity<String> sendMessage(Email email) {
-
-        try {
-            MimeMessage message = emailSender.createMimeMessage();
-
-            message.reply(email.isReply());
-
-            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                    StandardCharsets.UTF_8.name());
-
-            helper.setFrom(from);
-            helper.setTo(email.getTo());
-            helper.setSubject(email.getSubject());
-            helper.setText(email.getMessage());
-
-            emailSender.send(message);
-            logger.info("Email sent successfully:{} -> {} at {}", from, email.getTo(), LocalDateTime.now());
-
-            return new ResponseEntity<>("Email sent successfully", HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("Error during email sending : {}", e.getMessage());
-            throw new ApiRequestException(e.getMessage());
-        }
-    }
-
     // Mail with multipartFile
     public ResponseEntity<String> sendMessageAttachment(Email email, List<MultipartFile> files) {
         try {
@@ -81,37 +55,10 @@ public class MailService {
             }
 
             emailSender.send(message);
-            logger.info("Mail sent with attachment successfully:{} -> {} at {}", from, email.getTo(),
+            logger.info("Mail sent successfully:{} -> {} at {}", from, email.getTo(),
                     LocalDateTime.now());
 
             return new ResponseEntity<>("Mail sent successfully", HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("Error during mail sending : {}", e.getMessage());
-            throw new ApiRequestException(e.getMessage());
-        }
-    }
-
-    // Mail with DataSource
-    public ResponseEntity<String> sendMessageAttachmentDts(Email email, DataSource source) {
-        try {
-            MimeMessage message = emailSender.createMimeMessage();
-
-            message.reply(email.isReply());
-
-            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                    StandardCharsets.UTF_8.name());
-
-            helper.setFrom(from);
-            helper.setTo(email.getTo());
-            helper.setSubject(email.getSubject());
-            helper.setText(email.getMessage());
-            helper.addAttachment(source.getName(),  source);
-
-            emailSender.send(message);
-            logger.info("Message sent with attachment successfully:{} -> {} at {}", from, email.getTo(),
-                    LocalDateTime.now());
-
-            return new ResponseEntity<String>("Mail sent successfully", HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error during mail sending : {}", e.getMessage());
             throw new ApiRequestException(e.getMessage());
