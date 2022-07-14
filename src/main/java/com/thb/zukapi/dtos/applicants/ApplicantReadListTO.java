@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
 
+import com.thb.zukapi.models.ContactStatus;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,5 +28,11 @@ public class ApplicantReadListTO {
 	String details;
 
 	UUID announcementId;
+	
+	ContactStatus status;
+	
+	String name;
+	
+	String email;
 
 }

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.thb.zukapi.models.Announcement;
-import com.thb.zukapi.models.RoleType;
 
 public class Announcement2AnnouncementReadListTO {
 	public static AnnouncementReadListTO apply(Announcement in) {

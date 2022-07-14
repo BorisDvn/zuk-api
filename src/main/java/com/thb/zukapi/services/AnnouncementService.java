@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.thb.zukapi.models.*;
-import com.thb.zukapi.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +23,22 @@ import com.thb.zukapi.dtos.announcements.AnnouncementReadTO;
 import com.thb.zukapi.dtos.announcements.AnnouncementWriteTO;
 import com.thb.zukapi.dtos.files.FileTO;
 import com.thb.zukapi.exception.ApiRequestException;
+import com.thb.zukapi.models.Admin;
 import com.thb.zukapi.models.Announcement;
 import com.thb.zukapi.models.AnnouncementStatus;
 import com.thb.zukapi.models.AnnouncementStype;
 import com.thb.zukapi.models.Category;
+import com.thb.zukapi.models.Email;
 import com.thb.zukapi.models.File;
+import com.thb.zukapi.models.Manager;
+import com.thb.zukapi.models.Person;
+import com.thb.zukapi.models.Seeker;
+import com.thb.zukapi.repositories.AdminRepository;
+import com.thb.zukapi.repositories.AnnouncementRepository;
+import com.thb.zukapi.repositories.FileRepository;
+import com.thb.zukapi.repositories.HelperRepository;
+import com.thb.zukapi.repositories.ManagerRepository;
+import com.thb.zukapi.repositories.SeekerRepository;
 import com.thb.zukapi.utils.FileUpload;
 
 @Service
@@ -202,7 +211,7 @@ public class AnnouncementService {
         if (announcement.getCreatorStatus().toString() != "MANAGER") {
 
             List<Manager> managers = managerRepository.findAll();
-            List<String> managersMailsAdress = null;
+            List<String> managersMailsAdress = new ArrayList<String>();
             if (managers != null) {
                 for (Manager manager : managers) {
                     managersMailsAdress.add(manager.getEmail());
@@ -253,7 +262,7 @@ public class AnnouncementService {
 
         } else {
             announcementToUpdate.setEmail(announcement.getEmail());
-            announcementToUpdate.setEmail(announcement.getTel());
+            announcementToUpdate.setTel(announcement.getTel());
         }
 
         if (announcement.getStatus() != null) {
@@ -275,24 +284,29 @@ public class AnnouncementService {
 
     // manage images in another endpoint and not in updateFunction to simplefy the
     // complexity
-    public AnnouncementReadTO addImageAnnouncement(UUID announcementId, MultipartFile file) {
+    public AnnouncementReadTO addImageAnnouncement(UUID announcementId, List<MultipartFile> file) {
 
         Announcement announcementToUpdate = findAnnouncement(announcementId);
 
-        // if the file already exist just use it
-        if (file != null && fileRepo.findByName(file.getOriginalFilename()).isPresent()) {
-            announcementToUpdate.getImages().add(fileRepo.findByName(file.getOriginalFilename()).get());
-        } else {
-            // else upload
-            FileTO response = fileUpload.uploadToFileService(file, FileUpload.uploadFolder);
+        if(file != null && file.size() > 0) {
+        	file.forEach(file_ -> {
+        		// if the file already exist just use it
+                if (fileRepo.findByName(file_.getOriginalFilename()).isPresent()) {
+                    announcementToUpdate.getImages().add(fileRepo.findByName(file_.getOriginalFilename()).get());
+                } else {
+                    // else upload
+                    FileTO response = fileUpload.uploadToFileService(file_, FileUpload.uploadFolder);
 
-            File image = new File();
-            image.setFileLink(response.getFileLink());
-            image.setName(response.getFilename());
-            image = fileRepo.save(image);
+                    File image = new File();
+                    image.setFileLink(response.getFileLink());
+                    image.setName(response.getFilename());
+                    image = fileRepo.save(image);
 
-            announcementToUpdate.getImages().add(image);
+                    announcementToUpdate.getImages().add(image);
+                }
+        	});
         }
+        
         return Announcement2AnnouncementReadTO.apply(announcementRepository.save(announcementToUpdate));
     }
 

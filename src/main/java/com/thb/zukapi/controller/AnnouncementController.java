@@ -78,7 +78,7 @@ public class AnnouncementController {
     @PostMapping("/image/{announcementId}") // add /image/ because of error: Ambigouos handler methods mapped for '/zuk-api/v1/announcement/id'
     public AnnouncementReadTO addImageAnnouncement(
     		@Parameter(name = "AnnouncementId", description = "Id of the Announcement") @PathVariable UUID announcementId,
-    		@Parameter(name = "file", description = "File to be added") @RequestPart(required = true) MultipartFile file) {
+    		@Parameter(name = "file", description = "File to be added") @RequestPart(required = true) List<MultipartFile> file) {
         return announcementService.addImageAnnouncement(announcementId, file);
     }
     
@@ -86,7 +86,7 @@ public class AnnouncementController {
     @ApiResponse(responseCode = "200", description = "Image removed",
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = AnnouncementReadTO.class))})
-    @DeleteMapping("/iamge/{announcementId}") // added /image/ because of error: Ambigouos handler methods mapped for '/zuk-api/v1/announcement/id'
+    @DeleteMapping("/image/{announcementId}") // added /image/ because of error: Ambigouos handler methods mapped for '/zuk-api/v1/announcement/id'
     public AnnouncementReadTO removeImageAnnouncement(
     		@Parameter(name = "AnnouncementId", description = "Id of the Announcement") @PathVariable UUID announcementId,
     		@Parameter(name = "file", description = "File to be removed") @RequestPart(required = true) MultipartFile file) {

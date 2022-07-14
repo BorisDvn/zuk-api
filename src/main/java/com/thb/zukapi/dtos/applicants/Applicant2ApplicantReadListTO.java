@@ -13,6 +13,13 @@ public class Applicant2ApplicantReadListTO {
 		out.setDetails(in.getDetails());
 		out.setAnnouncementId(in.getAnnouncement().getId());
 
+		if (in.getStatus() != null)
+			out.setStatus(in.getStatus());
+		if (in.getEmail() != null)
+			out.setEmail(in.getEmail());
+		if (in.getName() != null)
+			out.setName(in.getName());
+
 		return out;
 	}
 
