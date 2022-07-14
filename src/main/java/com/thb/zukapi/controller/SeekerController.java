@@ -42,7 +42,7 @@ public class SeekerController {
 	@GetMapping("")
 	public List<SeekerReadListTO> getAllSeeker(@RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize,
-			@RequestParam(defaultValue = "nachname") String sortBy) {
+			@RequestParam(defaultValue = "lastname") String sortBy) {
 		return seekerService.getAll(pageNo, pageSize, sortBy);
 	}
 

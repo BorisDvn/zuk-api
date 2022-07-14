@@ -179,7 +179,7 @@ public class AnnouncementService {
 
 		} else {
 			newAnnouncement.setEmail(announcement.getEmail());
-			newAnnouncement.setEmail(announcement.getTel());
+			newAnnouncement.setTel(announcement.getTel());
 		}
 
 		return Announcement2AnnouncementReadTO.apply(announcementRepository.save(newAnnouncement));

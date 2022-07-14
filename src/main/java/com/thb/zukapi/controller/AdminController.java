@@ -39,7 +39,7 @@ public class AdminController {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class)) })
 	@GetMapping("")
 	public List<Admin> getAllAdmin(@RequestParam(defaultValue = "0") Integer pageNo,
-			@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "name") String sortBy) {
+			@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "lastname") String sortBy) {
 		return adminService.getAll(pageNo, pageSize, sortBy);
 	}
 
