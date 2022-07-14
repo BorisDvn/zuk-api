@@ -58,7 +58,7 @@ public class SeekerController {
 	@ApiResponse(responseCode = "200", description = "Seeker added", content = {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = SeekerReadTO.class)) })
 	@PostMapping("")
-	public Seeker addSeeker(
+	public SeekerReadTO addSeeker(
 			@Parameter(name = "Seeker", description = "Seeker_obj to add") @RequestBody PersonWriteTO seeker) {
 		return seekerService.addSeeker(seeker);
 	}
