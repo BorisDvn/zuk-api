@@ -28,8 +28,8 @@ public class ContactController {
                     schema = @Schema(implementation = Contact.class))})
     @GetMapping("")
     public List<Contact> getAllContact(@RequestParam(defaultValue = "0") Integer pageNo,
-                                         @RequestParam(defaultValue = "10") Integer pageSize,
-                                         @RequestParam(defaultValue = "id") String sortBy) {
+                                         @RequestParam(defaultValue = "20") Integer pageSize,
+                                         @RequestParam(defaultValue = "subject") String sortBy) {
         return contactService.getAll(pageNo, pageSize, sortBy);
     }
 
