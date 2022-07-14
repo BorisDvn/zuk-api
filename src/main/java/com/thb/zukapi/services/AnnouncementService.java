@@ -28,11 +28,9 @@ import com.thb.zukapi.models.AnnouncementStatus;
 import com.thb.zukapi.models.AnnouncementStype;
 import com.thb.zukapi.models.Category;
 import com.thb.zukapi.models.File;
-import com.thb.zukapi.repositories.AdminRepository;
 import com.thb.zukapi.repositories.AnnouncementRepository;
 import com.thb.zukapi.repositories.FileRepository;
 import com.thb.zukapi.repositories.HelperRepository;
-import com.thb.zukapi.repositories.ManagerRepository;
 import com.thb.zukapi.repositories.SeekerRepository;
 import com.thb.zukapi.utils.FileUpload;
 
@@ -64,12 +62,6 @@ public class AnnouncementService {
 
 	@Autowired
 	private SeekerRepository seekerRepository;
-
-	@Autowired
-	private AdminRepository adminRepository;
-
-	@Autowired
-	private ManagerRepository managerRepository;
 
 	@Autowired
 	private HelperRepository helperRepository;
@@ -173,7 +165,7 @@ public class AnnouncementService {
 				newAnnouncement.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
 				break;
 			case "MANAGER":
-				newAnnouncement.setManager(managerService.getManager(announcement.getCreatorId()));
+				newAnnouncement.setManager(managerService.findManager(announcement.getCreatorId()));
 				break;
 			}
 
@@ -216,7 +208,7 @@ public class AnnouncementService {
 				announcementToUpdate.setAdmin(adminService.findAdmin(announcement.getCreatorId()));
 				break;
 			case "MANAGER":
-				announcementToUpdate.setManager(managerService.getManager(announcement.getCreatorId()));
+				announcementToUpdate.setManager(managerService.findManager(announcement.getCreatorId()));
 				break;
 			}
 

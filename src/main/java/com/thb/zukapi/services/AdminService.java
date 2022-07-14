@@ -14,6 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.thb.zukapi.dtos.admin.Admin2AdminReadListTO;
+import com.thb.zukapi.dtos.admin.Admin2AdminReadTO;
+import com.thb.zukapi.dtos.admin.AdminReadListTO;
+import com.thb.zukapi.dtos.admin.AdminReadTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Admin;
@@ -30,19 +34,19 @@ public class AdminService {
 	@Autowired
 	private UserService userService;
 
-	public Admin getAdmin(UUID id) {
-		return findAdmin(id);
+	public AdminReadTO getAdmin(UUID id) {
+		return Admin2AdminReadTO.apply(findAdmin(id));
 	}
 
-	public List<Admin> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+	public List<AdminReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
 		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Admin> pagedResult = adminRepository.findAll(paging);
 
-		return pagedResult.getContent();
+		return Admin2AdminReadListTO.apply(pagedResult.getContent());
 	}
 
-	public Admin addAdmin(PersonWriteTO admin) {
+	public AdminReadTO addAdmin(PersonWriteTO admin) {
 		
 		// Create System User
 		User user = userService.signUp(admin);
@@ -61,12 +65,12 @@ public class AdminService {
 		newAdmin.setAddress(admin.getAddress());
 		newAdmin.setGender(admin.getGender());
 
-		return adminRepository.save(newAdmin);
+		return Admin2AdminReadTO.apply(adminRepository.save(newAdmin));
 	}
 
-	public Admin updateAdmin(Admin admin) {
+	public AdminReadTO updateAdmin(Admin admin) {
 
-		Admin adminToUpdate = getAdmin(admin.getId());
+		Admin adminToUpdate = findAdmin(admin.getId());
 
 		if (admin.getLastname() != null)
 			adminToUpdate.setLastname(admin.getLastname());
@@ -85,11 +89,11 @@ public class AdminService {
 		if (admin.getGender() != null)
 			adminToUpdate.setGender(admin.getGender());
 
-		return adminRepository.save(adminToUpdate);
+		return Admin2AdminReadTO.apply(adminRepository.save(adminToUpdate));
 	}
 
 	public ResponseEntity<String> deleteAdminById(UUID id) {
-		Admin adminToDelete = getAdmin(id);
+		Admin adminToDelete = findAdmin(id);
 
 		adminRepository.deleteById(adminToDelete.getId());
 

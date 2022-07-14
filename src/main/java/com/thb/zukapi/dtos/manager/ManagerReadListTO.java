@@ -1,8 +1,5 @@
 package com.thb.zukapi.dtos.manager;
 
-import java.util.Date;
-import java.util.UUID;
-
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 
 import lombok.AccessLevel;
@@ -17,16 +14,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ManagerReadTO extends PersonWriteTO {
+public class ManagerReadListTO extends PersonWriteTO {
     
-	UUID userId;
-    
-    String createdBy;
-
-	Date createdDate;
-
-	String lastModifiedBy;
-
-	Date lastModifiedDate;
 
 }

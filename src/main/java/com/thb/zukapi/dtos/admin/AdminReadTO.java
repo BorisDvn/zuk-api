@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.thb.zukapi.dtos.person.PersonWriteTO;
-import com.thb.zukapi.models.HelperType;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,8 +18,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AdminReadTO extends PersonWriteTO {
-
-    HelperType helperType;
     
 	UUID userId;
     

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thb.zukapi.dtos.admin.AdminReadListTO;
+import com.thb.zukapi.dtos.admin.AdminReadTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.models.Admin;
 import com.thb.zukapi.services.AdminService;
@@ -38,7 +40,7 @@ public class AdminController {
 	@ApiResponse(responseCode = "200", description = "Found all Admin", content = {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class)) })
 	@GetMapping("")
-	public List<Admin> getAllAdmin(@RequestParam(defaultValue = "0") Integer pageNo,
+	public List<AdminReadListTO> getAllAdmin(@RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "lastname") String sortBy) {
 		return adminService.getAll(pageNo, pageSize, sortBy);
 	}
@@ -47,7 +49,7 @@ public class AdminController {
 	@ApiResponse(responseCode = "200", description = "Found the Admin", content = {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class)) })
 	@GetMapping("/{id}")
-	public Admin getAdminById(@Parameter(name = "AdminId", description = "ID of the Admin_obj") @PathVariable UUID id) {
+	public AdminReadTO getAdminById(@Parameter(name = "AdminId", description = "ID of the Admin_obj") @PathVariable UUID id) {
 		return adminService.getAdmin(id);
 	}
 
@@ -56,7 +58,7 @@ public class AdminController {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class)) })
 	@PostMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-	public Admin addAdmin(
+	public AdminReadTO addAdmin(
 			@Parameter(name = "Admin", description = "Admin_obj to add") @RequestBody PersonWriteTO admin) {
 		return adminService.addAdmin(admin);
 	}
@@ -66,7 +68,7 @@ public class AdminController {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class)) })
 	@PutMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-	public Admin updateAdmin(@Parameter(name = "Admin", description = "Admin_obj to update") @RequestBody Admin admin) {
+	public AdminReadTO updateAdmin(@Parameter(name = "Admin", description = "Admin_obj to update") @RequestBody Admin admin) {
 		return adminService.updateAdmin(admin);
 	}
 

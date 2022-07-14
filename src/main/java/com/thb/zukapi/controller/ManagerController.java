@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thb.zukapi.dtos.manager.ManagerReadListTO;
+import com.thb.zukapi.dtos.manager.ManagerReadTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.models.Manager;
 import com.thb.zukapi.models.Seeker;
@@ -39,7 +41,7 @@ public class ManagerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Seeker.class))})
     @GetMapping("")
-    public List<Manager> getAllManager(@RequestParam(defaultValue = "0") Integer pageNo,
+    public List<ManagerReadListTO> getAllManager(@RequestParam(defaultValue = "0") Integer pageNo,
                                        @RequestParam(defaultValue = "10") Integer pageSize,
                                        @RequestParam(defaultValue = "firstname") String sortBy) {
         return managerService.getAll(pageNo, pageSize, sortBy);
@@ -50,7 +52,7 @@ public class ManagerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Manager.class))})
     @GetMapping("/{id}")
-    public Manager getManagerById(@Parameter(name = "ManagerId", description = "ID of the Manager_obj") @PathVariable UUID id) {
+    public ManagerReadTO getManagerById(@Parameter(name = "ManagerId", description = "ID of the Manager_obj") @PathVariable UUID id) {
         return managerService.getManager(id);
     }
 
@@ -59,7 +61,7 @@ public class ManagerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Manager.class))})
     @PostMapping("")
-    public Manager addManager(
+    public ManagerReadTO addManager(
             @Parameter(name = "Manager", description = "Manager_obj to add") @RequestBody PersonWriteTO manager) {
         return managerService.addManager(manager);
     }
@@ -69,7 +71,7 @@ public class ManagerController {
             content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Manager.class))})
     @PutMapping("")
-    public Manager updateManager(@Parameter(name = "Manager", description = "Manager_obj to update") @RequestBody Manager manager) {
+    public ManagerReadTO updateManager(@Parameter(name = "Manager", description = "Manager_obj to update") @RequestBody Manager manager) {
         return managerService.updateManager(manager);
     }
 
