@@ -125,8 +125,7 @@ public class AnnouncementService {
     }
 
     public AnnouncementReadTO addAnnouncement(AnnouncementWriteTO announcement, List<MultipartFile> files) {
-        // find the category
-        // Category category = categoryService.findCategory(announcement.getCategoryId());
+
 
         Announcement newAnnouncement = new Announcement();
 
@@ -135,7 +134,9 @@ public class AnnouncementService {
         // standby as default value
         newAnnouncement.setStatus(AnnouncementStatus.STANDBY);
         newAnnouncement.setType(announcement.getType());
-        // newAnnouncement.setCategory(category);
+        // find the category
+        Category category = categoryService.findCategory(announcement.getCategoryId());
+        newAnnouncement.setCategory(category);
 
         // set images
         List<File> uploadedFiles = new ArrayList<>();
@@ -332,5 +333,5 @@ public class AnnouncementService {
         email.setMessage(message);
         mailService.sendMail(email, null);
     }
-    
+
 }
