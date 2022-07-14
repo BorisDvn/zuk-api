@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 import com.thb.zukapi.models.AnnouncementStatus;
 
+import com.thb.zukapi.models.AnnouncementStype;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,9 +30,14 @@ public class AnnouncementReadListTO {
 
 	@Enumerated(EnumType.STRING)
 	AnnouncementStatus status;
+
+	@Enumerated(EnumType.STRING)
+	AnnouncementStype type;
 	
 	String imageLink;
 	
 	UUID categoryId;
+
+	UUID creatorId;
 
 }
