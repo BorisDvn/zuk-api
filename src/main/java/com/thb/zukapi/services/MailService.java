@@ -34,7 +34,7 @@ public class MailService {
     private String from;
 
     // Mail with multipartFile
-    public ResponseEntity<String> sendMessageAttachment(Email email, List<MultipartFile> files) {
+    public ResponseEntity<String> sendMail(Email email, List<MultipartFile> files) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
 
@@ -58,7 +58,7 @@ public class MailService {
             logger.info("Mail sent successfully:{} -> {} at {}", from, email.getTo(),
                     LocalDateTime.now());
 
-            return new ResponseEntity<>("Mail sent successfully", HttpStatus.OK);
+            return new ResponseEntity<String>("Mail sent successfully", HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error during mail sending : {}", e.getMessage());
             throw new ApiRequestException(e.getMessage());

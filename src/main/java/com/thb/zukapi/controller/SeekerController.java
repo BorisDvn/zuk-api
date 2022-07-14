@@ -59,7 +59,6 @@ public class SeekerController {
 	@ApiResponse(responseCode = "200", description = "Seeker added", content = {
 			@Content(mediaType = "application/json", schema = @Schema(implementation = Seeker.class)) })
 	@PostMapping("")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
 	public Seeker addSeeker(
 			@Parameter(name = "Seeker", description = "Seeker_obj to add") @RequestBody PersonWriteTO seeker) {
 		return seekerService.addSeeker(seeker);

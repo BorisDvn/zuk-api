@@ -64,7 +64,6 @@ public class Announcement extends Auditable<String> {
     //for not registered users
     @Email
     String email;
-
     String tel;
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -26,12 +26,12 @@ spring:
       ddl-auto: update
 
   mail:
-    host: smtp-relay.sendinblue.com
+    host: smtp.ionos.de
     port: 587
-    username: dovonon@th-brandenburg.de
-    password: TCjYxkvJH39zM0VQ
+    username: testmail@abprod.de
+    password: empathy-lark-washday
     protocol: smtp
-    #tls: true
+    tls: true
     properties.mail.smtp:
       auth: false
       starttls.enable: false
