@@ -29,7 +29,7 @@ public class ContactController {
     @GetMapping("")
     public List<Contact> getAllContact(@RequestParam(defaultValue = "0") Integer pageNo,
                                          @RequestParam(defaultValue = "10") Integer pageSize,
-                                         @RequestParam(defaultValue = "name") String sortBy) {
+                                         @RequestParam(defaultValue = "id") String sortBy) {
         return contactService.getAll(pageNo, pageSize, sortBy);
     }
 
