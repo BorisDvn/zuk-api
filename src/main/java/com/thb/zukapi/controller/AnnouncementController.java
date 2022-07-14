@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.thb.zukapi.dtos.announcements.AnnouncementReadListTO;
 import com.thb.zukapi.dtos.announcements.AnnouncementReadTO;
 import com.thb.zukapi.dtos.announcements.AnnouncementWriteTO;
-import com.thb.zukapi.models.Announcement;
 import com.thb.zukapi.models.AnnouncementStype;
 import com.thb.zukapi.services.AnnouncementService;
 
@@ -44,7 +43,7 @@ public class AnnouncementController {
     @Operation(summary = "Get All Announcement")
     @ApiResponse(responseCode = "200", description = "Found all Announcement",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = AnnouncementReadTO.class))})
+                    schema = @Schema(implementation = AnnouncementReadListTO.class))})
     @GetMapping("")
     public List<AnnouncementReadListTO> getAllAnnouncement(@RequestParam(defaultValue = "0") Integer pageNo,
                                                    @RequestParam(defaultValue = "15") Integer pageSize,
@@ -121,7 +120,7 @@ public class AnnouncementController {
     @Operation(summary = "Delete a Announcement by its id")
     @ApiResponse(responseCode = "200", description = "Delete Announcement",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Announcement.class))})
+                    schema = @Schema(implementation = String.class))})
     @DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteAnnouncement(@Parameter(name = "AnnouncementId", description = "Id of the Announcement to delete") @PathVariable UUID id) {

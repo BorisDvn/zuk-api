@@ -38,7 +38,7 @@ public class AdminController {
 
 	@Operation(summary = "Get All Admin")
 	@ApiResponse(responseCode = "200", description = "Found all Admin", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = AdminReadListTO.class)) })
 	@GetMapping("")
 	public List<AdminReadListTO> getAllAdmin(@RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "lastname") String sortBy) {
@@ -47,7 +47,7 @@ public class AdminController {
 
 	@Operation(summary = "Get a Admin by its id")
 	@ApiResponse(responseCode = "200", description = "Found the Admin", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = AdminReadTO.class)) })
 	@GetMapping("/{id}")
 	public AdminReadTO getAdminById(@Parameter(name = "AdminId", description = "ID of the Admin_obj") @PathVariable UUID id) {
 		return adminService.getAdmin(id);
@@ -55,7 +55,7 @@ public class AdminController {
 
 	@Operation(summary = "Add One Admin")
 	@ApiResponse(responseCode = "200", description = "Admin added", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = AdminReadTO.class)) })
 	@PostMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
 	public AdminReadTO addAdmin(
@@ -65,7 +65,7 @@ public class AdminController {
 
 	@Operation(summary = "Update Admin")
 	@ApiResponse(responseCode = "200", description = "News Admin", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = AdminReadTO.class)) })
 	@PutMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
 	public AdminReadTO updateAdmin(@Parameter(name = "Admin", description = "Admin_obj to update") @RequestBody Admin admin) {
@@ -74,7 +74,7 @@ public class AdminController {
 
 	@Operation(summary = "Delete a Admin by its id")
 	@ApiResponse(responseCode = "200", description = "News Admin", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = String.class)) })
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> deleteAdmin(

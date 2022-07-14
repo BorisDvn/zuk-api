@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.dtos.seeker.SeekerReadListTO;
 import com.thb.zukapi.dtos.seeker.SeekerReadTO;
-import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.services.SeekerService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +37,7 @@ public class SeekerController {
 
 	@Operation(summary = "Get All Seeker")
 	@ApiResponse(responseCode = "200", description = "Found all Seeker", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Seeker.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = SeekerReadListTO.class)) })
 	@GetMapping("")
 	public List<SeekerReadListTO> getAllSeeker(@RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize,
@@ -48,7 +47,7 @@ public class SeekerController {
 
 	@Operation(summary = "Get a Seeker by its id")
 	@ApiResponse(responseCode = "200", description = "Found the Seeker", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Seeker.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = SeekerReadTO.class)) })
 	@GetMapping("/{id}")
 	public SeekerReadTO getSeekerById(
 			@Parameter(name = "SeekerId", description = "ID of the Seeker_obj") @PathVariable UUID id) {
@@ -57,17 +56,17 @@ public class SeekerController {
 
 	@Operation(summary = "Add One Seeker")
 	@ApiResponse(responseCode = "200", description = "Seeker added", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Seeker.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = SeekerReadTO.class)) })
 	@PostMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-	public Seeker addSeeker(
+	public SeekerReadTO addSeeker(
 			@Parameter(name = "Seeker", description = "Seeker_obj to add") @RequestBody PersonWriteTO seeker) {
 		return seekerService.addSeeker(seeker);
 	}
 
 	@Operation(summary = "Update Seeker")
 	@ApiResponse(responseCode = "200", description = "News Seeker", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Seeker.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = SeekerReadTO.class)) })
 	@PutMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
 	public SeekerReadTO updateSeeker(
@@ -77,7 +76,7 @@ public class SeekerController {
 
 	@Operation(summary = "Delete a Seeker by its id")
 	@ApiResponse(responseCode = "200", description = "News Seeker", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Seeker.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = String.class)) })
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> deleteSeeker(

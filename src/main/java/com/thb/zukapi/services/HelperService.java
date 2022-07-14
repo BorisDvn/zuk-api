@@ -74,7 +74,7 @@ public class HelperService {
 	}
 
 	public HelperReadTO updateHelper(PersonWriteTO helper) {
-
+		
 		Helper helperToUpdate = findHelper(helper.getId());
 
 		if (helper.getLastname() != null)

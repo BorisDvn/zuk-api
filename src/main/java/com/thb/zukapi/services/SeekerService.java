@@ -48,7 +48,7 @@ public class SeekerService {
 		return Seeker2SeekerReadListTO.apply(pagedResult.getContent());
 	}
 
-	public Seeker addSeeker(PersonWriteTO seeker) {
+	public SeekerReadTO addSeeker(PersonWriteTO seeker) {
 
 		// Create System User
 		User user = userService.signUp(seeker);
@@ -67,7 +67,7 @@ public class SeekerService {
 		newSeeker.setAddress(seeker.getAddress());
 		newSeeker.setGender(seeker.getGender());
 
-		return seekerRepository.save(newSeeker);
+		return Seeker2SeekerReadTO.apply(seekerRepository.save(newSeeker));
 	}
 
 	public SeekerReadTO updateSeeker(PersonWriteTO seeker) {

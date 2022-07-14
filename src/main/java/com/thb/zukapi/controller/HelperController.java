@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.thb.zukapi.dtos.helper.HelperReadListTO;
 import com.thb.zukapi.dtos.helper.HelperReadTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
-import com.thb.zukapi.models.Helper;
 import com.thb.zukapi.services.HelperService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,7 +56,7 @@ public class HelperController {
 
 	@Operation(summary = "Add One Helper")
 	@ApiResponse(responseCode = "200", description = "Helper added", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = PersonWriteTO.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = HelperReadTO.class)) })
 	@PostMapping("")
 
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
@@ -69,7 +68,7 @@ public class HelperController {
 
 	@Operation(summary = "Update Helper")
 	@ApiResponse(responseCode = "200", description = "News Helper", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = PersonWriteTO.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = HelperReadTO.class)) })
 	@PutMapping("")
 	public HelperReadTO updateHelfer(
 			@Parameter(name = "Helper", description = "Helfer_obj to update") @RequestBody PersonWriteTO helper) {
@@ -79,7 +78,7 @@ public class HelperController {
 
 	@Operation(summary = "Delete a Helper by its id")
 	@ApiResponse(responseCode = "200", description = "News Helper", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Helper.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = String.class)) })
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> deleteHelfer(

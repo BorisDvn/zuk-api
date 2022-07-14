@@ -20,7 +20,6 @@ import com.thb.zukapi.dtos.manager.ManagerReadListTO;
 import com.thb.zukapi.dtos.manager.ManagerReadTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.models.Manager;
-import com.thb.zukapi.models.Seeker;
 import com.thb.zukapi.services.ManagerService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +38,7 @@ public class ManagerController {
     @Operation(summary = "Get All Manager")
     @ApiResponse(responseCode = "200", description = "Found all Manager",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Seeker.class))})
+                    schema = @Schema(implementation = ManagerReadListTO.class))})
     @GetMapping("")
     public List<ManagerReadListTO> getAllManager(@RequestParam(defaultValue = "0") Integer pageNo,
                                        @RequestParam(defaultValue = "10") Integer pageSize,
@@ -50,7 +49,7 @@ public class ManagerController {
     @Operation(summary = "Get a Manager by its id")
     @ApiResponse(responseCode = "200", description = "Found the Manager",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Manager.class))})
+                    schema = @Schema(implementation = ManagerReadTO.class))})
     @GetMapping("/{id}")
     public ManagerReadTO getManagerById(@Parameter(name = "ManagerId", description = "ID of the Manager_obj") @PathVariable UUID id) {
         return managerService.getManager(id);
@@ -59,7 +58,7 @@ public class ManagerController {
     @Operation(summary = "Add One Manager")
     @ApiResponse(responseCode = "200", description = "Manager added",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Manager.class))})
+                    schema = @Schema(implementation = ManagerReadTO.class))})
     @PostMapping("")
     public ManagerReadTO addManager(
             @Parameter(name = "Manager", description = "Manager_obj to add") @RequestBody PersonWriteTO manager) {
@@ -69,7 +68,7 @@ public class ManagerController {
     @Operation(summary = "Update Manager")
     @ApiResponse(responseCode = "200", description = "News Manager",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Manager.class))})
+                    schema = @Schema(implementation = ManagerReadTO.class))})
     @PutMapping("")
     public ManagerReadTO updateManager(@Parameter(name = "Manager", description = "Manager_obj to update") @RequestBody Manager manager) {
         return managerService.updateManager(manager);
@@ -78,7 +77,7 @@ public class ManagerController {
     @Operation(summary = "Delete a Manager by its id")
     @ApiResponse(responseCode = "200", description = "News Manager",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Manager.class))})
+                    schema = @Schema(implementation = String.class))})
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteManager(@Parameter(name = "ManagerId", description = "Id of the Manager to delete") @PathVariable UUID id) {
         return managerService.deleteManagerById(id);
