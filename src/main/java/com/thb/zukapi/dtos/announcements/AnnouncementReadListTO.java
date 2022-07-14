@@ -31,5 +31,7 @@ public class AnnouncementReadListTO {
 	AnnouncementStatus status;
 	
 	String imageLink;
+	
+	UUID categoryId;
 
 }

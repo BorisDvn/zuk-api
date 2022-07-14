@@ -46,6 +46,7 @@ public class FileUpload {
 			// upload the file
 			response = restTemplate.postForEntity(fileServiceUrl + "upload", requestEntity, FileTO.class);
 		} catch (Exception e) {
+			logger.info("Error cannot upload file '{}'. Message : '{}' ", file.getOriginalFilename(), e.getMessage());
 			throw new ApiRequestException(e.getMessage());
 		}
 

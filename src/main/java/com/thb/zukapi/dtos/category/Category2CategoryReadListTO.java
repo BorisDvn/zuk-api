@@ -11,6 +11,8 @@ public class Category2CategoryReadListTO {
 
         out.setId(in.getId());
         out.setName(in.getName());
+        if(in.getCover() != null)
+        	out.setCover(in.getCover().getFileLink());
 
         return out;
     }

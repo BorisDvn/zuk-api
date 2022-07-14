@@ -12,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 
 import com.thb.zukapi.models.AnnouncementStatus;
 import com.thb.zukapi.models.AnnouncementStype;
-import com.thb.zukapi.models.File;
 import com.thb.zukapi.models.RoleType;
 
 import lombok.AccessLevel;
@@ -51,7 +50,7 @@ public class AnnouncementReadTO {
 
 	UUID creatorId;
 
-	List<File> images;
+	List<String> images;
 	
 	String createdBy;
 

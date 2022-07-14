@@ -14,6 +14,7 @@ public class Announcement2AnnouncementReadListTO {
 		out.setStatus(in.getStatus());
 		if(in.getImages() != null && in.getImages().size() > 0)
 			out.setImageLink(in.getImages().get(0).getFileLink());
+		out.setCategoryId(in.getCategory().getId());
 
 		return out;
 	}

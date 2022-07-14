@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.thb.zukapi.dtos.category.CategoryReadListTO;
 import com.thb.zukapi.dtos.category.CategoryReadTO;
 import com.thb.zukapi.dtos.category.CategoryWriteTO;
-import com.thb.zukapi.models.Category;
 import com.thb.zukapi.services.CategoryService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -62,7 +61,7 @@ public class CategoryController {
     @Operation(summary = "Get a Category by its name")
     @ApiResponse(responseCode = "200", description = "Found the Category",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Category.class))})
+                    schema = @Schema(implementation = CategoryReadTO.class))})
     @GetMapping("name/{name}")
     public CategoryReadTO getCategoryByName(@Parameter(name = "CategoryName", description = "Name of the Category") @PathVariable String name) {
         return categoryService.getCategoryByName(name);
@@ -71,7 +70,7 @@ public class CategoryController {
     @Operation(summary = "Add One Category")
     @ApiResponse(responseCode = "200", description = "Category added",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Category.class))})
+                    schema = @Schema(implementation = CategoryReadTO.class))})
     @PostMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public CategoryReadTO addCategory(
@@ -83,7 +82,7 @@ public class CategoryController {
     @Operation(summary = "Update Category image")
     @ApiResponse(responseCode = "200", description = "Category updated",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Category.class))})
+                    schema = @Schema(implementation = CategoryReadTO.class))})
     @PostMapping("/{categoryId}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public CategoryReadTO updateCategoryImage(
@@ -95,7 +94,7 @@ public class CategoryController {
     @Operation(summary = "Update Category")
     @ApiResponse(responseCode = "200", description = "News Category",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Category.class))})
+                    schema = @Schema(implementation = CategoryReadTO.class))})
     @PutMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public CategoryReadTO updateCategory(@Parameter(name = "Category", description = "Category_obj to update") @RequestBody CategoryWriteTO category) {
@@ -105,7 +104,7 @@ public class CategoryController {
     @Operation(summary = "Delete a Category by its id")
     @ApiResponse(responseCode = "200", description = "News Category",
             content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Category.class))})
+                    schema = @Schema(implementation = String.class))})
     @DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteCategory(@Parameter(name = "CategoryId", description = "Id of the Category to delete") @PathVariable UUID id) {

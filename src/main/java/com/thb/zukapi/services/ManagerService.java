@@ -14,6 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.thb.zukapi.dtos.manager.Manager2ManagerReadListTO;
+import com.thb.zukapi.dtos.manager.Manager2ManagerReadTO;
+import com.thb.zukapi.dtos.manager.ManagerReadListTO;
+import com.thb.zukapi.dtos.manager.ManagerReadTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.models.Manager;
@@ -30,19 +34,19 @@ public class ManagerService {
 	@Autowired
 	private UserService userService;
 
-	public Manager getManager(UUID id) {
-		return findManager(id);
+	public ManagerReadTO getManager(UUID id) {
+		return Manager2ManagerReadTO.apply(findManager(id));
 	}
 
-	public List<Manager> getAll(Integer pageNo, Integer pageSize, String sortBy) {
+	public List<ManagerReadListTO> getAll(Integer pageNo, Integer pageSize, String sortBy) {
 
 		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Manager> pagedResult = managerRepository.findAll(paging);
 
-		return pagedResult.getContent();
+		return Manager2ManagerReadListTO.apply(pagedResult.getContent());
 	}
 
-	public Manager addManager(PersonWriteTO manager) {
+	public ManagerReadTO addManager(PersonWriteTO manager) {
 
 		// Create System User
 		User user = userService.signUp(manager);
@@ -61,12 +65,12 @@ public class ManagerService {
 		newManager.setAddress(manager.getAddress());
 		newManager.setGender(manager.getGender());
 
-		return managerRepository.save(newManager);
+		return Manager2ManagerReadTO.apply(managerRepository.save(newManager));
 	}
 
-	public Manager updateManager(Manager manager) {
+	public ManagerReadTO updateManager(Manager manager) {
 
-		Manager managerToUpdate = getManager(manager.getId());
+		Manager managerToUpdate = findManager(manager.getId());
 
 		if (manager.getLastname() != null)
 			managerToUpdate.setLastname(manager.getLastname());
@@ -85,11 +89,11 @@ public class ManagerService {
 		if (manager.getGender() != null)
 			managerToUpdate.setGender(manager.getGender());
 
-		return managerRepository.save(managerToUpdate);
+		return Manager2ManagerReadTO.apply(managerRepository.save(managerToUpdate));
 	}
 
 	public ResponseEntity<String> deleteManagerById(UUID id) {
-		Manager managerToDelete = getManager(id);
+		Manager managerToDelete = findManager(id);
 
 		managerRepository.deleteById(managerToDelete.getId());
 

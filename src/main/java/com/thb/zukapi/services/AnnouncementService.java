@@ -25,10 +25,14 @@ import com.thb.zukapi.dtos.announcements.AnnouncementWriteTO;
 import com.thb.zukapi.dtos.files.FileTO;
 import com.thb.zukapi.exception.ApiRequestException;
 import com.thb.zukapi.repositories.AdminRepository;
+import com.thb.zukapi.models.Announcement;
+import com.thb.zukapi.models.AnnouncementStatus;
+import com.thb.zukapi.models.AnnouncementStype;
+import com.thb.zukapi.models.Category;
+import com.thb.zukapi.models.File;
 import com.thb.zukapi.repositories.AnnouncementRepository;
 import com.thb.zukapi.repositories.FileRepository;
 import com.thb.zukapi.repositories.HelperRepository;
-import com.thb.zukapi.repositories.ManagerRepository;
 import com.thb.zukapi.repositories.SeekerRepository;
 import com.thb.zukapi.utils.FileUpload;
 

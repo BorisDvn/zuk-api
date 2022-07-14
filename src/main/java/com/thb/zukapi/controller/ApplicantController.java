@@ -37,7 +37,7 @@ public class ApplicantController {
 
 	@Operation(summary = "Get All Applicant")
 	@ApiResponse(responseCode = "200", description = "Found all Applicant", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Applicant.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = ApplicantReadListTO.class)) })
 	@GetMapping("")
 	public List<ApplicantReadListTO> getAllApplicant(@RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "name") String sortBy) {
@@ -46,7 +46,7 @@ public class ApplicantController {
 
 	@Operation(summary = "Get a Applicant by its id")
 	@ApiResponse(responseCode = "200", description = "Found the Applicant", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Applicant.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = ApplicantReadTO.class)) })
 	@GetMapping("/{id}")
 	public ApplicantReadTO getApplicantById(
 			@Parameter(name = "ApplicantId", description = "ID of the Applicant_obj") @PathVariable UUID id) {
@@ -55,7 +55,7 @@ public class ApplicantController {
 
 	@Operation(summary = "Get a Applicant by Announcement id")
 	@ApiResponse(responseCode = "200", description = "Found the Applicant", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Applicant.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = ApplicantReadTO.class)) })
 	@GetMapping("announcement/{id}")
 	public List<ApplicantReadListTO> getApplicantByAnnouncementId(
 			@Parameter(name = "ApplicantId", description = "ID of the Applicant_obj") @PathVariable UUID id) {
@@ -64,7 +64,7 @@ public class ApplicantController {
 
 	@Operation(summary = "Get a Applicant by Seeker Email")
 	@ApiResponse(responseCode = "200", description = "Found the Applicant", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Applicant.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = ApplicantReadTO.class)) })
 	@GetMapping("seeker")
 	public List<ApplicantReadListTO> getApplicantBySeekerEmail(
 			@Parameter(name = "ApplicantId", description = "ID of the Applicant_obj") @RequestParam String email) {
@@ -73,7 +73,7 @@ public class ApplicantController {
 
 	@Operation(summary = "Get a Applicant by Email")
 	@ApiResponse(responseCode = "200", description = "Found the Applicant", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Applicant.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = ApplicantReadTO.class)) })
 	@GetMapping("email")
 	public List<ApplicantReadListTO> getApplicantByEmail(
 			@Parameter(name = "ApplicantId", description = "ID of the Applicant_obj") @RequestParam String email) {
@@ -82,7 +82,7 @@ public class ApplicantController {
 
 	@Operation(summary = "Add One Applicant")
 	@ApiResponse(responseCode = "200", description = "Applicant added", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Applicant.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = ApplicantReadTO.class)) })
 	@PostMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
 	public ApplicantReadTO addApplicant(
@@ -92,7 +92,7 @@ public class ApplicantController {
 
 	@Operation(summary = "Update Applicant")
 	@ApiResponse(responseCode = "200", description = "News Applicant", content = {
-			@Content(mediaType = "application/json", schema = @Schema(implementation = Applicant.class)) })
+			@Content(mediaType = "application/json", schema = @Schema(implementation = String.class)) })
 	@PutMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
 	public ApplicantReadTO updateApplicant(

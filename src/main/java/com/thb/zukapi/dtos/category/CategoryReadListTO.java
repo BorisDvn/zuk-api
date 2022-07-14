@@ -22,4 +22,6 @@ public class CategoryReadListTO {
 
 	@NotBlank
 	String name;
+	
+	String cover;
 }

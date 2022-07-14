@@ -15,7 +15,9 @@ public class Announcement2AnnouncementReadTO {
 		out.setDescription(in.getDescription());
 		out.setStatus(in.getStatus());
 		out.setCategoryId(in.getCategory().getId());
-		out.setImages(in.getImages());
+		// Send only the fileLink for the images
+		out.setImages(in.getImages().stream().map(i -> i.getFileLink()).collect(Collectors.toList()));
+		
 		out.setCreatedBy(in.getCreatedBy());
 		out.setCreatedDate(in.getCreatedDate());
 		out.setLastModifiedBy(in.getLastModifiedBy());
