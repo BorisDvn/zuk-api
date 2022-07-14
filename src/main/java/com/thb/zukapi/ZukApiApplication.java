@@ -3,6 +3,9 @@ package com.thb.zukapi;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.thb.zukapi.models.Manager;
+import com.thb.zukapi.repositories.ManagerRepository;
+import com.thb.zukapi.services.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,6 +30,11 @@ public class ZukApiApplication implements CommandLineRunner {
 	@Autowired
 	private RoleRepository roleRepository;
 
+	@Autowired
+	private ManagerRepository managerRepository;
+
+	@Autowired
+	private ManagerService managerService;
 	@Autowired
 	private AdminRepository adminRepo;
 
@@ -85,6 +93,23 @@ public class ZukApiApplication implements CommandLineRunner {
 		role4.setName(RoleType.SEEKER);
 		if (!roleRepository.existsByName(role4.getName()))
 			roleRepository.save(role4);
+
+
+		//Manager
+		PersonWriteTO manager = new PersonWriteTO();
+		manager.setEmail("manager-default@local.com");
+		manager.setLastname("default");
+		manager.setFirstname("manager");
+		manager.setAddress("addres");
+		manager.setPhone("123456789");
+		manager.setPassword("manager-default");
+		manager.setRole("MANAGER");
+		manager.setDob(LocalDate.now());
+		manager.setGender(Gender.F);
+		if (!managerRepository.findByEmail(manager.getEmail()).isPresent()) {
+			managerService.addManager(manager);
+		}
+
 	}
 
 }
