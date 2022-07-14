@@ -29,6 +29,9 @@ public class Helper2HelperReadTO {
 		out.setUserId(in.getUser().getId());
 
 		out.setHelperType(in.getHelperType());
+		
+		if(in.getUser() != null)
+			out.setRoles(in.getUser().getRoles().stream().collect(Collectors.toList()));
 
 		return out;
 	}

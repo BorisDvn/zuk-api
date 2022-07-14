@@ -1,10 +1,12 @@
 package com.thb.zukapi.dtos.helper;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import com.thb.zukapi.dtos.person.PersonWriteTO;
 import com.thb.zukapi.models.HelperType;
+import com.thb.zukapi.models.Role;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -31,5 +33,7 @@ public class HelperReadTO extends PersonWriteTO {
 	String lastModifiedBy;
 
 	Date lastModifiedDate;
+	
+	List<Role> roles;
 
 }

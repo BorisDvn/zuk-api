@@ -1,9 +1,11 @@
 package com.thb.zukapi.dtos.admin;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import com.thb.zukapi.dtos.person.PersonWriteTO;
+import com.thb.zukapi.models.Role;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,5 +30,7 @@ public class AdminReadTO extends PersonWriteTO {
 	String lastModifiedBy;
 
 	Date lastModifiedDate;
+	
+	List<Role> roles;
 
 }

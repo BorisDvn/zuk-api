@@ -27,6 +27,9 @@ public class Manager2ManagerReadTO {
 		out.setAddress(in.getAddress());
 		out.setGender(in.getGender());
 		out.setUserId(in.getUser().getId());
+		
+		if(in.getUser() != null)
+			out.setRoles(in.getUser().getRoles().stream().collect(Collectors.toList()));
 
 		return out;
 	}

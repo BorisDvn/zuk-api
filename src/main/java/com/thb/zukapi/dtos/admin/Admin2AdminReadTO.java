@@ -28,6 +28,9 @@ public class Admin2AdminReadTO {
 		out.setGender(in.getGender());
 		out.setUserId(in.getUser().getId());
 
+		if(in.getUser() != null)
+			out.setRoles(in.getUser().getRoles().stream().collect(Collectors.toList()));
+
 		return out;
 	}
 

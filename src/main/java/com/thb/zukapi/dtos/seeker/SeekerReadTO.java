@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.thb.zukapi.dtos.announcements.AnnouncementReadListTO;
 import com.thb.zukapi.dtos.person.PersonWriteTO;
+import com.thb.zukapi.models.Role;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -33,5 +34,7 @@ public class SeekerReadTO extends PersonWriteTO {
 	String lastModifiedBy;
 
 	Date lastModifiedDate;
+	
+	List<Role> roles;
 
 }
