@@ -185,7 +185,7 @@ public class AnnouncementService {
             }
         } else {
             newAnnouncement.setEmail(announcement.getEmail());
-            newAnnouncement.setEmail(announcement.getTel());
+            newAnnouncement.setTel(announcement.getTel());
         }
 
         newAnnouncement = announcementRepository.save(newAnnouncement);
