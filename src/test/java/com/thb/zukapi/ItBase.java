@@ -43,6 +43,7 @@ import com.thb.zukapi.repositories.CategoryRepository;
 import com.thb.zukapi.repositories.ContactRepository;
 import com.thb.zukapi.repositories.FileRepository;
 import com.thb.zukapi.repositories.HelperRepository;
+import com.thb.zukapi.repositories.ManagerRepository;
 import com.thb.zukapi.repositories.RoleRepository;
 import com.thb.zukapi.repositories.SeekerRepository;
 import com.thb.zukapi.repositories.UserRepository;
@@ -75,6 +76,9 @@ public class ItBase {
 	@Autowired
 	protected UserRepository userRepository;
 
+	@Autowired
+	protected ManagerRepository managerRepository;
+	
 	@Autowired
 	protected RoleRepository roleRepository;
 
@@ -116,6 +120,7 @@ public class ItBase {
 		helperRepository.deleteAll();
 		categoryRepository.deleteAll();
 		fileRepository.deleteAll();
+		managerRepository.deleteAll();
 		userRepository.deleteAll();
 		contactRepository.deleteAll();
 	}

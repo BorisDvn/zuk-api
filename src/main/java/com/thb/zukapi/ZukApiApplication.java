@@ -61,21 +61,6 @@ public class ZukApiApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        PersonWriteTO admin = new PersonWriteTO();
-        admin.setEmail("admin-default@local.com");
-        admin.setLastname("12345");
-        admin.setFirstname("admin");
-        admin.setAddress("addres");
-        admin.setPhone("123456789");
-        admin.setPassword("admin-default");
-        admin.setRole("ADMIN");
-        admin.setDob(LocalDate.now());
-        admin.setGender(Gender.M);
-        if (!adminRepo.findByEmail(admin.getEmail()).isPresent()) {
-            adminService.addAdmin(admin);
-        }
-
-
         // Save roles only one type
         Role role1 = new Role();
         role1.setId(UUID.randomUUID());
@@ -101,6 +86,19 @@ public class ZukApiApplication implements CommandLineRunner {
         if (!roleRepository.existsByName(role4.getName()))
             roleRepository.save(role4);
 
+        PersonWriteTO admin = new PersonWriteTO();
+        admin.setEmail("admin-default@local.com");
+        admin.setLastname("12345");
+        admin.setFirstname("admin");
+        admin.setAddress("addres");
+        admin.setPhone("123456789");
+        admin.setPassword("admin-default");
+        admin.setRole("ADMIN");
+        admin.setDob(LocalDate.now());
+        admin.setGender(Gender.M);
+        if (!adminRepo.findByEmail(admin.getEmail()).isPresent()) {
+            adminService.addAdmin(admin);
+        }
 
         //Manager
         PersonWriteTO manager = new PersonWriteTO();
