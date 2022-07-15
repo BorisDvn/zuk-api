@@ -78,7 +78,7 @@ public class ManagerService {
 			managerToUpdate.setFirstname(manager.getFirstname());
 		if (manager.getNationality() != null)
 			managerToUpdate.setNationality(manager.getNationality());
-		if (manager.getDob() != null) // TODO: check
+		if (manager.getDob() != null)
 			managerToUpdate.setDob(manager.getDob());
 		if (manager.getPhone() != null)
 			managerToUpdate.setPhone(manager.getPhone());

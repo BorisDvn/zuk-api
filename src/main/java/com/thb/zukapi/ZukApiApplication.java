@@ -32,8 +32,6 @@ public class ZukApiApplication implements CommandLineRunner {
 
     @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
-    private CategoryService categoryService;
 
     @Autowired
     private ManagerRepository managerRepository;
