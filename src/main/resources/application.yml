@@ -2,11 +2,10 @@ spring:
   application:
     name: zuk-api
 
-
   datasource:
     url: jdbc:postgresql://localhost/zuk-api-db
-    username: postgres
-    password: postgres
+    username: postgres_1
+    password: postgresQL
 
     hikari:
       auto-commit: false
@@ -22,7 +21,31 @@ spring:
 
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-
     hibernate:
       # Hibernate ddl auto (create, create-drop, validate, update)
-      ddl-auto: create
+      ddl-auto: update
+
+  mail:
+    host: 
+    port: 587
+    username: 
+    password: 
+    protocol: 
+    tls: true
+    properties.mail.smtp:
+      auth: false
+      starttls.enable: false
+      ssl.trust:
+
+# JWT
+zuk:
+  jwtSecret: zukSecretKey
+  jwtExpirationMs: 86400000
+
+fileStorage:
+  url: 
+
+# News Api
+newsApi:
+  authorization: 
+  url: 
